@@ -1,0 +1,61 @@
+.login-menu(id='connect-btn', ng-click='vm.togglePopup()')
+  img.profile-picture-mini(ng-src="{{ vm.url() }}", ng-if="$root.currentUser")
+  .title-icon
+    i.icon.ion-ios-person-outline
+  .title(ng-if="$root.currentUser") {{ $root.currentUser | displayName }}
+  .title(ng-if="!$root.currentUser") Se connecter
+    
+
+#login-popup2.login-popup.absolute.bg-white.border.rounded(
+  ng-show='vm.showPopup',
+  click-outside='vm.togglePopup()',
+  outside-if-not='connect-btn, create-account',
+  ng-if="!$root.currentUser"
+)
+  .login.p2(ng-if='!vm.displayCreateAccount')
+    h2 Connectez-vous
+    .or
+      | Ou 
+      a#create-account(ng-click='vm.displayCreateAccount=true') créez un compte
+    form(ng-submit='vm.loginWithPassword(vm.login, vm.password)')
+      label E-mail / Identifiant
+      input.block.col-12.field(type='text', ng-model='vm.login')
+      label(for='password') Mot de passe
+      input#password.block.col-12.field(type='password', name='password', ng-model='vm.password')
+      label.remember-me
+        input(type='checkbox', checked='')
+        | Remember me
+      .error-message(ng-show='vm.errors') {{ vm.errors }}
+      button.btn.btn-center.btn-primary(type='submit') Se connecter
+      //- button.btn.btn-primary.black.bg-gray(type='reset', ng-if="!$root.currentUser") Cancel
+
+  .create-account.p2(ng-if='vm.displayCreateAccount')
+    h2 Créez un compte
+    .or
+      | Ou 
+      a(ng-click='vm.displayCreateAccount = !vm.displayCreateAccount') connectez-vous
+
+    form(ng-submit='vm.createAccount(vm.login, vm.password)')
+      label E-mail
+      input.block.col-12.field(type='text', ng-model='vm.email')
+      label(for='password') Mot de passe
+      input#password.block.col-12.field(type='password', name='password', ng-model='vm.password')
+      .error-message(ng-show='vm.errors') {{ vm.errors }}
+      button.btn.btn-center.btn-primary(type='submit') Créer votre compte
+
+#login-popup1.login-popup.absolute.bg-white.border.rounded(ng-show='vm.showPopup', click-outside='vm.togglePopup()', outside-if-not='connect-btn, login-popup2', ng-if="$root.currentUser")
+  .classic(ng-show="vm.connectedDisplay == 'classic'")
+    .btn(ng-click="vm.goTo('my-account')") Mon compte
+    .btn(ng-click="vm.connectedDisplay='changePassword'") Changer mot de passe
+    .btn(ng-click='vm.logout()') Se déconnecter
+  .changePassword.p2(ng-show="vm.connectedDisplay == 'changePassword'")
+    h2 Changement mot de passe
+    form(ng-submit='vm.changePassword(vm.password, vm.newPassword)')
+      label(for='password') Mot de passe
+      input#password.block.col-12.field(type='password', name='password', ng-model='vm.password')
+      abel(for='password') Nouveau mot de passe
+      input#password.block.col-12.field(type='password', name='password', ng-model='vm.newPassword')
+      .error-message(ng-show='vm.errors') {{ vm.errors }} 
+      .btns.btns-center
+        button.btn.btn-primary(type='submit') Changer
+        button.btn.btn-primary.black.bg-darken-2(ng-click="vm.connectedDisplay='classic'") Annuler

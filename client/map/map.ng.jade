@@ -1,0 +1,37 @@
+//- p filteredEvents : {{ addmarkerposition }}
+.map-wrapper.flex-column.flex-auto
+  div(ui-view='map')
+  .angular-google-map-container
+    .loader-container
+      .loader
+    gm-map(
+      center="vm.mapSvc.map.center",
+      zoom="vm.mapSvc.map.zoom",
+      options='vm.mapSvc.map.options',
+      on-tilesloaded='vm.mapSvc.updateVisibleMarkers(map); $root.gmapLoaded(map)',
+      on-dragend='vm.mapSvc.dragEnd(map); $root.updateNewMarkerPosition(vm.mapSvc.draggableMarker.position)',
+      on-zoom-changed='vm.mapSvc.mapZoomChange(map)'
+    )
+      gm-marker.my-position-marker(
+        position='vm.mapSvc.myLocation.position',
+        options="{icon: 'assets/markers/home.png'}"
+      )
+      gm-marker.add-marker(
+        position='vm.mapSvc.draggableMarker.position',
+        options='{draggable: true}',
+        gm-address="{address:'vm.mapSvc.draggableMarker.address'}",
+        on-drag='vm.mapSvc.draggableMarker.position = marker.position;',
+        ng-show='vm.mapSvc.draggableMarker.visible'
+      )
+        gm-infowindow(
+          options="{content: 'Déplace-moi sur le lieu de l&#39;évenement'}",
+          ng-show='vm.mapSvc.draggableMarker.visible'
+        )
+      gm-marker.event-marker(
+        ng-repeat='filteredEvent in vm.mapSvc.filteredEvents',
+        position='filteredEvent.position',
+        on-click='filteredEvent.showInfo=!filteredEvent.showInfo',
+        on-mouseover='vm.mapSvc.markerMouseOver(filteredEvent); filteredEvent.showInfo = true',
+        on-mouseout='vm.mapSvc.markerMouseOut(filteredEvent); filteredEvent.showInfo = false'
+      )
+        gm-infowindow(ng-show='filteredEvent.showInfo', options="{content: '<h3>{{ filteredEvent.name }}</h3><p>{{ filteredEvent.description }}</p>'}")

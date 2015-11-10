@@ -1,0 +1,16 @@
+header.flex.p2
+  .profile-picture-container
+    //- img.profile-picture(src='http://geoadrs.com/image/default-user.png', ng-if='!vm.profilePic.url')
+    img.profile-picture(ng-src="{{ vm.url() }}")
+    input(type="file", id="upload-file", ng-show='false')
+    .edit-pic-btn(ng-click='vm.addImage()') Changer
+  infos.ml2.flex-auto
+    h1 Mon Compte
+    hr
+    p Membre depuis : {{ vm.user.createdAt | date: 'dd/M/yyyy' }}
+    p Adresse E-mail : {{ vm.user.emails[0].address }}
+    p {{ imgPath }}
+
+section
+  p section
+  p {{ vm.user | json }}

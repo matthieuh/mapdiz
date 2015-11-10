@@ -1,0 +1,79 @@
+map
+  position: relative
+  height: 100%
+  
+  .angular-google-map-container
+    position: absolute
+    display: flex
+    width: 100%
+    height: 100%
+    
+.map-loader
+  background-color: blue
+  display: flex
+  justify-content: center
+  align-items: center
+
+.window
+  color: #000
+
+/* your custom CSS \*/
+@-moz-keyframes pulsate {
+  from {
+    -moz-transform: scale(0.25);
+    opacity: 1.0;
+  }
+  95% {
+    -moz-transform: scale(1.3);
+    opacity: 0;
+  }
+  to {
+    -moz-transform: scale(0.3);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes pulsate {
+  from {
+    -webkit-transform: scale(0.25);
+    opacity: 1.0;
+  }
+  95% {
+    -webkit-transform: scale(1.3);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: scale(0.3);
+    opacity: 0;
+  }
+}
+/* get the container that's just outside the marker image, 
+  which just happens to have our Marker title in it */
+.myLocation {
+  -moz-animation: pulsate 1.5s ease-in-out infinite;
+  -webkit-animation: pulsate 1.5s ease-in-out infinite;
+  border:1pt solid #fff;
+  /* make a circle */
+  -moz-border-radius:20px;
+  -webkit-border-radius:20px;
+  border-radius:50px;
+  /* multiply the shadows, inside and outside the circle */
+  -moz-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+  -webkit-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+  box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+  /* set the ring's new dimension and re-center it */
+  height:30px!important;
+  margin-left: -25px !important;
+  margin-top: -18px !important;
+  width:30px!important;
+}
+/* hide the superfluous marker image since it would expand and shrink with its containing element */
+/*  #map_canvas div[style*="987654"][title] img {*/
+.myLocation img {
+  display:none;
+}
+/* compensate for iPhone and Android devices with high DPI, add iPad media query */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (device-width: 768px) {
+  .myLocation {
+    margin:-60px -50px -50px -60px;
+  }
+}

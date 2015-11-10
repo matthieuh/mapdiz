@@ -1,0 +1,52 @@
+.add-picture
+  a(href='#', ng-click='vm.openAddImageModal()', ng-transclude)
+
+//- md-dialog.add-photo-dialog
+//-   form
+//-     md-toolbar
+//-       .md-toolbar-tools&
+//-         h2 Ajouter une image
+//-     md-dialog-content
+//-       div
+//-         .drop-box(ng-hide='imgSrc', ngf-drop='', ngf-select='', ngf-change='addImages($files)', ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}", ngf-multiple='false', ngf-allow-dir='false', ngf-accept="'image/*'", ngf-drop-available='dropAvailable')
+//-           div Cliquez ici pour ajouter une image
+//-           div
+//-             strong OU
+//-           div(ng-show='dropAvailable') Vous pouvez glisser-déposer une image ici
+//-         .ng-crop-container(ng-show='imgSrc')
+//-           h3 Bravo! Maintenant redimensionne ton image ...
+//-           p Crop details: {{cropDetails}}
+//-           p On original: {{cropInfos}}
+//-           br
+//-           img-crop(
+//-             image='imgSrc',
+//-             result-image='myCroppedImage',
+//-             area-type='rectangle',
+//-             area-coords='croppedArea',
+//-             area-details="cropDetails"
+//-           )
+//-     .md-actions(layout='row')
+//-       span(flex='')
+//-       md-button.md-primary(ng-click='saveCroppedImage()', ng-disabled='!imgSrc')
+//-         | Ajouter Image
+//-       md-button.md-warn(ng-click='answer()')
+//-         | Annuler
+
+
+
+//- input(type='file', img-cropper-fileread='', image='cropper.sourceImage')
+//-       |
+//-       div
+//-         canvas#canvas(
+//-           width='500', height='300',
+//-           image-cropper='',
+//-           image='cropper.sourceImage',
+//-           cropped-image='cropper.croppedImage',
+//-           crop-width='600', crop-height='225',
+//-           keep-aspect='true',
+//-           touch-radius='30',
+//-           crop-area-bounds='bounds'
+//-         )
+//-       div Cropped Image (Left: {{bounds.left}} Right: {{bounds.right}} Top: {{bounds.top}} Bottom: {{bounds.bottom}})
+//-       div(ng-show='cropper.croppedImage!=null')
+//-         img(ng-src='{{cropper.croppedImage}}')

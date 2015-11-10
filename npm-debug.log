@@ -1,0 +1,182 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'c:\\Users\\matthieu.hostache\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '--global',
+1 verbose cli   'a11y' ]
+2 info using npm@2.9.1
+3 info using node@v0.10.32
+4 verbose install initial load of c:\Program Files (x86)\nodejs\package.json
+5 verbose readDependencies loading dependencies from c:\Program Files (x86)\nodejs\package.json
+6 silly cache add args [ 'a11y', null ]
+7 verbose cache add spec a11y
+8 silly cache add parsed spec { raw: 'a11y',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'a11y',
+8 silly cache add   rawSpec: '',
+8 silly cache add   spec: '*',
+8 silly cache add   type: 'range' }
+9 silly addNamed a11y@*
+10 verbose addNamed "*" is a valid semver range for a11y
+11 silly addNameRange { name: 'a11y', range: '*', hasData: false }
+12 silly mapToRegistry name a11y
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry uri https://registry.npmjs.org/a11y
+16 verbose addNameRange registry:https://registry.npmjs.org/a11y not in flight; fetching
+17 verbose request uri https://registry.npmjs.org/a11y
+18 verbose request no auth needed
+19 info attempt registry request try #1 at 08:50:54
+20 verbose request id f424bb3ab214d7e4
+21 http request GET https://registry.npmjs.org/a11y
+22 http 200 https://registry.npmjs.org/a11y
+23 silly get cb [ 200,
+23 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+23 silly get     etag: '"C0V349GCJ5IRNHBIM0KWWZA4Q"',
+23 silly get     'content-type': 'application/json',
+23 silly get     'cache-control': 'max-age=60',
+23 silly get     'content-length': '20537',
+23 silly get     'accept-ranges': 'bytes',
+23 silly get     date: 'Fri, 03 Jul 2015 06:50:55 GMT',
+23 silly get     via: '1.1 varnish',
+23 silly get     age: '0',
+23 silly get     connection: 'keep-alive',
+23 silly get     'x-served-by': 'cache-fra1242-FRA',
+23 silly get     'x-cache': 'MISS',
+23 silly get     'x-cache-hits': '0',
+23 silly get     'x-timer': 'S1435906254.768406,VS0,VE540',
+23 silly get     vary: 'Accept' } ]
+24 verbose get saving a11y to C:\Users\matthieu.hostache\AppData\Roaming\npm-cache\registry.npmjs.org\a11y\.cache.json
+25 silly addNameRange number 2 { name: 'a11y', range: '*', hasData: true }
+26 silly addNameRange versions [ 'a11y',
+26 silly addNameRange   [ '0.1.0',
+26 silly addNameRange     '0.1.1',
+26 silly addNameRange     '0.1.2',
+26 silly addNameRange     '0.2.0',
+26 silly addNameRange     '0.2.1',
+26 silly addNameRange     '0.2.2',
+26 silly addNameRange     '0.2.3',
+26 silly addNameRange     '0.2.5',
+26 silly addNameRange     '0.2.6',
+26 silly addNameRange     '0.3.0',
+26 silly addNameRange     '0.3.1' ] ]
+27 silly addNamed a11y@0.3.1
+28 verbose addNamed "0.3.1" is a plain semver version for a11y
+29 silly mapToRegistry name a11y
+30 silly mapToRegistry using default registry
+31 silly mapToRegistry registry https://registry.npmjs.org/
+32 silly mapToRegistry uri https://registry.npmjs.org/a11y
+33 verbose addRemoteTarball https://registry.npmjs.org/a11y/-/a11y-0.3.1.tgz not in flight; adding
+34 verbose addRemoteTarball [ 'https://registry.npmjs.org/a11y/-/a11y-0.3.1.tgz',
+34 verbose addRemoteTarball   '77d6d7384b52ec289d183d1df14bd4058c7ef85f' ]
+35 info retry fetch attempt 1 at 08:50:55
+36 info attempt registry request try #1 at 08:50:55
+37 http fetch GET https://registry.npmjs.org/a11y/-/a11y-0.3.1.tgz
+38 http fetch 200 https://registry.npmjs.org/a11y/-/a11y-0.3.1.tgz
+39 silly fetchAndShaCheck shasum 77d6d7384b52ec289d183d1df14bd4058c7ef85f
+40 verbose addTmpTarball C:\Users\MATTHI~1.HOS\AppData\Local\Temp\npm-22088-dd5ae52d\registry.npmjs.org\a11y\-\a11y-0.3.1.tgz not in flight; adding
+41 verbose addTmpTarball already have metadata; skipping unpack for a11y@0.3.1
+42 silly cache afterAdd a11y@0.3.1
+43 verbose afterAdd C:\Users\matthieu.hostache\AppData\Roaming\npm-cache\a11y\0.3.1\package\package.json not in flight; writing
+44 verbose afterAdd C:\Users\matthieu.hostache\AppData\Roaming\npm-cache\a11y\0.3.1\package\package.json written
+45 silly install resolved [ { name: 'a11y',
+45 silly install resolved     version: '0.3.1',
+45 silly install resolved     description: 'Runs an accessibility audit against a URL',
+45 silly install resolved     license: 'Apache-2.0',
+45 silly install resolved     repository: { type: 'git', url: 'https://github.com/addyosmani/a11y' },
+45 silly install resolved     maintainers: [ [Object], [Object] ],
+45 silly install resolved     bin: { a11y: 'cli.js' },
+45 silly install resolved     preferGlobal: true,
+45 silly install resolved     engines: { node: '>=0.10.0' },
+45 silly install resolved     scripts: { test: 'node test/test.js', demo: 'node cli.js theverge.com' },
+45 silly install resolved     files: [ 'index.js', 'cli.js', 'audits.js' ],
+45 silly install resolved     keywords:
+45 silly install resolved      [ 'cli-app',
+45 silly install resolved        'cli',
+45 silly install resolved        'a11y',
+45 silly install resolved        'audit',
+45 silly install resolved        'test',
+45 silly install resolved        'accessibility',
+45 silly install resolved        'wai',
+45 silly install resolved        'aria',
+45 silly install resolved        'dev',
+45 silly install resolved        'developer',
+45 silly install resolved        'tool',
+45 silly install resolved        'report',
+45 silly install resolved        'web',
+45 silly install resolved        'website' ],
+45 silly install resolved     dependencies:
+45 silly install resolved      { 'accessibility-developer-tools': '^2.6.0',
+45 silly install resolved        chalk: '^1.0.0',
+45 silly install resolved        'each-async': '^1.1.0',
+45 silly install resolved        globby: '^2.0.0',
+45 silly install resolved        'humanize-url': '^1.0.0',
+45 silly install resolved        'indent-string': '^1.2.0',
+45 silly install resolved        'log-symbols': '^1.0.1',
+45 silly install resolved        meow: '^3.3.0',
+45 silly install resolved        'object-assign': '^3.0.0',
+45 silly install resolved        phantomjs: '^1.9.10',
+45 silly install resolved        protocolify: '^1.0.0',
+45 silly install resolved        'update-notifier': '^0.5.0' },
+45 silly install resolved     devDependencies: { ava: '0.0.4' },
+45 silly install resolved     gitHead: 'ea6b19e9f15a703ab5c26c94679aa9c6e040d91b',
+45 silly install resolved     bugs: { url: 'https://github.com/addyosmani/a11y/issues' },
+45 silly install resolved     homepage: 'https://github.com/addyosmani/a11y',
+45 silly install resolved     _id: 'a11y@0.3.1',
+45 silly install resolved     _shasum: '77d6d7384b52ec289d183d1df14bd4058c7ef85f',
+45 silly install resolved     _from: 'a11y@*',
+45 silly install resolved     _npmVersion: '2.5.1',
+45 silly install resolved     _nodeVersion: '0.12.0',
+45 silly install resolved     _npmUser: { name: 'addyosmani', email: 'addyosmani@gmail.com' },
+45 silly install resolved     dist:
+45 silly install resolved      { shasum: '77d6d7384b52ec289d183d1df14bd4058c7ef85f',
+45 silly install resolved        tarball: 'http://registry.npmjs.org/a11y/-/a11y-0.3.1.tgz' },
+45 silly install resolved     directories: {},
+45 silly install resolved     _resolved: 'https://registry.npmjs.org/a11y/-/a11y-0.3.1.tgz' } ]
+46 info install a11y@0.3.1 into c:\Program Files (x86)\nodejs
+47 info installOne a11y@0.3.1
+48 verbose installOne of a11y to c:\Program Files (x86)\nodejs not in flight; installing
+49 verbose lock using C:\Users\matthieu.hostache\AppData\Roaming\npm-cache\_locks\a11y-7069c7cecd57248e.lock for c:\Program Files (x86)\nodejs\node_modules\a11y
+50 silly install write writing a11y 0.3.1 to c:\Program Files (x86)\nodejs\node_modules\a11y
+51 verbose unbuild node_modules\a11y
+52 silly gentlyRm c:\Program Files (x86)\nodejs\node_modules\a11y is being purged from base c:\Program Files (x86)\nodejs
+53 verbose gentlyRm don't care about contents; nuking c:\Program Files (x86)\nodejs\node_modules\a11y
+54 verbose tar unpack C:\Users\matthieu.hostache\AppData\Roaming\npm-cache\a11y\0.3.1\package.tgz
+55 verbose tar unpacking to c:\Program Files (x86)\nodejs\node_modules\a11y
+56 silly gentlyRm c:\Program Files (x86)\nodejs\node_modules\a11y is being purged
+57 verbose gentlyRm don't care about contents; nuking c:\Program Files (x86)\nodejs\node_modules\a11y
+58 silly gunzTarPerm modes [ '777', '666' ]
+59 error tar.unpack untar error C:\Users\matthieu.hostache\AppData\Roaming\npm-cache\a11y\0.3.1\package.tgz
+60 verbose unlock done using C:\Users\matthieu.hostache\AppData\Roaming\npm-cache\_locks\a11y-7069c7cecd57248e.lock for c:\Program Files (x86)\nodejs\node_modules\a11y
+61 verbose fstream_path c:\Program Files (x86)\nodejs\node_modules\a11y
+62 verbose fstream_type Directory
+63 verbose fstream_class DirWriter
+64 verbose stack Error: EPERM, mkdir 'c:\Program Files (x86)\nodejs\node_modules\a11y'
+65 verbose fstream_stack c:\Users\matthieu.hostache\AppData\Roaming\npm\node_modules\npm\node_modules\fstream\lib\dir-writer.js:36:23
+65 verbose fstream_stack c:\Users\matthieu.hostache\AppData\Roaming\npm\node_modules\npm\node_modules\mkdirp\index.js:46:53
+65 verbose fstream_stack Object.oncomplete (fs.js:107:15)
+66 verbose cwd c:\DEV\secretp3
+67 error Windows_NT 6.1.7601
+68 error argv "c:\\Program Files (x86)\\nodejs\\node.exe" "c:\\Users\\matthieu.hostache\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "install" "--global" "a11y"
+69 error node v0.10.32
+70 error npm  v2.9.1
+71 error path c:\Program Files (x86)\nodejs\node_modules\a11y
+72 error code EPERM
+73 error errno 50
+74 error Error: EPERM, mkdir 'c:\Program Files (x86)\nodejs\node_modules\a11y'
+74 error  { [Error: EPERM, mkdir 'c:\Program Files (x86)\nodejs\node_modules\a11y']
+74 error   errno: 50,
+74 error   code: 'EPERM',
+74 error   path: 'c:\\Program Files (x86)\\nodejs\\node_modules\\a11y',
+74 error   fstream_type: 'Directory',
+74 error   fstream_path: 'c:\\Program Files (x86)\\nodejs\\node_modules\\a11y',
+74 error   fstream_class: 'DirWriter',
+74 error   fstream_stack:
+74 error    [ 'c:\\Users\\matthieu.hostache\\AppData\\Roaming\\npm\\node_modules\\npm\\node_modules\\fstream\\lib\\dir-writer.js:36:23',
+74 error      'c:\\Users\\matthieu.hostache\\AppData\\Roaming\\npm\\node_modules\\npm\\node_modules\\mkdirp\\index.js:46:53',
+74 error      'Object.oncomplete (fs.js:107:15)' ] }
+75 error Please try running this command again as root/Administrator.
+76 verbose exit [ 50, true ]
+77 verbose unbuild node_modules\a11y
+78 silly gentlyRm c:\Program Files (x86)\nodejs\node_modules\a11y is being purged from base c:\Program Files (x86)\nodejs
+79 verbose gentlyRm don't care about contents; nuking c:\Program Files (x86)\nodejs\node_modules\a11y

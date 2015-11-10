@@ -1,0 +1,116 @@
+.alert.alert-info(ng-hide="$root.currentUser || $root.loggingIn")
+  | Connectez-vous pour créer un évenement
+
+header
+  .cover-manager
+    add-picture.edit-cover(picture='vm.cover')
+      i.icon.ion-image
+      span(ng-hide='vm.cover')  Ajouter une couverture
+      span(ng-show='vm.cover')  Modifier la couverture
+    a.delete-cover(href='#', ng-show='vm.cover', ng-click="vm.cover='//:0'")
+      i.icon.ion-trash-a
+      |  Supprimer la couverture
+  img.cover(ng-src="{{ vm.cover }}")
+  .cover-no-img(ng-show="!vm.cover || vm.cover!=='//:0'")
+  .over-cover
+    .title
+      h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ vm.newEvent.name || "Nom de l'évenement" }}
+      input(type="text", ng-model="vm.newEvent.name", placeholder='Nom de l\'évenement', ng-show='editName')
+      =' '
+      button.validate.btn.btn-primary(ng-click='editName=false', ng-show='editName')
+        i.icon.ion-checkmark
+    .date
+      i.icon.ion-ios-calendar-outline
+      span.prefix  Début :
+      a.date-field.editable#edit-beginDate  {{ vm.newEvent.beginDate || 'Date de début' }}
+      span.between  à
+      a.date-field.editable#edit-beginTime  {{ vm.newEvent.beginTime || 'heure de début'}}
+    .date
+      i.icon.ion-ios-calendar-outline
+      span.prefix  Fin :
+      a.date-field.editable#edit-endDate  {{ vm.newEvent.endDate || 'Date de fin' }}
+      span.between  à
+      a.date-field.editable#edit-beginTime  {{ vm.newEvent.endTime || 'heure de fin' }}
+main.p2
+  form(ng-show="$root.currentUser")
+    //- Name
+    //- section
+    //-   h3 Nom
+    //-   article
+    //-     input#nameInput.block.col-12.field(type="text", ng-model="vm.newEvent.name", placeholder='Nom de l\'évenement')
+
+    //- Date and Time
+    section
+      h3
+        i.icon.ion-ios-calendar-outline
+        |  Date et Heure
+      article.flex-columns
+        .field-grp.flex-center
+          label.date-label.mr1(for='beginDate') Date de début
+          input.field.mr1#beginDate(name='beginDate', type='text', ng-model='vm.newEvent.beginDate', placeholder='date')
+          span.mr1 à
+          #beginTime(
+            angucomplete-alt,
+            input-class='field',
+            pause='100',
+            override-suggestions='false',
+            text-no-results='Ceci n\'est pas une heure valide',
+            placeholder='heure',
+            local-data='vm.hours',
+            selected-object='vm.beginTimeSelected',
+            search-fields='value',
+            title-field='value',
+            minlength='1')
+        .field-grp.flex-center
+          label.date-label.mr1(for='endDate') Date de fin
+          input.field.mr1#endDate(name='endDate', type='text', ng-model='vm.newEvent.endDate', placeholder='date')
+          span.mr1 à
+          #endTime(
+            angucomplete-alt,
+            input-class='field',
+            pause='100',
+            override-suggestions='false',
+            text-no-results='Ceci n\'est pas une heure valide',
+            placeholder='heure',
+            local-data='vm.hours',
+            selected-object='vm.endTimeSelected',
+            search-fields='value',
+            title-field='value',
+            minlength='1')
+
+    //- Description
+    section
+      h3
+        i.icon.ion-ios-compose-outline
+        |  Description
+      article
+        textarea#description.block.col-12.field(ng-model="vm.newEvent.description", placeholder='Descritpion de l\'évenement')
+
+    section
+      h3
+        i.icon.ion-map
+        |  Emplacement
+      article
+        .mt2.mb2
+          .btn(ng-click='vm.geoLocChoiceType="map"', ng-class="{'btn-primary bg-red': vm.geoLocChoiceType == 'map'}") Sur la carte
+          .btn(ng-click='vm.geoLocChoiceType="address"', ng-class="{'btn-primary bg-red': vm.geoLocChoiceType == 'address'}") Adresse
+          .btn(ng-click='vm.geoLocChoiceType="coordinates"', ng-class="{'btn-primary bg-red': vm.geoLocChoiceType == 'coordinates'}") Coordonnées
+          .p2.bg-red
+            div(ng-show='vm.geoLocChoiceType == "map"')
+              p.white Déplacez le marqueur (
+                =' '
+                i.icon.ion-location
+                |  ) sur la carte pour choisir l'emplacement de l'évenement.
+            div(ng-show='vm.geoLocChoiceType == "address"')
+              label.white(for="address") Adresse
+              input#address.block.col-12.field(type='text', g-places-autocomplete)
+              //- input#address.block.col-12.field(type="number", ng-model="address", )
+            div(ng-show='vm.geoLocChoiceType == "coordinates"')
+              label.white(for="latInput") Latitude
+              input#latInput.block.col-12.field(type="text", ng-model="vm.mapSvc.draggableMarker.position.lat()")
+              label.white(for="lngInput") Longitude
+              input#lngInput.block.col-12.field(type="text", ng-model="vm.mapSvc.draggableMarker.position.lng()")
+    label.block.col-12(for="public") Public
+      input#publict(type="checkbox", ng-model="vm.newEvent.public")
+
+    button.btn.btn-primary(ng-click="vm.addEvent(vm.newEvent)") Ajouter

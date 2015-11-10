@@ -1,0 +1,20 @@
+header
+  img.cover(src="{{vm.image.url({store: 'cropped'})}}")
+  .cover-no-img(ng-if='!vm.image')
+  .over-cover
+    h1 {{ vm.event.name }}
+    .date(ng-if='vm.event.beginDate')
+      i.icon.ion-ios-calendar-outline
+      span(ng-if='vm.event.beginDate')  {{ vm.event.beginDate | date}}
+      span(ng-if='vm.event.beginTime')  à {{ vm.event.beginTime }}
+main
+  section.p2
+    button(ui-sref='eventEdit({eventId: vm.event._id})') Modifier
+    label Public
+    input(
+      type="checkbox",
+      ng-model="vm.event.public",
+      disabled
+    )
+    p {{ vm.event.mainPic | json }}
+    p {{ vm.event.description }}

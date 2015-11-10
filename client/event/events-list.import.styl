@@ -1,0 +1,445 @@
+[state^='events']
+  events-list
+    display: flex
+    flex-grow: 1
+    flex-direction: column
+    background-color: white
+    h1
+      max-height: 50px
+      line-height: 50px
+      text-align: center
+      margin: 0
+      font-weight: normal
+
+    form
+      display: flex
+      position: relative
+      flex-shrink: 0
+
+      input#search
+        height: 50px
+        width: 100%
+        border: 0
+        outline: none
+
+      .result-length
+        position: absolute
+        height: 50px
+        line-height: 50px
+        right: 50px
+        top: 0
+        text-align: center
+        color: rgba(0,0,0,0.4)
+
+      .active-filters
+        position: absolute
+        height: 50px
+        line-height: 50px
+        right: 0
+        top: 0
+        .icon
+          font-size: 30px
+          padding: 10px
+
+        &:hover
+          .icon
+            cursor: pointer
+            color: mainColor
+
+    .events-list-wrapper
+      display: flex
+      position: relative
+      flex-grow: 1
+
+      .events-list
+        position: absolute
+        top: 0px
+        left: 0px
+        bottom: 0px
+        right: 0px
+        margin: 0
+        padding: 0
+        overflow-y: auto
+        list-style: none
+
+        listElemHeight = 220px
+
+        li
+          max-height: listElemHeight
+          border-bottom: 1px solid #DDD
+
+          border-right: 4px solid transparent
+          &:first-child
+            border-top: 1px solid #DDD
+
+          &:hover, &.overflown
+            cursor: pointer
+            background-color: rgba(245, 124, 0, 0.2)
+            transition: all 0.5s ease-out 0s;
+            border-right: 4px solid mainColor
+            .content-wrapper
+              .event-pic-overlay
+                opacity: 1
+
+          .content-wrapper
+            position: relative
+            min-height: listElemHeight
+            max-height: listElemHeight
+            overflow: hidden
+
+            .background-image
+              height: listElemHeight
+              width: 100%;
+              z-index: 1 !important
+              transition: all 0.2s ease-out 0s
+
+            a.delete
+              z-index: 1
+              position: absolute
+              top: 0
+              right: 0.5em
+              color: red
+              &:hover
+                cursor: pointer
+
+            .event-pic-overlay
+              height: listElemHeight
+              flex: 40
+              opacity: 0.8
+              background: #aaa
+              overflow: hidden
+              img.event-pic
+                max-width: inherit
+
+                // max-width: 250px
+                // min-width: 250px
+
+            .price
+              position: absolute
+              left: 0
+              top: 18px
+              padding: 5px 10px
+              background-color: rgba(128, 128, 128, 0.7)
+              color: white
+
+            .content
+              flex: 60
+              position: relative
+              .infos
+                position: relative
+                padding: 10px
+                max-height: 145px
+
+                .presence
+                  display: flex
+                  justify-content: center
+                  font-size: 12px
+                  .presence-btns
+                    button
+                      &:focus
+                        box-shadow: none
+                      &.active
+                        background-color: mainColor
+                        color: white
+
+                h2
+                  margin: 0
+
+                .description
+                  display: -webkit-box
+                  height: 96.2px
+                  margin: 5px
+                  line-height: 1.3
+                  font-size: 16px
+                  overflow: hidden
+                  text-overflow: ellipsis
+                  -webkit-line-clamp: 5
+                  -webkit-box-orient: vertical
+
+                p.creator
+                  position: absolute
+                  top: 1em
+                  right: 0.5em
+                  margin: 0
+
+.filters
+  display: flex
+  min-height: 50px
+  max-height: 300px
+  align-content: stretch
+  .range-filter
+    display: flex
+    &:hover
+      cursor: pointer
+
+    .range-btns
+      // min-width: 220px
+      display: flex;
+      justify-content: center;
+      padding: 5px 0
+
+    .range-selector
+      display: flex
+      min-width: 200px
+      max-width: 200px
+      rzslider
+        width: 90%
+        margin-right: auto
+        margin-left: auto
+        .rz-limit-ceil
+          left: inherit !important
+          right: 0
+
+    .range-label
+      display: flex
+      justify-content: space-around
+      height: 30px
+      min-width: 90px
+      max-width: 90px
+      line-height: 30px
+      margin: 10px 5px
+      background-color: #E3E3E3
+      border-radius: 5px
+
+  .sorting
+    min-height: 50px
+
+.range-value
+  display: flex
+  position: relative
+  height: 30px
+  justify-content: center
+  flex-direction: column
+  border: 0
+  padding: 5px 5px
+  user-select: none
+  background: #4cbd6d
+  color: whitesmoke
+  font-size: 16px
+  text-align: center
+
+  &.disabled
+    background: #AAA
+
+  &.editable
+    margin-right: 5px
+    padding-right: 25px
+    line-height: 40px
+
+    input[type='text']
+      line-height: 40px
+      height: 40px
+      width: 30px
+      text-align: center
+      margin: 0
+      border: 0
+      padding: 0
+      display: inline-block
+      vertical-align: middle
+      white-space: normal
+      background: none
+      font-weight: bold
+
+    &:hover, &.input:hover
+      cursor: pointer
+
+    label
+      margin: 0 auto
+      text-align: center
+      display: flex
+      flex-direction: column
+      justify-content: center
+      &:hover
+        cursor: pointer
+
+    &:after
+      position: absolute
+      top: 50%
+      transform: translateY(-50%)
+      right: 5px
+      text-decoration:none
+      font-family: 'FontAwesome'
+      font-size: 15px
+      font-weight: normal
+
+    &:not(.disabled):hover, &:not(.disabled)
+      background: green
+      &:after
+        content: '\f00c'
+
+    &.disabled:hover, &.disabled
+      background: #AAA
+      &:after
+        content: '\f00d'
+
+  &.infinite
+    user-select: none
+    font-weight: bold
+    &:hover
+      cursor: pointer
+
+    label
+      height: 30px
+      line-height: 30px
+      font-size: 30px
+      font-weight: bold
+      margin: 0 auto
+      padding-right: 20px
+      &:hover
+        cursor: pointer
+
+    input[type='checkbox']
+      display: none
+
+    &:after
+      position: absolute
+      top: 50%
+      transform: translateY(-50%)
+      right: 5px
+      text-decoration:none
+      font-family: 'FontAwesome'
+      font-size: 15px
+      font-weight: normal
+
+    &:not(.disabled):hover, &:not(.disabled)
+      background: green
+      &:after
+        content: '\f00c'
+
+    &.disabled:hover, &.disabled
+      background: #AAA
+      &:after
+        content: '\f00d'
+
+  &.activate
+    user-select: none
+    font-size: 16px
+    font-weight: bold
+    &:hover
+      cursor: pointer
+
+    label
+      margin: 0 auto
+      padding-right: 20px
+      &:hover
+        cursor: pointer
+
+    input[type='checkbox']
+      display: none
+
+    &:after
+      position: absolute
+      top: 50%
+      transform: translateY(-50%)
+      right: 5px
+      text-decoration:none
+      font-family: 'FontAwesome'
+      font-size: 15px
+      font-weight: normal
+
+    &:not(.disabled):hover, &:not(.disabled)
+      background: red
+      &:after
+        content: '\f00c'
+
+    &.disabled:hover, &.disabled
+      background: #AAA
+      &:after
+        content: '\f00d'
+
+.input-range
+  width: 90%
+  -webkit-appearance: none;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  margin: 0 auto;
+
+  &:disabled::-webkit-slider-thumb
+    background: #aaa
+
+  &:disabled::-moz-range-thumb
+    background: #aaa
+
+  &:disabled::-ms-thumb
+    background: #aaa
+
+
+/*range styles for chrome*/
+.input-range
+  &::-webkit-slider-runnable-track
+    background: rgba(76, 189, 109, 0.6);
+    height: 7px;
+    border: none;
+    border-radius: 5px;
+  &:disabled::-webkit-slider-runnable-track
+    background: rgba(170, 170, 170, 0.6)
+
+.input-range::-webkit-slider-thumb
+  -webkit-appearance: none
+  width: 20px
+  height: 20px
+  border-radius: 50%
+  background: #44AD63
+  cursor: pointer
+  -webkit-transition: background .15s ease-in-out
+  margin-top: -6px
+
+/*range-track style for firefox*/
+.input-range
+  &::-moz-range-track
+    width: 200px
+    height: 7px
+    background: rgba(76, 189, 109, 0.6)
+    border: none
+    border-radius: 5px
+  &:disabled::-moz-range-track
+    background: rgba(170, 170, 170, 0.6)
+
+
+/*range thumb style for firefox*/
+.input-range::-moz-range-thumb {
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #44AD63;
+    cursor: pointer;
+    transition: background .15s ease-in-out;
+}
+
+/*rang styles for ie*/
+.input-range::-ms-track {
+    width: 200px;
+    height: 10px;
+    background: transparent;
+    border-color: transparent;
+    border-width: 2px 0;
+    color: transparent;
+}
+
+.input-range::-ms-fill-lower {
+    background: rgba(76, 189, 109, 0.8);
+    border-radius: 10px;
+}
+
+.input-range::-ms-fill-upper {
+    background: rgba(76, 189, 109, 0.3);
+    border-radius: 10px;
+}
+
+.input-range::-ms-thumb {
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #44AD63;
+}
+
+.input-range:focus::-ms-fill-lower {
+    background: rgba(76, 189, 109, 0.8);
+}
+
+.input-range:focus::-ms-fill-upper {
+    background: rgba(76, 189, 109, 0.3);
+}

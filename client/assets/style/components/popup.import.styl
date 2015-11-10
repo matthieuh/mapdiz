@@ -1,0 +1,63 @@
+.popup
+  z-index: 9
+  position: fixed !important
+  top: 150px !important
+  right: initial !important
+  max-width: 240px !important
+  height: 100%;
+  
+  margin: 0 auto;
+  
+  text-align: left
+  font-size: 100%
+  line-height: normal
+  
+  background-color: white
+  color: #000
+  
+
+.login-popup
+  margin-top: 15px
+  z-index: 2
+  right: 15px
+  width: 300px
+  text-align: left
+  font-size: 100%;
+  line-height: normal;
+  color: #000
+  
+  &:after, &:before
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+
+  &:after
+    border-color: rgba(136, 183, 213, 0);
+    border-bottom-color: #fff;
+    border-width: 10px;
+    margin-left: -10px;
+
+  &:before
+    border-color: rgba(194, 225, 245, 0);
+    border-bottom-color: rgba(0,0,0,.125);
+    border-width: 11px;
+    margin-left: -11px;
+    
+  h2
+    margin: 0
+    text-align: center
+    
+  .or
+    text-align: center
+    margin-bottom: 10px
+    
+    a
+      font-weight: bold
+    
+    
+  
