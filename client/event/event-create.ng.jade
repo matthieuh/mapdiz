@@ -19,17 +19,23 @@ header
       =' '
       button.validate.btn.btn-primary(ng-click='editName=false', ng-show='editName')
         i.icon.ion-checkmark
+    .geoloc
+      i.icon.ion-android-locate
+      span.prefix Emplacement : 
+      geoloc(location='vm.newEvent.position')
+        span(ng-show='vm.newEvent.position.lat') {{ vm.newEvent.position }}
+        span(ng-hide='vm.newEvent.position.lat') Choisir l'emplacement
     .date
       i.icon.ion-ios-calendar-outline
       span.prefix  Début :
       a.date-field.editable#edit-beginDate  {{ vm.newEvent.beginDate || 'Date de début' }}
-      span.between  à
+      span.between à
       a.date-field.editable#edit-beginTime  {{ vm.newEvent.beginTime || 'heure de début'}}
     .date
       i.icon.ion-ios-calendar-outline
-      span.prefix  Fin :
+      span.prefix Fin :
       a.date-field.editable#edit-endDate  {{ vm.newEvent.endDate || 'Date de fin' }}
-      span.between  à
+      span.between à
       a.date-field.editable#edit-beginTime  {{ vm.newEvent.endTime || 'heure de fin' }}
 main.p2
   form(ng-show="$root.currentUser")
