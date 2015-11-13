@@ -23,16 +23,45 @@ class Geoloc {
 
     var self = this;
     self.openSetGeolocModal = openSetGeolocModal;
-    self.answer = answer;
 
     /////////////////
 
     function openSetGeolocModal() {
       var parentEl = angular.element(document.querySelector('.main-section'))[0];
-      console.log('parentEl', parentEl);
       $mdDialog.show({
+        clickOutsideToClose: true,
         parent: parentEl,
         controller: function addImageModal($scope, $rootScope, $state, $mdDialog, newOrder) {
+
+          $scope.placesObj = null;
+          $scope.geolocChoiceType = 'address';
+          $scope.answer = answer;
+          $scope.placeObjToLocation = placeObjToLocation;
+
+          ///////////////////
+
+          function placeObjToLocation(placeObj) {
+            if (placeObj && placeObj.geometry) {
+              console.log('placeObjToLocation', placeObj, placeObj.geometry.location.lat(), placeObj.geometry.location.lng());
+              $scope.location = {
+                address: {
+                  html: placeObj.adr_address,
+                  display: placeObj.formatted_address
+                },
+                lat: placeObj.geometry.location.lat(),
+                lng: placeObj.geometry.location.lng()
+              };
+            }
+          }
+
+          function answer(location) {
+            if (location) {
+              $mdDialog.hide(location);
+            } else {
+              $scope.location = {};
+              $mdDialog.hide();
+            }
+          }
 
         },
         templateUrl: 'client/geoloc/set-geoloc-modal.html',
@@ -40,21 +69,15 @@ class Geoloc {
         locals: {
           newOrder: 0
         }
-      }).then(function(image) {
-        if (image) {
-          console.log('new image', image);
-          self.picture = image;
+      }).then(function(location) {
+        console.log('then openSetGeolocModal', $scope.placesObj);
+        if (location) {
+          console.log('new location', location);
+          self.location = location;
         }
       })
     };
 
-    function answer(location) {
-      if (location) {
-        $mdDialog.hide($scope.cropper.croppedImage);
-      } else {
-        $scope.cropper = {};
-        $mdDialog.hide();
-      }
-    }
+
   }
 }

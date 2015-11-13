@@ -1,33 +1,37 @@
-md-dialog.add-picture-modal
-  form
-    md-toolbar
-      .md-toolbar-tools
-        h2 Ajouter un emplacement
-    md-dialog-content.p2
-      article
-        .mt2.mb2
-          .btn(ng-click='vm.geoLocChoiceType="map"', ng-class="{'btn-primary bg-red': vm.geoLocChoiceType == 'map'}") Sur la carte
-          .btn(ng-click='vm.geoLocChoiceType="address"', ng-class="{'btn-primary bg-red': vm.geoLocChoiceType == 'address'}") Adresse
-          .btn(ng-click='vm.geoLocChoiceType="coordinates"', ng-class="{'btn-primary bg-red': vm.geoLocChoiceType == 'coordinates'}") Coordonnées
-          .p2.bg-red
-            div(ng-show='vm.geoLocChoiceType == "map"')
-              p.white Déplacez le marqueur (
-                =' '
-                i.icon.ion-location
-                |  ) sur la carte pour choisir l'emplacement de l'évenement.
-            div(ng-show='vm.geoLocChoiceType == "address"')
-              label.white(for="address") Adresse
-              input#address.block.col-12.field(type='text', g-places-autocomplete)
-              //- input#address.block.col-12.field(type="number", ng-model="address", )
-            div(ng-show='vm.geoLocChoiceType == "coordinates"')
-              label.white(for="latInput") Latitude
-              input#latInput.block.col-12.field(type="text", ng-model="vm.mapSvc.draggableMarker.position.lat()")
-              label.white(for="lngInput") Longitude
-              input#lngInput.block.col-12.field(type="text", ng-model="vm.mapSvc.draggableMarker.position.lng()")
+md-dialog.set-geoloc-modal
+  md-toolbar
+    .md-toolbar-tools
+      h2 Emplacement
+  md-dialog-content.p2
+    p Pour définir l'emplacement de votre évenement vous pouvez déplacez marqueur (
+      =' '
+      i.icon.ion-location
+      |   ) ou utiliser une autre méthode ci-dessous : {{ geolocChoiceType }} - {{ location }}
+    .location-selectors-wrapper.mt2.mb2
+      .tabs
+        .tab(ng-click='geolocChoiceType="address"', ng-class="{'active': geolocChoiceType == 'address'}") Adresse
+        .tab(ng-click='geolocChoiceType="coordinates"', ng-class="{'active': geolocChoiceType == 'coordinates'}") Coordonnées
+      .location-selectors.p2
+        .location-selector(ng-show='geolocChoiceType == "address"')
+          label.white(for='address') Adresse
+          input#address.block.col-12.field(
+            type='text',
+            ng-change='placeObjToLocation(placesObj)',
+            autocomplete='off',
+            g-places-autocomplete,
+            ng-model='placesObj'
+          )
+          p.white(ng-bind-html='location.address.html')
+          //- input#address.block.col-12.field(type="number", ng-model="address", )
+        .location-selector(ng-show='geolocChoiceType == "coordinates"')
+          label.white(for="latInput") Latitude
+          input#latInput.block.col-12.field(type="text", ng-model="vm.mapSvc.draggableMarker.position.lat()")
+          label.white(for="lngInput") Longitude
+          input#lngInput.block.col-12.field(type="text", ng-model="vm.mapSvc.draggableMarker.position.lng()")
 
-    .md-actions(layout='row')
-      span(flex='')
-      md-button.md-primary(ng-click='answer(cropper.croppedImage)', ng-disabled='!cropper.sourceImage')
-        | Ajouter Image
-      md-button.md-warn(ng-click='answer()')
-        | Annuler
+  .md-actions(layout='row')
+    span(flex='')
+    md-button.md-primary(ng-click='answer(placesObj)', ng-disabled='!placesObj')
+      | Ajouter emplacement
+    md-button.md-warn(ng-click='answer()')
+      | Annuler

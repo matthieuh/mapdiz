@@ -21,7 +21,7 @@ header
         i.icon.ion-checkmark
     .geoloc
       i.icon.ion-android-locate
-      span.prefix Emplacement : 
+      span.prefix Emplacement :
       geoloc(location='vm.newEvent.position')
         span(ng-show='vm.newEvent.position.lat') {{ vm.newEvent.position }}
         span(ng-hide='vm.newEvent.position.lat') Choisir l'emplacement

@@ -1,5 +1,5 @@
 var {SetModule, Component, View, Events, Inject, bootstrap, Filter} = angular2now;
-
+var google;
 // Tell angular2-now to set controllerAs to "vm", instead of the default componentName
 // This is mostly because "vm" is shorter to type :)
 angular2now.options({
@@ -11,6 +11,7 @@ angular2now.options({
 })
 
 SetModule('secretp', [
+  'ngSanitize',
   'angular-meteor',
   'angular-img-cropper',
   'ui.router',
@@ -55,7 +56,7 @@ class secretp {
     self = this;
     self.url = url;
     self.profilePics = $meteor.collectionFS(ProfilePics, true);
-
+    google = $scope.google;
 
     $scope.$state = $state;
     $rootScope.$on("$stateChangeError",

@@ -1,47 +1,22 @@
-.add-picture-modal
-  width: 60%
+.set-geoloc-modal
   color: #000
 
   h3
     text-align: center
 
-  md-dialog-content
-    height: 100%
+  .location-selectors-wrapper
+    user-select: none;
+    .tabs
+      display: flex
+      .tab
+        padding: 10px
+        margin-right: 2px
+        &:hover
+          cursor: pointer
+        &.active
+          background-color: mainColor
+          color: #fff
 
-
-  .drop-box
-    background: #F8F8F8
-    border: 5px dashed #DDD
-    width: 300px
-    height: 65px
-    text-align: center
-    padding: 50px
-    margin: auto
-
-    &:hover
-      cursor: pointer
-
-    &.dragover
-    border: 5px dashed blue
-
-    &.dragover-err
-      border: 5px dashed red
-
-    .preview
-      img
-        width: 100%
-        max-width: 522px
-
-
-.uploaded-image
-  max-width: 300px
-
-.crop-container
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-
-
-.images-container-title
-  width: 100%;
+    .location-selectors
+      height: 150px
+      background-color: mainColor

@@ -63,7 +63,7 @@ class AddPicture {
           }
         },
         templateUrl: 'client/picture/add-picture-modal.html',
-        scope: $scope.$new(),
+        bindToController: true,
         locals: {
           newOrder: 0
         }
