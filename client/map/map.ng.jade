@@ -1,4 +1,5 @@
 //- p filteredEvents : {{ addmarkerposition }}
+//-  $root.updateNewMarkerPosition(vm.mapSvc.draggableMarker.position)
 .map-wrapper.flex-column.flex-auto
   div(ui-view='map')
   .angular-google-map-container
@@ -9,7 +10,7 @@
       zoom="vm.mapSvc.map.zoom",
       options='vm.mapSvc.map.options',
       on-tilesloaded='vm.mapSvc.updateVisibleMarkers(map); $root.gmapLoaded(map)',
-      on-dragend='vm.mapSvc.dragEnd(map); $root.updateNewMarkerPosition(vm.mapSvc.draggableMarker.position)',
+      on-dragend='vm.mapSvc.dragEnd(map);',
       on-zoom-changed='vm.mapSvc.mapZoomChange(map)'
     )
       gm-marker.my-position-marker(
@@ -18,9 +19,11 @@
       )
       gm-marker.add-marker(
         position='vm.mapSvc.draggableMarker.position',
-        options='{draggable: true}',
+        options='{draggable: vm.mapSvc.draggableMarker.draggable}',
         gm-address="{address:'vm.mapSvc.draggableMarker.address'}",
-        on-drag='vm.mapSvc.draggableMarker.position = marker.position;',
+        on-drag='vm.mapSvc.draggableMarker.position = marker.position',
+        on-dragend='vm.mapSvc.map.center = marker.position',
+        on-position_changed='vm.draggableMarkerChanged()',
         ng-show='vm.mapSvc.draggableMarker.visible'
       )
         gm-infowindow(

@@ -25,13 +25,13 @@ md-dialog.set-geoloc-modal
           //- input#address.block.col-12.field(type="number", ng-model="address", )
         .location-selector(ng-show='geolocChoiceType == "coordinates"')
           label.white(for="latInput") Latitude
-          input#latInput.block.col-12.field(type="text", ng-model="vm.mapSvc.draggableMarker.position.lat()")
+          input#latInput.block.col-12.field(type="text", ng-model="location.lat")
           label.white(for="lngInput") Longitude
-          input#lngInput.block.col-12.field(type="text", ng-model="vm.mapSvc.draggableMarker.position.lng()")
+          input#lngInput.block.col-12.field(type="text", ng-model="location.lng")
 
   .md-actions(layout='row')
     span(flex='')
-    md-button.md-primary(ng-click='answer(placesObj)', ng-disabled='!placesObj')
+    md-button.md-primary(ng-click='answer(location)', ng-disabled='!location')
       | Ajouter emplacement
     md-button.md-warn(ng-click='answer()')
       | Annuler

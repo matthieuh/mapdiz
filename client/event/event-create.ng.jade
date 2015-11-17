@@ -19,11 +19,12 @@ header
       =' '
       button.validate.btn.btn-primary(ng-click='editName=false', ng-show='editName')
         i.icon.ion-checkmark
-    .geoloc
+    .geoloc(position='vm.newEvent.position')
       i.icon.ion-android-locate
       span.prefix Emplacement :
       geoloc(location='vm.newEvent.position')
-        span(ng-show='vm.newEvent.position.lat') {{ vm.newEvent.position }}
+        span(ng-show='vm.newEvent.position.address.display') {{ vm.newEvent.position.address.display }}
+        span(ng-show='vm.newEvent.position.lat') Lat : {{ vm.newEvent.position.lat }} - Lng : {{ vm.newEvent.position.lng }}
         span(ng-hide='vm.newEvent.position.lat') Choisir l'emplacement
     .date
       i.icon.ion-ios-calendar-outline

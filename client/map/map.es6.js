@@ -19,6 +19,7 @@ class Map {
 
     self.mapSvc = mapSvc;
     self.mapControl = {};
+    self.draggableMarkerChanged = draggableMarkerChanged;
 
     $meteor.autorun($scope, autorun);
     function autorun() {
@@ -43,6 +44,13 @@ class Map {
     $scope.$on('$destroy', function() {
       // subscriptionHandle.stop();
     });
+
+    /////////////////////////////
+
+    function draggableMarkerChanged() {
+      console.log('draggableMarkerChanged', self.mapSvc.draggableMarker.position);
+      $rootScope.$broadcast('draggableMarker.position.changed', self.mapSvc.draggableMarker.position);
+    }
   }
 }
 
