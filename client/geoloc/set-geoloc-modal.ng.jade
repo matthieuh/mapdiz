@@ -6,7 +6,7 @@ md-dialog.set-geoloc-modal
     p Pour définir l'emplacement de votre évenement vous pouvez déplacez marqueur (
       =' '
       i.icon.ion-location
-      |   ) ou utiliser une autre méthode ci-dessous : {{ geolocChoiceType }} - {{ location }}
+      |   ) ou utiliser une autre méthode ci-dessous :
     .location-selectors-wrapper.mt2.mb2
       .tabs
         .tab(ng-click='geolocChoiceType="address"', ng-class="{'active': geolocChoiceType == 'address'}") Adresse
@@ -14,20 +14,34 @@ md-dialog.set-geoloc-modal
       .location-selectors.p2
         .location-selector(ng-show='geolocChoiceType == "address"')
           label.white(for='address') Adresse
-          input#address.block.col-12.field(
-            type='text',
-            ng-change='placeObjToLocation(placesObj)',
-            autocomplete='off',
-            g-places-autocomplete,
-            ng-model='placesObj'
-          )
-          p.white(ng-bind-html='location.address.html')
+          .edit-address(ng-show='editAddress || !placesObj')
+            input#address.block.col-12.field(
+              type='text',
+              autocomplete='off',
+              g-places-autocomplete,
+              ng-model='placesObj'
+            )
+            button.validate.btn.btn-primary(ng-click='editAddress=false; placeObjToLocation(placesObj)')
+              i.icon.ion-checkmark
+          .address
+            p.white(ng-bind-html='location.address.html', ng-show='editAddress == false || placesObj')
+            button.validate.btn.btn-primary(ng-click='editAddress=false; placeObjToLocation(placesObj)')
+              i.icon.ion-edit
+
           //- input#address.block.col-12.field(type="number", ng-model="address", )
         .location-selector(ng-show='geolocChoiceType == "coordinates"')
           label.white(for="latInput") Latitude
-          input#latInput.block.col-12.field(type="text", ng-model="location.lat")
+          input#latInput.block.col-12.field(
+            type="text",
+            ng-model="location.lat",
+            autocomplete='off'
+          )
           label.white(for="lngInput") Longitude
-          input#lngInput.block.col-12.field(type="text", ng-model="location.lng")
+          input#lngInput.block.col-12.field(
+            type="text",
+            ng-model="location.lng",
+            autocomplete='off'
+          )
 
   .md-actions(layout='row')
     span(flex='')

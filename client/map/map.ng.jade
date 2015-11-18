@@ -21,7 +21,7 @@
         position='vm.mapSvc.draggableMarker.position',
         options='{draggable: vm.mapSvc.draggableMarker.draggable}',
         gm-address="{address:'vm.mapSvc.draggableMarker.address'}",
-        on-drag='vm.mapSvc.draggableMarker.position = marker.position',
+        on-drag='vm.draggableMarkerOnDrag(); vm.mapSvc.draggableMarker.position = marker.position',
         on-dragend='vm.mapSvc.map.center = marker.position',
         on-position_changed='vm.draggableMarkerChanged()',
         ng-show='vm.mapSvc.draggableMarker.visible'

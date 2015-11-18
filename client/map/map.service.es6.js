@@ -133,8 +133,6 @@ class MapService {
       if (event) event.showInfo = false;
     };
 
-
-
     function setMapZoom(zoom) {
       service.map.zoom = zoom;
     };
