@@ -14,16 +14,17 @@ md-dialog.set-geoloc-modal
       .location-selectors.p2
         .location-selector(ng-show='geolocChoiceType == "address"')
           label.white(for='address') Adresse
-          .edit-address(ng-show='editAddress || !placesObj')
+          .edit-address
             input#address.block.col-12.field(
               type='text',
               autocomplete='off',
               g-places-autocomplete,
-              ng-model='placesObj'
+              ng-model='placesObj',
+              ng-change='placeObjToLocation(placesObj)'
             )
-            button.validate.btn.btn-primary(ng-click='editAddress=false; placeObjToLocation(placesObj)')
+            //- button.validate.btn.btn-primary(ng-click='editAddress=false; placeObjToLocation(placesObj)')
               i.icon.ion-checkmark
-          .address
+          //- .address
             p.white(ng-bind-html='location.address.html', ng-show='editAddress == false || placesObj')
             button.validate.btn.btn-primary(ng-click='editAddress=false; placeObjToLocation(placesObj)')
               i.icon.ion-edit

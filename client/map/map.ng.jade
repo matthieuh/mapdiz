@@ -27,9 +27,11 @@
         ng-show='vm.mapSvc.draggableMarker.visible'
       )
         gm-infowindow(
-          options="{content: 'Déplace-moi sur le lieu de l&#39;évenement'}",
+          options="{content: vm.mapSvc.draggableMarker.content}",
           ng-show='vm.mapSvc.draggableMarker.visible'
         )
+          span coucou
+
       gm-marker.event-marker(
         ng-repeat='filteredEvent in vm.mapSvc.filteredEvents',
         position='filteredEvent.position',

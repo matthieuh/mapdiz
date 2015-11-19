@@ -35,7 +35,9 @@ class MapService {
       draggableMarker: {
         events: {},
         visible: false,
-        draggable: false
+        draggable: false,
+        content: "Déplace-moi sur le lieu de l'évenement"
+
       },
       events: [],
       visibleEvents: [],
@@ -67,10 +69,19 @@ class MapService {
 
     ////////////
 
+    /**
+     * [getVisibleEvents description]
+     * @return {[type]} [description]
+     */
     function getVisibleEvents() {
       return _visibleEvents;
     };
 
+    /**
+     * [getEvent description]
+     * @param  {[type]} id [description]
+     * @return {[type]}    [description]
+     */
     function getEvent(id) {
       console.log('getEvent', id);
       var event = _.find(_events,{_id: id});
@@ -78,10 +89,20 @@ class MapService {
       return event;
     };
 
+    /**
+     * [addEvent description]
+     * @param {[type]} newEvent [description]
+     */
     function addEvent(newEvent) {
       $log.debug('mapSvc.addEvent', newEvent);
       $rootScope.$broadcast('events.add', newEvent);
     };
+
+    /**
+     * [removeEvent description]
+     * @param  {[type]} removedEvent [description]
+     * @return {[type]}              [description]
+     */
     function removeEvent(removedEvent) {
       _events.splice(_events.indexOf(removedEvent), 1);
       this.updateVisibleMarkers();
@@ -214,7 +235,7 @@ class MapService {
 
     function mapZoomChange(map) {
       console.log($state);
-      setNewPosition(map.center, map.zoom);
+      // setNewPosition(map.center, map.zoom);
       updateVisibleMarkers(map);
       service.draggableMarker.position = map.center;
     }

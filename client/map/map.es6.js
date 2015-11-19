@@ -23,6 +23,7 @@ class Map {
     self.draggableMarkerChanged = draggableMarkerChanged;
 
     $meteor.autorun($scope, autorun);
+
     function autorun() {
       $meteor.subscribe('events').then(function(handle){
         self.mapSvc.events = self.mapSvc.filteredEvents = $meteor.collection(Events);

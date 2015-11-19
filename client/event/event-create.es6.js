@@ -2,25 +2,26 @@
 
 var {SetModule, Component, View, Inject, State} = angular2now;
 
+var i18n_FR = {
+  previousMonth : 'Mois suivant',
+  nextMonth     : 'Mois précédent ',
+  months        : ['janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Decembre'],
+  weekdays      : ['Dimanche','Mundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+  weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']
+};
+
 SetModule('secretp');
 
 @State({ name: 'event-create', url: '/event-create', html5Mode: true })
 
 @Component({selector: 'event-create'})
 @View({templateUrl: 'client/event/event-create.html'})
-@Inject(['$scope', '$meteor', '$rootScope', '$state', '$log', 'mapSvc', '$timeout', '$window'])
+@Inject(['$scope', '$meteor', '$rootScope', '$state', '$log', 'mapSvc', '$timeout', '$window', '$compile'])
 
 class EventCreate {
-  constructor($scope, $meteor, $rootScope, $state, $log, mapSvc, $timeout, $window) {
+  constructor($scope, $meteor, $rootScope, $state, $log, mapSvc, $timeout, $window, $compile) {
     var self = this;
     var google;
-    var i18n_FR = {
-      previousMonth : 'Mois suivant',
-      nextMonth     : 'Mois précédent ',
-      months        : ['janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Decembre'],
-      weekdays      : ['Dimanche','Mundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-      weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']
-    };
     var beginDatePicker = new Pikaday({
       field: document.getElementById('beginDate'),
       trigger: document.getElementById('edit-beginDate'),
@@ -41,12 +42,14 @@ class EventCreate {
     self.newEvent = {
       position: {}
     };
+
     self.geoLocChoiceType = 'map';
     self.hours = [];
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.mapSvc = mapSvc;
     self.addEvent = addEvent;
+
     for(var h = 0; h < 24 ; h++) {
       for(var m = 0; m < 12 ; m++) {
         self.hours.push({
@@ -64,15 +67,35 @@ class EventCreate {
     $scope.bounds.top = 0;
     $scope.bounds.bottom = 0;
 
-    // mapSvc.map.zoom = 12;
-    mapSvc.getUserLoc().then(function(userGeoLoc){
+    var content = `
+      <div class='info-window'>
+        <img class='cover' ng-src='{{ vm.cover }}'>
+        <div class='info-window-content p1'>
+          <h4>{{ vm.newEvent.name || "Nom de l'évenement" }}</h4>
+          <p>{{ vm.newEvent.description }}</p>
+        </div>
+      </div>
+    `;
+    var compiled = $compile(content)($scope);
+    console.log('compiled', compiled);
+    customizeIW();
+
+    mapSvc.draggableMarker.content = compiled[0];
+    mapSvc.getUserLoc().then(function(userGeoLoc) {
       mapSvc.map.center = userGeoLoc.center;
     });
-    self.mapSvc.draggableMarker.visible = true;
+    mapSvc.draggableMarker.visible = true; //!!self.newEvent.position.lat;
 
     $scope.$on('$destroy', function () {
-      self.mapSvc.draggableMarker.visible = false;
+      mapSvc.draggableMarker = {
+        events: {},
+        visible: false,
+        draggable: false,
+        content: "Déplace-moi sur le lieu de l'évenement"
+      };
     });
+
+    /////////////////////
 
     function addEvent(newEvent) {
       self.newEvent.position.lat = mapSvc.draggableMarker.position.lat();
