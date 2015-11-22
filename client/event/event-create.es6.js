@@ -69,16 +69,17 @@ class EventCreate {
 
     var content = `
       <div class='info-window'>
-        <img class='cover' ng-src='{{ vm.cover }}'>
-        <div class='info-window-content p1'>
-          <h4>{{ vm.newEvent.name || "Nom de l'évenement" }}</h4>
-          <p>{{ vm.newEvent.description }}</p>
+        <div class='iw-container'>
+          <img class='cover' ng-src='{{ vm.cover }}'>
+          <div class='info-window-content p1'>
+            <h4>{{ vm.newEvent.name || "Nom de l'évenement" }}</h4>
+            <p>{{ vm.newEvent.description }}</p>
+          </div>
         </div>
       </div>
     `;
     var compiled = $compile(content)($scope);
     console.log('compiled', compiled);
-    customizeIW();
 
     mapSvc.draggableMarker.content = compiled[0];
     mapSvc.getUserLoc().then(function(userGeoLoc) {
@@ -86,14 +87,14 @@ class EventCreate {
     });
     mapSvc.draggableMarker.visible = true; //!!self.newEvent.position.lat;
 
-    $scope.$on('$destroy', function () {
+    /*$scope.$on('$destroy', function () {
       mapSvc.draggableMarker = {
         events: {},
         visible: false,
         draggable: false,
         content: "Déplace-moi sur le lieu de l'évenement"
       };
-    });
+    });*/
 
     /////////////////////
 

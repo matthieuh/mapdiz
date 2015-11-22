@@ -28,7 +28,9 @@
       )
         gm-infowindow(
           options="{content: vm.mapSvc.draggableMarker.content}",
-          ng-show='vm.mapSvc.draggableMarker.visible'
+          ng-show='vm.mapSvc.draggableMarker.visible',
+          on-domready='vm.mapSvc.draggableMarker.onDomready()'
+          class='drg-marker-info-window'
         )
           span coucou
 

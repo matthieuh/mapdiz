@@ -36,7 +36,8 @@ class MapService {
         events: {},
         visible: false,
         draggable: false,
-        content: "Déplace-moi sur le lieu de l'évenement"
+        content: "Déplace-moi sur le lieu de l'évenement",
+        onDomready: onMarkerDomready
 
       },
       events: [],
@@ -68,6 +69,15 @@ class MapService {
     return service;
 
     ////////////
+
+    function onMarkerDomready() {
+      var iw = document.querySelector('.gm-style-iw');
+      console.log('iw.parent', iw.parentNode);
+      var iwPrev = iw.previousSibling;
+      var iwPrevChildren = iwPrev.children;
+      iwPrevChildren[1].style.display = 'none';
+      iwPrevChildren[3].style.display = 'none';
+    }
 
     /**
      * [getVisibleEvents description]

@@ -41,6 +41,8 @@ class config {
       libraries: ['places']
     });
 
+    customizeIW.init();
+
     localStorageServiceProvider
       .setPrefix('secretp')
       .setStorageType('sessionStorage');
