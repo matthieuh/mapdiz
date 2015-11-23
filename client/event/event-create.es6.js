@@ -71,9 +71,12 @@ class EventCreate {
       <div class='info-window'>
         <div class='iw-container'>
           <img class='cover' ng-src='{{ vm.cover }}'>
-          <div class='info-window-content p1'>
+          <div class='info-window-content'>
             <h4>{{ vm.newEvent.name || "Nom de l'évenement" }}</h4>
-            <p>{{ vm.newEvent.description }}</p>
+            <div class='description mxn1' ng-show='vm.newEvent.description'>
+              <strong>Description :</strong> {{ vm.newEvent.description }}
+              <div class="iw-bottom-gradient"></div>
+            </div>
           </div>
         </div>
       </div>

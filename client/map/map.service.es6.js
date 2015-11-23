@@ -38,7 +38,6 @@ class MapService {
         draggable: false,
         content: "Déplace-moi sur le lieu de l'évenement",
         onDomready: onMarkerDomready
-
       },
       events: [],
       visibleEvents: [],
@@ -71,12 +70,16 @@ class MapService {
     ////////////
 
     function onMarkerDomready() {
-      var iw = document.querySelector('.gm-style-iw');
-      console.log('iw.parent', iw.parentNode);
-      var iwPrev = iw.previousSibling;
+      var gmIw = document.querySelector('.gm-style-iw');
+      var iwPrev = gmIw.previousSibling;
       var iwPrevChildren = iwPrev.children;
+      // Hide old infoWindow background
       iwPrevChildren[1].style.display = 'none';
       iwPrevChildren[3].style.display = 'none';
+      var iw = document.querySelector('.info-window');
+      iw.parentNode.style.display = 'block';
+      // Arrow over infoWindow
+      gmIw.parentNode.children[0].style['z-index'] = 1;
     }
 
     /**

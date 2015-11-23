@@ -1,7 +1,7 @@
 .alert.alert-info(ng-hide="$root.currentUser || $root.loggingIn")
   | Connectez-vous pour créer un évenement
 
-header
+header(ng-show="$root.currentUser || $root.loggingIn")
   .cover-manager
     add-picture.edit-cover(picture='vm.cover')
       i.icon.ion-image
@@ -105,7 +105,7 @@ main.p2
         i.icon.ion-ios-compose-outline
         |  Description
       article
-        textarea#description.block.col-12.field(ng-model="vm.newEvent.description", placeholder='Descritpion de l\'évenement')
+        textarea#description.block.col-12.field(ng-model="vm.newEvent.description", placeholder='Description de l\'évenement')
 
     label.block.col-12(for="public") Public
       input#publict(type="checkbox", ng-model="vm.newEvent.public")
