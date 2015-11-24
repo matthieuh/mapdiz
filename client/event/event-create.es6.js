@@ -20,14 +20,11 @@ SetModule('secretp');
 
 class EventCreate {
   constructor($scope, $meteor, $rootScope, $state, $log, mapSvc, $timeout, $window, $compile) {
-    var self = this;
-    var google;
 
     $meteor.subscribe('events');
 
-    self.newEvent = {
-      position: {}
-    };
+    var self = this;
+    self.newEvent = { position: {} };
     self.geoLocChoiceType = 'map';
     self.hours = [];
     self.beginTimeSelected = beginTimeSelected;
@@ -54,10 +51,11 @@ class EventCreate {
         var beginDateValue = this.getMoment().toDate();
         console.log(beginDateValue);
         self.newEvent.beginDate = beginDateValue;
-        $scope.$apply();
         console.log(self.newEvent);
+        $scope.$apply();
       }
     });
+
     var endDatePicker = new Pikaday({
       field: document.getElementById('endDate'),
       trigger: document.getElementById('edit-endDate'),
@@ -72,15 +70,6 @@ class EventCreate {
         $scope.$apply();
       }
     });
-
-    $scope.cropper = {};
-    $scope.cropper.sourceImage = null;
-    $scope.cropper.croppedImage   = null;
-    $scope.bounds = {};
-    $scope.bounds.left = 0;
-    $scope.bounds.right = 0;
-    $scope.bounds.top = 0;
-    $scope.bounds.bottom = 0;
 
     var content = `
       <div class='info-window'>
@@ -99,17 +88,25 @@ class EventCreate {
     var compiled = $compile(content)($scope);
     console.log('compiled', compiled);
 
-    mapSvc.draggableMarker.content = compiled[0];
-    mapSvc.getUserLoc().then(function(userGeoLoc) {
-      mapSvc.map.center = userGeoLoc.center;
-    });
-
-
+    $scope.cropper = {};
+    $scope.cropper.sourceImage = null;
+    $scope.cropper.croppedImage   = null;
+    $scope.bounds = {};
+    $scope.bounds.left = 0;
+    $scope.bounds.right = 0;
+    $scope.bounds.top = 0;
+    $scope.bounds.bottom = 0;
     $scope.$on('$destroy', function() {
       mapSvc.draggableMarker.visible = false;
     });
 
-    mapSvc.draggableMarker.visible = true; //!!self.newEvent.position.lat;
+    mapSvc.getUserLoc().then(function(userGeoLoc) {
+      mapSvc.map.center = userGeoLoc.center;
+      mapSvc.draggableMarker.position = userGeoLoc.center;
+    });
+    mapSvc.draggableMarker.content = compiled[0];
+    mapSvc.draggableMarker.visible = false;
+    mapSvc.draggableMarker.visible = true; // !!self.newEvent.position.lat;
 
     /////////////////////
 
