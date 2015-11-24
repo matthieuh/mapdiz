@@ -253,7 +253,9 @@ class MapService {
       console.log($state);
       // setNewPosition(map.center, map.zoom);
       updateVisibleMarkers(map);
-      service.draggableMarker.position = map.center;
+      if (!service.draggableMarker.position || !service.draggableMarker.position.lat) {
+        service.draggableMarker.position = map.center;
+      }
     }
 
     function getNewPosition() {

@@ -22,33 +22,19 @@ class EventCreate {
   constructor($scope, $meteor, $rootScope, $state, $log, mapSvc, $timeout, $window, $compile) {
     var self = this;
     var google;
-    var beginDatePicker = new Pikaday({
-      field: document.getElementById('beginDate'),
-      trigger: document.getElementById('edit-beginDate'),
-      format: 'DD/MM/YYYY',
-      firstDay: 1,
-      i18n: i18n_FR
-    });
-    var endDatePicker = new Pikaday({
-      field: document.getElementById('endDate'),
-      trigger: document.getElementById('edit-endDate'),
-      format: 'DD/MM/YYYY',
-      firstDay: 1,
-      i18n: i18n_FR
-    });
 
     $meteor.subscribe('events');
 
     self.newEvent = {
       position: {}
     };
-
     self.geoLocChoiceType = 'map';
     self.hours = [];
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.mapSvc = mapSvc;
     self.addEvent = addEvent;
+    self.deleteCover = deleteCover;
 
     for(var h = 0; h < 24 ; h++) {
       for(var m = 0; m < 12 ; m++) {
@@ -57,6 +43,35 @@ class EventCreate {
         });
       }
     }
+
+    var beginDatePicker = new Pikaday({
+      field: document.getElementById('beginDate'),
+      trigger: document.getElementById('edit-beginDate'),
+      format: 'DD/MM/YYYY',
+      firstDay: 1,
+      i18n: i18n_FR,
+      onSelect: function() {
+        var beginDateValue = this.getMoment().toDate();
+        console.log(beginDateValue);
+        self.newEvent.beginDate = beginDateValue;
+        $scope.$apply();
+        console.log(self.newEvent);
+      }
+    });
+    var endDatePicker = new Pikaday({
+      field: document.getElementById('endDate'),
+      trigger: document.getElementById('edit-endDate'),
+      format: 'DD/MM/YYYY',
+      firstDay: 1,
+      i18n: i18n_FR,
+      onSelect: function() {
+        var endDateValue = this.getMoment().toDate();
+        console.log(endDateValue);
+        self.newEvent.endDate = endDateValue;
+        console.log(self.newEvent);
+        $scope.$apply();
+      }
+    });
 
     $scope.cropper = {};
     $scope.cropper.sourceImage = null;
@@ -70,7 +85,7 @@ class EventCreate {
     var content = `
       <div class='info-window'>
         <div class='iw-container'>
-          <img class='cover' ng-src='{{ vm.cover }}'>
+          <img ng-show='vm.cover' class='cover' ng-src='{{ vm.cover }}'>
           <div class='info-window-content'>
             <h4>{{ vm.newEvent.name || "Nom de l'évenement" }}</h4>
             <div class='description mxn1' ng-show='vm.newEvent.description'>
@@ -88,18 +103,19 @@ class EventCreate {
     mapSvc.getUserLoc().then(function(userGeoLoc) {
       mapSvc.map.center = userGeoLoc.center;
     });
+
+
+    $scope.$on('$destroy', function() {
+      mapSvc.draggableMarker.visible = false;
+    });
+
     mapSvc.draggableMarker.visible = true; //!!self.newEvent.position.lat;
 
-    /*$scope.$on('$destroy', function () {
-      mapSvc.draggableMarker = {
-        events: {},
-        visible: false,
-        draggable: false,
-        content: "Déplace-moi sur le lieu de l'évenement"
-      };
-    });*/
-
     /////////////////////
+
+    function deleteCover() {
+      delete self.cover;
+    }
 
     function addEvent(newEvent) {
       self.newEvent.position.lat = mapSvc.draggableMarker.position.lat();

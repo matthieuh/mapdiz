@@ -7,11 +7,10 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       i.icon.ion-image
       span(ng-hide='vm.cover')  Ajouter une couverture
       span(ng-show='vm.cover')  Modifier la couverture
-    a.delete-cover(href='#', ng-show='vm.cover', ng-click="vm.cover='//:0'")
+    a.delete-cover(href='#', ng-show='vm.cover', ng-click="vm.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  img.cover(ng-src="{{ vm.cover }}")
-  .cover-no-img(ng-show="!vm.cover || vm.cover!=='//:0'")
+  img.cover(ng-show='vm.cover', ng-src="{{ vm.cover }}")
   .over-cover
     .title
       h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ vm.newEvent.name || "Nom de l'évenement" }}
@@ -30,10 +29,8 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       i.icon.ion-ios-calendar-outline
       span.prefix  Début
       span.between :
-      input#beginDate.field.mr1(
-        type='text',
+      input#beginDate(
         name='beginDate',
-        ng-model='vm.newEvent.beginDate',
         style="display: none;"
       )
       a.date-field.editable#edit-beginDate  {{ vm.newEvent.beginDate || 'Date de début' }}
@@ -43,74 +40,67 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       i.icon.ion-ios-calendar-outline
       span.prefix Fin
       span.between :
-      input#endDate.field.mr1(
-        type='text',
+      input#endDate(
         name='endDate',
-        ng-model='vm.newEvent.endDate',
         style="display: none;"
       )
       a.date-field.editable#edit-endDate  {{ vm.newEvent.endDate || 'Date de fin' }}
       span.between à
       a.date-field.editable#edit-beginTime  {{ vm.newEvent.endTime || 'heure de fin' }}
-main.p2
-  form(ng-show="$root.currentUser")
-    //- Name
-    //- section
-    //-   h3 Nom
-    //-   article
-    //-     input#nameInput.block.col-12.field(type="text", ng-model="vm.newEvent.name", placeholder='Nom de l\'évenement')
+main.p2(ng-show="$root.currentUser || $root.loggingIn")
+  section
+    h3
+      i.icon.ion-ios-calendar-outline
+      |  Date et Heure
+    article.flex-columns
+      .field-grp.flex-center
+        //- label.date-label.mr1(for='beginDate') Date de début
 
-    //- Date and Time
-    section
-      h3
-        i.icon.ion-ios-calendar-outline
-        |  Date et Heure
-      article.flex-columns
-        .field-grp.flex-center
-          //- label.date-label.mr1(for='beginDate') Date de début
+        span.mr1 à
+        #beginTime(
+          angucomplete-alt,
+          input-class='field',
+          pause='100',
+          override-suggestions='false',
+          text-no-results='Ceci n\'est pas une heure valide',
+          placeholder='heure',
+          local-data='vm.hours',
+          selected-object='vm.beginTimeSelected',
+          search-fields='value',
+          title-field='value',
+          minlength='1')
+      .field-grp.flex-center
+        //- label.date-label.mr1(for='endDate') Date de fin
 
-          span.mr1 à
-          #beginTime(
-            angucomplete-alt,
-            input-class='field',
-            pause='100',
-            override-suggestions='false',
-            text-no-results='Ceci n\'est pas une heure valide',
-            placeholder='heure',
-            local-data='vm.hours',
-            selected-object='vm.beginTimeSelected',
-            search-fields='value',
-            title-field='value',
-            minlength='1')
-        .field-grp.flex-center
-          //- label.date-label.mr1(for='endDate') Date de fin
+        span.mr1 à
+        #endTime(
+          angucomplete-alt,
+          input-class='field',
+          pause='100',
+          override-suggestions='false',
+          text-no-results='Ceci n\'est pas une heure valide',
+          placeholder='heure',
+          local-data='vm.hours',
+          selected-object='vm.endTimeSelected',
+          search-fields='value',
+          title-field='value',
+          minlength='1')
 
-          span.mr1 à
-          #endTime(
-            angucomplete-alt,
-            input-class='field',
-            pause='100',
-            override-suggestions='false',
-            text-no-results='Ceci n\'est pas une heure valide',
-            placeholder='heure',
-            local-data='vm.hours',
-            selected-object='vm.endTimeSelected',
-            search-fields='value',
-            title-field='value',
-            minlength='1')
+  //- Description
+  section
+    h3
+      i.icon.ion-ios-compose-outline
+      |  Description
+    article
+      textarea#description.block.col-12.field(ng-model="vm.newEvent.description", placeholder='Description de l\'évenement')
 
-    //- Description
-    section
-      h3
-        i.icon.ion-ios-compose-outline
-        |  Description
-      article
-        textarea#description.block.col-12.field(ng-model="vm.newEvent.description", placeholder='Description de l\'évenement')
+  label.block.col-12(for="public") Public
+    input#publict(type="checkbox", ng-model="vm.newEvent.public")
 
-    label.block.col-12(for="public") Public
-      input#publict(type="checkbox", ng-model="vm.newEvent.public")
+  section
+    {{ vm.newEvent | json }}
 
-    button.btn.btn-primary(ng-click="vm.addEvent(vm.newEvent)") Ajouter
+  button.btn.btn-primary(ng-click="vm.addEvent(vm.newEvent)") Ajouter
 
 //- script(type='text/ng-template', id='/event-window.html').
   <h4>TITRE : {{ vm.geoLocChoiceType }}</h4>
