@@ -29,7 +29,7 @@
         gm-infowindow(
           options="{content: vm.mapSvc.draggableMarker.content}",
           ng-show='vm.mapSvc.draggableMarker.visible',
-          on-domready='vm.mapSvc.draggableMarker.onDomready()'
+          on-domready='vm.mapSvc.draggableMarker.onDomready(map)'
           class='drg-marker-info-window'
         )
 

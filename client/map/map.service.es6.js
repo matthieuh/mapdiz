@@ -69,7 +69,7 @@ class MapService {
 
     ////////////
 
-    function onMarkerDomready() {
+    function onMarkerDomready(map) {
       var gmIw = document.querySelector('.gm-style-iw');
       var iwPrev = gmIw.previousSibling;
       var iwPrevChildren = iwPrev.children;
@@ -80,6 +80,9 @@ class MapService {
       iw.parentNode.style.display = 'block';
       // Arrow over infoWindow
       gmIw.parentNode.children[0].style['z-index'] = 1;
+      gmIw.parentNode.children[0].children[2].children[0].children[0].style['border-left'] = '1px solid rgba(255, 80, 36, 0.6)';
+      gmIw.parentNode.children[0].children[2].children[1].children[0].style['border-right'] = '1px solid rgba(255, 80, 36, 0.6)';
+      //map.panBy(0, -200);
     }
 
     /**
