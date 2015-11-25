@@ -22,8 +22,10 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       i.icon.ion-android-locate
       span.prefix Emplacement :
       geoloc(location='vm.newEvent.position')
-        span(ng-show='vm.newEvent.position.address.display') {{ vm.newEvent.position.address.display }}
-        span(ng-show='!vm.newEvent.position.address.display && vm.newEvent.position.lat') Lat : {{ vm.newEvent.position.lat }} - Lng : {{ vm.newEvent.position.lng }}
+        span(ng-show='vm.newEvent.position.address.display')
+          | {{ vm.newEvent.position.address.display }}
+        span(ng-show='!vm.newEvent.position.address.display && vm.newEvent.position.lat')
+          | Lat : {{ vm.newEvent.position.lat }} - Lng : {{ vm.newEvent.position.lng }}
         span(ng-hide='vm.newEvent.position.lat || vm.newEvent.position.address.display') Choisir l'emplacement
     .date
       i.icon.ion-ios-calendar-outline
@@ -33,9 +35,16 @@ header(ng-show="$root.currentUser || $root.loggingIn")
         name='beginDate',
         style="display: none;"
       )
-      a.date-field.editable#edit-beginDate  {{ vm.newEvent.beginDate || 'Date de début' }}
+      a.date-field.editable#edit-beginDate {{ vm.newEvent.beginDate ? ( vm.newEvent.beginDate | date:'dd/MM/yyyy' ) : 'Date de début' }}
       span.between à
-      a.date-field.editable#edit-beginTime  {{ vm.newEvent.beginTime || 'heure de début'}}
+      a.date-field.editable#edit-beginTime {{ vm.newEvent.beginTime ? ( vm.newEvent.beginTime | date:'H:mm' ) : 'heure de début' }}
+      select(
+        ng-init='editBeginTime=false'
+        name='selectedbeginTime',
+        ng-options='hour.value as hour.display for hour in vm.hours',
+        ng-model='vm.newEvent.beginTime'
+      )
+
     .date
       i.icon.ion-ios-calendar-outline
       span.prefix Fin
@@ -44,47 +53,16 @@ header(ng-show="$root.currentUser || $root.loggingIn")
         name='endDate',
         style="display: none;"
       )
-      a.date-field.editable#edit-endDate  {{ vm.newEvent.endDate || 'Date de fin' }}
+      a.date-field.editable#edit-endDate  {{ vm.newEvent.endDate ? ( vm.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
       span.between à
-      a.date-field.editable#edit-beginTime  {{ vm.newEvent.endTime || 'heure de fin' }}
+      a.date-field.editable#edit-endTime  {{ vm.newEvent.endTime ? ( vm.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
+      select(
+        ng-init='editEndTime=false'
+        name='selectedEndTime',
+        ng-options='hour.value as hour.display for hour in vm.hours',
+        ng-model='vm.newEvent.endTime'
+      )
 main.p2(ng-show="$root.currentUser || $root.loggingIn")
-  section
-    h3
-      i.icon.ion-ios-calendar-outline
-      |  Date et Heure
-    article.flex-columns
-      .field-grp.flex-center
-        //- label.date-label.mr1(for='beginDate') Date de début
-
-        span.mr1 à
-        #beginTime(
-          angucomplete-alt,
-          input-class='field',
-          pause='100',
-          override-suggestions='false',
-          text-no-results='Ceci n\'est pas une heure valide',
-          placeholder='heure',
-          local-data='vm.hours',
-          selected-object='vm.beginTimeSelected',
-          search-fields='value',
-          title-field='value',
-          minlength='1')
-      .field-grp.flex-center
-        //- label.date-label.mr1(for='endDate') Date de fin
-
-        span.mr1 à
-        #endTime(
-          angucomplete-alt,
-          input-class='field',
-          pause='100',
-          override-suggestions='false',
-          text-no-results='Ceci n\'est pas une heure valide',
-          placeholder='heure',
-          local-data='vm.hours',
-          selected-object='vm.endTimeSelected',
-          search-fields='value',
-          title-field='value',
-          minlength='1')
 
   //- Description
   section
@@ -101,6 +79,3 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
     {{ vm.newEvent | json }}
 
   button.btn.btn-primary(ng-click="vm.addEvent(vm.newEvent)") Ajouter
-
-//- script(type='text/ng-template', id='/event-window.html').
-  <h4>TITRE : {{ vm.geoLocChoiceType }}</h4>

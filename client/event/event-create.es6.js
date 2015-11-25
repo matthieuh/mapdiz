@@ -32,11 +32,17 @@ class EventCreate {
     self.mapSvc = mapSvc;
     self.addEvent = addEvent;
     self.deleteCover = deleteCover;
+    $scope.addTimeToDatetime = addTimeToDatetime;
 
     for(var h = 0; h < 24 ; h++) {
       for(var m = 0; m < 12 ; m++) {
+        var hour = ("0" + h).slice(-2);
+        var min = ("0" + m * 5).slice(-2);
+        var momentDate = moment().set('hour', hour)
+                                 .set('minute', min);
         self.hours.push({
-          value: ("0" + h).slice(-2) +':'+ ("0" + m * 5).slice(-2)
+          display: hour +':'+ min,
+          value: momentDate.toDate()
         });
       }
     }
@@ -49,9 +55,7 @@ class EventCreate {
       i18n: i18n_FR,
       onSelect: function() {
         var beginDateValue = this.getMoment().toDate();
-        console.log(beginDateValue);
         self.newEvent.beginDate = beginDateValue;
-        console.log(self.newEvent);
         $scope.$apply();
       }
     });
@@ -63,10 +67,8 @@ class EventCreate {
       firstDay: 1,
       i18n: i18n_FR,
       onSelect: function() {
-        var endDateValue = this.getMoment().toDate();
-        console.log(endDateValue);
+        var endDateValue = this.getMoment().toDate();;
         self.newEvent.endDate = endDateValue;
-        console.log(self.newEvent);
         $scope.$apply();
       }
     });
@@ -110,13 +112,21 @@ class EventCreate {
 
     /////////////////////
 
+    function addTimeToDatetime(time, datimeScopeName) {
+      var momentDate = moment(self.newEvent[datimeScopeName]);
+
+      momentDate.set('hour', time.value.get('hour'));
+      momentDate.set('min', time.value.get('min'));
+
+      self.newEvent[datimeScopeName] = momentDate.toDate();
+      console.log(self.newEvent[datimeScopeName]);
+    }
+
     function deleteCover() {
       delete self.cover;
     }
 
     function addEvent(newEvent) {
-      self.newEvent.position.lat = mapSvc.draggableMarker.position.lat();
-      self.newEvent.position.lng = mapSvc.draggableMarker.position.lng();
       console.log('newEvent', newEvent);
       mapSvc.events.save(newEvent).then(function() {
         $state.go('events');

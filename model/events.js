@@ -2,6 +2,7 @@ Events = new Mongo.Collection("events");
 
 Events.allow({
   insert: function (userId, event) {
+    console.log('insert event', userId, event);
     return userId && event.owner === userId;
   },
   update: function (userId, event, fields, modifier) {
@@ -107,6 +108,7 @@ var contactEmail = function (user) {
 
 
 Events.before.insert(function (userId, doc) {
+  console.log('Events.before.insert', userId, doc);
   doc.added = Date.now();
   doc.owner = userId;
   doc.url = convertToSlug(doc.name);
