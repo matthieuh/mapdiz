@@ -11,7 +11,7 @@
       options='vm.mapSvc.map.options',
       on-tilesloaded='vm.mapSvc.updateVisibleMarkers(map); $root.gmapLoaded(map)',
       on-dragend='vm.mapSvc.dragEnd(map);',
-      on-zoom-changed='vm.mapSvc.mapZoomChange(map)'
+      on-zoom-changed='vm.mapSvc.mapZoomChange(map)',
     )
       gm-marker.my-position-marker(
         position='vm.mapSvc.myLocation.position',
@@ -26,11 +26,10 @@
         on-position_changed='vm.draggableMarkerChanged()',
         ng-show='vm.mapSvc.draggableMarker.visible'
       )
-        gm-infowindow(
+        gm-infowindow.drg-marker-info-window(
           options="{content: vm.mapSvc.draggableMarker.content}",
           ng-show='vm.mapSvc.draggableMarker.visible',
-          on-domready='vm.mapSvc.draggableMarker.onDomready(map)'
-          class='drg-marker-info-window'
+          on-domready ='vm.mapSvc.draggableMarker.onDomready(map)'
         )
 
       gm-marker.event-marker(
@@ -40,4 +39,7 @@
         on-mouseover='vm.mapSvc.markerMouseOver(filteredEvent); filteredEvent.showInfo = true',
         on-mouseout='vm.mapSvc.markerMouseOut(filteredEvent); filteredEvent.showInfo = false'
       )
-        gm-infowindow(ng-show='filteredEvent.showInfo', options="{content: '<h3>{{ filteredEvent.name }}</h3><p>{{ filteredEvent.description }}</p>'}")
+        gm-infowindow(
+          ng-show='filteredEvent.showInfo',
+          options="{content: '<h3>{{ filteredEvent.name }}</h3><p>{{ filteredEvent.description }}</p>'}"
+        )

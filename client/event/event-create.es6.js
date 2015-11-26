@@ -26,26 +26,13 @@ class EventCreate {
     var self = this;
     self.newEvent = { position: {} };
     self.geoLocChoiceType = 'map';
-    self.hours = [];
+
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.mapSvc = mapSvc;
     self.addEvent = addEvent;
     self.deleteCover = deleteCover;
     $scope.addTimeToDatetime = addTimeToDatetime;
-
-    for(var h = 0; h < 24 ; h++) {
-      for(var m = 0; m < 12 ; m++) {
-        var hour = ("0" + h).slice(-2);
-        var min = ("0" + m * 5).slice(-2);
-        var momentDate = moment().set('hour', hour)
-                                 .set('minute', min);
-        self.hours.push({
-          display: hour +':'+ min,
-          value: momentDate.toDate()
-        });
-      }
-    }
 
     var beginDatePicker = new Pikaday({
       field: document.getElementById('beginDate'),
@@ -111,6 +98,7 @@ class EventCreate {
     mapSvc.draggableMarker.visible = true; // !!self.newEvent.position.lat;
 
     /////////////////////
+
 
     function addTimeToDatetime(time, datimeScopeName) {
       var momentDate = moment(self.newEvent[datimeScopeName]);

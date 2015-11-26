@@ -1,0 +1,15 @@
+.time-picker(ng-init='showDialog = false')
+  a(href='#', ng-click='showDialog = true', ng-transclude)
+  .time-picker-dialog(ng-show='showDialog')
+    span Heure :
+    select(
+      name='hour',
+      ng-options='hour.value as hour.display for hour in vm.hours',
+      ng-model='vm.newEvent.beginTime'
+    )
+    span Minute :
+    select(
+      name='min',
+      ng-options='hour.value as hour.display for hour in vm.hours',
+      ng-model='vm.newEvent.beginTime'
+    )
