@@ -40,14 +40,6 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       span.between à
       time-picker(ng-model='vm.newEvent.beginTime')
         | {{ vm.newEvent.beginTime ? ( vm.newEvent.beginTime | date:'H:mm' ) : 'heure de début' }}
-      //- a.date-field.editable#edit-beginTime(ng-click="vm.select('beginTime')")
-      //-.in-cover-select#beginTime
-        select(
-          ng-init='editBeginTime=false',
-          name='selectedbeginTime',
-          ng-options='hour.value as hour.display for hour in vm.hours',
-          ng-model='vm.newEvent.beginTime'
-        )
 
     .date
       i.icon.ion-ios-calendar-outline
@@ -59,14 +51,8 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       )
       a.date-field.editable#edit-endDate  {{ vm.newEvent.endDate ? ( vm.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
       span.between à
-      a.date-field.editable#edit-endTime  {{ vm.newEvent.endTime ? ( vm.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
-      .in-cover-select
-        select(
-          ng-init='editEndTime=false',
-          name='selectedEndTime',
-          ng-options='hour.value as hour.display for hour in vm.hours',
-          ng-model='vm.newEvent.endTime'
-        )
+      time-picker(ng-model='vm.newEvent.endTime')  {{ vm.newEvent.endTime ? ( vm.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
+
 main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
   //- Description
