@@ -116,8 +116,11 @@ class EventCreate {
 
     function addEvent(newEvent) {
       console.log('newEvent', newEvent);
-      mapSvc.events.save(newEvent).then(function() {
+      mapSvc.events.save(newEvent)
+      .then(function() {
         $state.go('events');
+      }, function(err) {
+        console.log('err', err);
       });
     };
 

@@ -60,6 +60,6 @@ class Map {
   }
 }
 
-var toFixed = function (number) {
+var toFixed = function(number) {
   return parseFloat(Number(number).toFixed(6));
 }

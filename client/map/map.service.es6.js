@@ -111,7 +111,7 @@ class MapService {
      * @param {[type]} newEvent [description]
      */
     function addEvent(newEvent) {
-      $log.debug('mapSvc.addEvent', newEvent);
+      console.log('mapSvc.addEvent', newEvent);
       $rootScope.$broadcast('events.add', newEvent);
     };
 

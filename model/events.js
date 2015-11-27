@@ -8,13 +8,11 @@ Events.allow({
   update: function (userId, event, fields, modifier) {
     if (userId !== event.owner)
       return false;
-
     return true;
   },
   remove: function (userId, event) {
     if (userId !== event.owner)
       return false;
-
     return true;
   }
 });
