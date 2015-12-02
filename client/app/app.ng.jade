@@ -1,17 +1,16 @@
 .nav-bar.flex.flex-justify.flex-center
   .flex-auto.flex
-    a.title(ui-sref="events")
+    a.title(ui-sref="home")
       h1 MAPDIZ
 
   .top-menu
-    a.top-menu-link(ui-sref="events", ui-sref-active='active')
+    a.top-menu-link(ui-sref="app.events", ui-sref-active='active')
       .title-icon
         i.icon.ion-map
-    a.top-menu-link(ui-sref="event-create", ui-sref-active='active', ng-show="$root.currentUser")
+    a.top-menu-link(ui-sref="app.events-create", ui-sref-active='active', ng-show="$root.currentUser")
       .title-icon
         i.icon.ion-ios-plus-outline
     login.flex-auto
-    //-blaze-template(name="loginButtons")
 
 main.flex-auto
   .left-bar.flex-column.col-5

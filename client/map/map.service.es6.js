@@ -2,9 +2,9 @@
 
 _ = lodash;
 
-var {Service, Inject} = angular2now;
+var {SetModule, Service, Inject} = angular2now;
 
-angular.module('secretp');
+SetModule('mapdiz');
 
 @Service({ name: 'mapSvc' })
 @Inject(['$rootScope', '$q', '$log', '$meteor', '$timeout', '$document', '$state'])

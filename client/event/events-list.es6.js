@@ -2,9 +2,14 @@
 
 var {Component, Service, View, Inject, State} = angular2now;
 
-angular.module('secretp');
+angular.module('mapdiz');
 
-@State({ name: 'events', url: '/events', defaultRoute: true, html5Mode: true })
+@State({
+  name: 'app.events',
+  url: '/events',
+  defaultRoute: true,
+  html5Mode: true
+})
 
 @Component({selector: 'events-list'})
 @View({templateUrl: 'client/event/events-list.html'})

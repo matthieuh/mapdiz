@@ -4,7 +4,7 @@
     i.icon.ion-ios-person-outline
   .title(ng-if="$root.currentUser") {{ $root.currentUser | displayName }}
   .title(ng-if="!$root.currentUser") Se connecter
-    
+
 
 #login-popup2.login-popup.absolute.bg-white.border.rounded(
   ng-show='vm.showPopup',
@@ -15,7 +15,7 @@
   .login.p2(ng-if='!vm.displayCreateAccount')
     h2 Connectez-vous
     .or
-      | Ou 
+      | Ou
       a#create-account(ng-click='vm.displayCreateAccount=true') créez un compte
     form(ng-submit='vm.loginWithPassword(vm.login, vm.password)')
       label E-mail / Identifiant
@@ -32,7 +32,7 @@
   .create-account.p2(ng-if='vm.displayCreateAccount')
     h2 Créez un compte
     .or
-      | Ou 
+      | Ou
       a(ng-click='vm.displayCreateAccount = !vm.displayCreateAccount') connectez-vous
 
     form(ng-submit='vm.createAccount(vm.login, vm.password)')
@@ -45,7 +45,7 @@
 
 #login-popup1.login-popup.absolute.bg-white.border.rounded(ng-show='vm.showPopup', click-outside='vm.togglePopup()', outside-if-not='connect-btn, login-popup2', ng-if="$root.currentUser")
   .classic(ng-show="vm.connectedDisplay == 'classic'")
-    .btn(ng-click="vm.goTo('my-account')") Mon compte
+    .btn(ng-click="vm.goTo('app.profile')") Mon compte
     .btn(ng-click="vm.connectedDisplay='changePassword'") Changer mot de passe
     .btn(ng-click='vm.logout()') Se déconnecter
   .changePassword.p2(ng-show="vm.connectedDisplay == 'changePassword'")
@@ -55,7 +55,7 @@
       input#password.block.col-12.field(type='password', name='password', ng-model='vm.password')
       abel(for='password') Nouveau mot de passe
       input#password.block.col-12.field(type='password', name='password', ng-model='vm.newPassword')
-      .error-message(ng-show='vm.errors') {{ vm.errors }} 
+      .error-message(ng-show='vm.errors') {{ vm.errors }}
       .btns.btns-center
         button.btn.btn-primary(type='submit') Changer
         button.btn.btn-primary.black.bg-darken-2(ng-click="vm.connectedDisplay='classic'") Annuler

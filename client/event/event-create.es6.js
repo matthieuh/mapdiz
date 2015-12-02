@@ -10,9 +10,13 @@ var i18n_FR = {
   weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']
 };
 
-SetModule('secretp');
+SetModule('mapdiz');
 
-@State({ name: 'event-create', url: '/event-create', html5Mode: true })
+@State({
+  name: 'app.events-create',
+  url: '/events/add',
+  html5Mode: true
+})
 
 @Component({selector: 'event-create'})
 @View({templateUrl: 'client/event/event-create.html'})

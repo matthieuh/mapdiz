@@ -1,12 +1,12 @@
 "use strict";
 
-var {Component, View, Inject, State} = angular2now;
+var {SetModule, Component, View, Inject, State} = angular2now;
 
-angular.module('secretp');
+SetModule('mapdiz');
 
 @State({
-  name: 'eventDetails',
-  url: '/event/:eventId/:eventName',
+  name: 'app.events-detail',
+  url: '/events/:eventId/:eventName',
   html5Mode: true
 })
 

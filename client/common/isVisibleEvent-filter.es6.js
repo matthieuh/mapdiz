@@ -1,6 +1,6 @@
-var {Filter, Inject} = angular2now;
+var {SetModule, Filter, Inject} = angular2now;
 
-angular.module('secretp');
+SetModule('mapdiz');
 
 @Filter({name: 'isVisibleEvent'})
 @Inject(['mapSvc'])

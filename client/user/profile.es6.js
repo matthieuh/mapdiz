@@ -2,14 +2,15 @@
 
 var {Component, View, Inject, State} = angular2now;
 
-angular.module('secretp');
+angular.module('mapdiz');
 
 @State({
-  name: 'my-account', url: '/my-account'
+  name: 'app.profile',
+  url: '/profile'
 })
 
-@Component({selector: 'my-account'})
-@View({templateUrl: 'client/user/my-account.html'})
+@Component({selector: 'profile'})
+@View({templateUrl: 'client/user/profile.html'})
 @Inject(['$scope', '$rootScope', '$meteor', '$stateParams', '$log', 'mapSvc'])
 
 class MyAccount {

@@ -2,7 +2,7 @@
 
 var {SetModule, Component, View, Inject} = angular2now;
 
-SetModule('secretp');
+SetModule('mapdiz');
 
 @Component({selector: 'login'})
 @View({templateUrl: 'client/login/login.html'})

@@ -1,61 +1,24 @@
-var {SetModule, Component, View, Events, Inject, bootstrap, Filter} = angular2now;
-var google;
-// Tell angular2-now to set controllerAs to "vm", instead of the default componentName
-// This is mostly because "vm" is shorter to type :)
-angular2now.options({
-  controllerAs: 'vm' ,
-  spinner: {
-    show: function () { document.body.style['background-color'] = 'yellow'; },
-    hide: function () { document.body.style['background-color'] = ''; }
-  }
+"use strict";
+
+var {SetModule, Component, View, Inject, State} = angular2now;
+
+SetModule('mapdiz');
+
+@State({
+  name: 'app',
+  abstract: true
 })
 
-SetModule('secretp', [
-  'ngSanitize',
-  'angular-meteor',
-  'angular-img-cropper',
-  'ui.router',
-  'angularUtils.directives.dirPagination',
-  'GoogleMapsNative',
-  'ngFileUpload',
-  'ngMaterial',
-  'ngImgCrop',
-  'xeditable',
-  'angular-sortable-view',
-  'google.places',
-  'angucomplete-alt',
-  'duScroll',
-  'angularMoment',
-  'rzModule',
-  'LocalStorageModule',
-  'angular-click-outside'
-]);
+@Component({selector: 'app'})
+@View({templateUrl: 'client/app/app.html'})
+@Inject('$scope', '$rootScope', '$state', '$meteor', '$log')
 
-@Inject('gmLibraryProvider', '$windowProvider', 'localStorageServiceProvider')
+class App {
 
-class config {
-  constructor (gmLibraryProvider, $windowProvider, localStorageServiceProvider) {
+  constructor($scope, $rootScope, $state, $meteor, $log) {
+    $log.info('App');
 
-    gmLibraryProvider.configure({
-      language: 'fr',
-      libraries: ['places']
-    });
-
-    customizeIW.init();
-
-    localStorageServiceProvider
-      .setPrefix('secretp')
-      .setStorageType('sessionStorage');
-  }
-}
-
-@Component({selector: 'secretp'})
-@View({ templateUrl: 'client/app/app.html' })
-@Inject('$scope', '$rootScope', '$state', '$meteor')
-
-class secretp {
-  constructor ($scope, $rootScope, $state, $meteor) {
-    self = this;
+    var self = this;
     self.url = url;
     self.profilePics = $meteor.collectionFS(ProfilePics, true);
     google = $scope.google;
@@ -78,9 +41,9 @@ class secretp {
     });
 
     $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
-	    $rootScope.previousState = from.name;
-	    $rootScope.currentState = to.name;
-  	});
+      $rootScope.previousState = from.name;
+      $rootScope.currentState = to.name;
+    });
 
     $meteor.waitForUser().then(function() {
       if (!$rootScope.currentUser) return;
@@ -106,8 +69,5 @@ class secretp {
       if (!image || !image.url) return null;
       return image.url({store: 'profilePic-small'});
     };
-
   }
 }
-
-bootstrap(secretp, config);

@@ -2,15 +2,15 @@
 
 _ = lodash;
 
-var {Component, Service, View, Inject, State} = angular2now;
+var {SetModule, Component, Service, View, Inject, State} = angular2now;
 
-angular.module('secretp');
+SetModule('mapdiz');
 
 @Component({selector: 'map'})
 @View({templateUrl: 'client/map/map.html'})
 @Inject(['$scope', '$meteor', '$rootScope', '$state', '$log', 'mapSvc', '$timeout'])
 
-class Map {
+class map {
   constructor($scope, $meteor, $rootScope, $state, $log, mapSvc, $timeout) {
     $log.info('MapCtrl');
 

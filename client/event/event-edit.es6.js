@@ -1,11 +1,12 @@
 "use strict";
 
-var {Component, View, Inject, State} = angular2now;
+var {SetModule, Component, View, Inject, State} = angular2now;
 
-angular.module('secretp');
+SetModule('mapdiz');
 
 @State({
-  name: 'eventEdit', url: '/events/:eventId/edit'
+  name: 'app.events-edit',
+  url: '/events/:eventId/edit'
   /*resolve: {
     currentUser: $meteor => { "ngInject"; return $meteor.requireUser() }
   }*/

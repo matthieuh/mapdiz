@@ -1,6 +1,6 @@
-var {Filter} = angular2now;
+var {SetModule, Filter} = angular2now;
 
-angular.module('secretp');
+SetModule('mapdiz');
 
 @Filter({name: 'distance'})
 class distanceFilter {

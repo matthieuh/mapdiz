@@ -2,7 +2,7 @@
 
 var {Component, Service, View, Inject, State} = angular2now;
 
-angular.module('secretp');
+angular.module('mapdiz');
 
 @Component({
   selector: 'geoloc',
