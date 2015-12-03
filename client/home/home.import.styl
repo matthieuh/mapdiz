@@ -1,4 +1,48 @@
-home
-  .homepage-layer
-    height: 500px
-    background-image: url("http://static1.squarespace.com/static/55c37beae4b0336075603f86/55c3cd80e4b01531b3208f2e/5603032be4b008bd0ad4e6fb/1443279872878/?format=1500w")
+@font-face
+  font-family 'Novecentosanswide-Light'
+  src url('assets/fonts/novecentos/Novecentosanswide-Light.eot')
+  src url('assets/fonts/novecentos/Novecentosanswide-Light.eot?#iefix') format('embedded-opentype')
+  url('assets/fonts/novecentos/Novecentosanswide-Light.woff2') format('woff2')
+  url('assets/fonts/novecentos/Novecentosanswide-Light.woff') format('woff')
+  url('assets/fonts/novecentos/Novecentosanswide-Light.ttf') format('truetype')
+
+@font-face
+  font-family 'Novecentosanswide-Normal'
+  src url('assets/fonts/novecentos/Novecentosanswide-Normal.eot')
+  src url('assets/fonts/novecentos/fonts/Novecentosanswide-Normal.eot?#iefix') format('embedded-opentype')
+  url('assets/fonts/novecentos/Novecentosanswide-Normal.woff2') format('woff2')
+  url('assets/fonts/novecentos/Novecentosanswide-Normal.woff') format('woff')
+  url('assets/fonts/novecentos/Novecentosanswide-Normal.ttf') format('truetype')
+
+[root-state^='home']
+  .nav-bar
+    font-family: Novecentosanswide-Light
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    background-color: transparent
+    color: mainColor
+
+    .top-menu
+      a.top-menu-link
+        .title-icon
+          color: mainColor
+
+        &:hover
+          background-color: transparent
+          text-shadow: none
+
+    .title
+      color: mainColor
+
+    .icon
+      text-shadow: none
+
+  .nav-bar .top-menu .title-icon .icon
+    text-shadow: none
+
+  home
+    .homepage-layer
+      height: 500px
+      background-image: url("http://static1.squarespace.com/static/55c37beae4b0336075603f86/55c3cd80e4b01531b3208f2e/5603032be4b008bd0ad4e6fb/1443279872878/?format=1500w")
