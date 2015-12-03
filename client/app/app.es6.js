@@ -59,7 +59,6 @@ class App {
       });
 
       $scope.$on('$destroy', function() {
-        subscriptionHandle.stop();
         usersHandle.stop();
       });
     });

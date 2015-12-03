@@ -1,93 +1,72 @@
-body
+.root-component
   height: 100vh
   width: 100vw
-  background-color: mainColor
-  color: white
-  transition: background-color 0.5s ease 0s
 
-  app
+  main
     display: flex
-    flex-direction: column
-    height: 100vh
-    width: 100vw
 
-  .root-component, .mapdiz
-    height: 100vh
-    width: 100vw
-
-    main
+    .left-bar
       display: flex
+      color: #727272
 
-      .left-bar
+      .main-section
         display: flex
-        color: #727272
+        background-color: white
 
-        .main-section
-          display: flex
-          background-color: white
+    .main-content
+      display: flex
+      position: relative
+      padding: 0
 
-      .main-content
-        display: flex
-        position: relative
+      map
         padding: 0
 
-        map
-          padding: 0
+  .nav-bar
+    max-height: 50px
+    min-height: 50px
+    background-color mainColor
+    color: #fff
 
-    .nav-bar
-      max-height: 50px
-      min-height: 50px
-      background-color mainColor
-      color: #fff
-
-      .title
-        text-decoration: none;
-        padding-left: 10px;
-        color: #FFF
-        h1
-          height: 50px
-          line-height: 50px
-          text-align: center
-          margin: 0
-          font-size: 2em
-          font-family: 'Bevan', cursive;
-
-
-      .top-menu
-        display: flex
-        text-align: right
+    .title
+      text-decoration: none;
+      padding-left: 10px;
+      color: #FFF
+      h1
+        height: 50px
         line-height: 50px
-        padding-right: 50px;
-        a.top-menu-link
-          min-width: 50px
-          min-height: 50px
-          max-height: 50px
-          padding: 0 10px
-          text-decoration: none
-          text-align: center
-          color: white
-          &:hover, &.active
-            background-color: mainColor_dark
-            .icon
-              text-shadow: 2px 2px 3px #000;
-        .title-icon
-          font-size: 1.6em
+        text-align: center
+        margin: 0
+        font-size: 2em
+        font-family: 'Bevan', cursive;
+
+
+    .top-menu
+      display: flex
+      text-align: right
+      line-height: 50px
+      padding-right: 50px;
+      a.top-menu-link
+        min-width: 50px
+        min-height: 50px
+        max-height: 50px
+        padding: 0 10px
+        text-decoration: none
+        text-align: center
+        color: white
+        &:hover, &.active
+          background-color: mainColor_dark
           .icon
-            text-shadow: 1px 1px 2px mainColor_dark;
-        .title
-          font-size: 1em
-        #login-dropdown-list
-          position: absolute
-          top: 50px
-          right: -30px
+            text-shadow: 2px 2px 3px #000;
+      .title-icon
+        font-size: 1.6em
+        .icon
+          text-shadow: 1px 1px 2px mainColor_dark;
+      .title
+        font-size: 1em
+      #login-dropdown-list
+        position: absolute
+        top: 50px
+        right: -30px
 
 .gm-style-iw
   color: black
-
-.angular-date-range-picker__picker
-  display: flex
-
-  .angular-date-range-picker__month
-    width: 183 !important
-  .angular-date-range-picker__month-name
-    width: 183 !important
