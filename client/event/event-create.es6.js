@@ -30,13 +30,25 @@ class EventCreate {
     var self = this;
     self.newEvent = { position: {} };
     self.geoLocChoiceType = 'map';
-
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.mapSvc = mapSvc;
     self.addEvent = addEvent;
     self.deleteCover = deleteCover;
+    self.events = $meteor.collection(Events);
+
     $scope.addTimeToDatetime = addTimeToDatetime;
+    $scope.cropper = {};
+    $scope.cropper.sourceImage = null;
+    $scope.cropper.croppedImage   = null;
+    $scope.bounds = {};
+    $scope.bounds.left = 0;
+    $scope.bounds.right = 0;
+    $scope.bounds.top = 0;
+    $scope.bounds.bottom = 0;
+    $scope.$on('$destroy', function() {
+      mapSvc.draggableMarker.visible = false;
+    });
 
     var beginDatePicker = new Pikaday({
       field: document.getElementById('beginDate'),
@@ -78,20 +90,9 @@ class EventCreate {
         </div>
       </div>
     `;
+
     var compiled = $compile(content)($scope);
     console.log('compiled', compiled);
-
-    $scope.cropper = {};
-    $scope.cropper.sourceImage = null;
-    $scope.cropper.croppedImage   = null;
-    $scope.bounds = {};
-    $scope.bounds.left = 0;
-    $scope.bounds.right = 0;
-    $scope.bounds.top = 0;
-    $scope.bounds.bottom = 0;
-    $scope.$on('$destroy', function() {
-      mapSvc.draggableMarker.visible = false;
-    });
 
     mapSvc.getUserLoc().then(function(userGeoLoc) {
       mapSvc.map.center = userGeoLoc.center;
@@ -120,9 +121,10 @@ class EventCreate {
 
     function addEvent(newEvent) {
       console.log('newEvent', newEvent);
-      mapSvc.events.save(newEvent)
+      self.events
+      .save(newEvent)
       .then(function() {
-        $state.go('events');
+        //$state.go('app.events');
       }, function(err) {
         console.log('err', err);
       });

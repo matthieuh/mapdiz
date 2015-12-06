@@ -1,0 +1,56 @@
+.nav-bar-main
+  max-height: 50px
+  min-height: 50px
+
+  h1
+    height: 50px
+    line-height: 50px
+    text-align: center
+    margin: 0
+    font-size: 2em
+    font-family: 'Bevan', cursive;
+
+    a
+      display: flex
+      text-decoration: none;
+      padding-left: 10px;
+      color: #FFF
+
+      img.logo
+        display: flex
+        flex: 1
+        height: 48px
+        vertical-align: middle
+
+      .title-txt
+        display: flex
+        flex: 1
+
+  .top-menu
+    display: flex
+    text-align: right
+    line-height: 50px
+    padding-right: 50px
+    
+    a.top-menu-link
+      min-width: 50px
+      min-height: 50px
+      max-height: 50px
+      padding: 0 10px
+      text-decoration: none
+      text-align: center
+      color: white
+      &:hover, &.active
+        background-color: mainColor_dark
+        .icon
+          text-shadow: 2px 2px 3px #000;
+    .title-icon
+      font-size: 1.6em
+      .icon
+        text-shadow: 1px 1px 2px mainColor_dark;
+    .title
+      font-size: 1em
+    #login-dropdown-list
+      position: absolute
+      top: 50px
+      right: -30px

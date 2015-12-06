@@ -12,7 +12,12 @@ class isVisibleEvent {
       if(angular.isDefined(map) && angular.isFunction(map.getBounds) && angular.isDefined(map.getBounds())){
         var filtered = [];
         angular.forEach(items, function(item, index) {
-          if(  map.getBounds().contains({lat: function(){return item.position.lat}, lng: function(){return item.position.lng}})){
+          if(item.position && 
+            map.getBounds().contains({
+              lat: function(){return item.position.lat},
+              lng: function(){return item.position.lng}
+            })
+          ){
             filtered.push(item);
           }
         });

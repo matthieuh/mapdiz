@@ -1,6 +1,7 @@
 "use strict";
 
 var {SetModule, Component, View, Inject, State} = angular2now;
+var google; // Used for google place autocomplete
 
 SetModule('mapdiz');
 

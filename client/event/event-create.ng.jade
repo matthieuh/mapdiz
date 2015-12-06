@@ -55,6 +55,10 @@ header(ng-show="$root.currentUser || $root.loggingIn")
 
 main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
+  .alert.alert-danger
+    .title Oups !
+    .alert-content Les informations pour créer l'évenement sont incorrects :
+
   //- Description
   section
     h3

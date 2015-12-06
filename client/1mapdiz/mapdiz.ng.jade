@@ -1,4 +1,4 @@
-div(root-state="{{ $state.current.name }}")
+.mapdiz-wrapper(root-state="{{ $state.current.name }}")
   .nav-bar-main.nav-bar.flex.flex-justify.flex-center
     h1
       a(ui-sref="home")
@@ -13,4 +13,4 @@ div(root-state="{{ $state.current.name }}")
         .title-icon
           i.icon.ion-ios-plus-outline
       login.flex-auto
-  .app(ui-view='', class='flex flex-auto flex-column flex-stretch')
+  .app(ui-view='')

@@ -1,9 +1,51 @@
 Events = new Mongo.Collection("events");
 
+var EventSchema = new SimpleSchema({
+  "name": {
+    type: String,
+    label: "Name",
+    min: 4,
+    max: 200
+  },
+  "description": {
+    type: String,
+    label: "Description",
+    min: 20,
+    max: 1000
+  },
+  "beginDate": {
+    type: Date,
+    label: "Date de début"
+  },
+  "beginTime": {
+    type: Date,
+    label: "Heure de début"
+  },
+  "endDate": {
+    type: Date,
+    label: "Date de fin"
+  },
+  "endTime": {
+    type: Date,
+    label: "Heure de fin"
+  },
+  "position": {
+    type: Object
+    label:"Emplacement"
+  }/*,
+  "position.lat": {
+    type:
+  }*/
+
+});
+
+Events.attachSchema(EventSchema);
+
 Events.allow({
   insert: function (userId, event) {
     console.log('insert event', userId, event);
-    return userId && event.owner === userId;
+    //return userId && event.owner === userId;
+    return true;
   },
   update: function (userId, event, fields, modifier) {
     if (userId !== event.owner)

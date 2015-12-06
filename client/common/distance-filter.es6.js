@@ -10,10 +10,14 @@ class distanceFilter {
       if(angular.isDefined(userGeoloc)) {
         var filtered = [];
         angular.forEach(items, function(item, index) {
-          var distance = getDistanceFromLatLngInKm(
-            userGeoloc.lat, userGeoloc.lng,
-            item.position.lat, item.position.lng
-          );
+          var distance = 0;
+          if (item.position) {
+            var distance = getDistanceFromLatLngInKm(
+              userGeoloc.lat, userGeoloc.lng,
+              item.position.lat, item.position.lng
+            );
+          }
+          
           item.distance = distance;
           if(filter.max >= distance && !filter.infinite) filtered.push(item);
           if(filter.infinite) filtered.push(item);

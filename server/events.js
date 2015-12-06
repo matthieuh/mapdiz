@@ -2,7 +2,7 @@ Meteor.publish("events", function (options, searchString) {
   if (searchString == null)
     searchString = '';
 
-  Counts.publish(this, 'numberOfEvents', Events.find({
+  /*Counts.publish(this, 'numberOfEvents', Events.find({
     'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
     $or:[
       {$and:[
@@ -17,8 +17,8 @@ Meteor.publish("events", function (options, searchString) {
         {invited: this.userId},
         {invited: {$exists: true}}
       ]}
-    ]}), { noReady: true });
-  return Events.find({
+    ]}), { noReady: true });*/
+  return Events.find(/*{
     'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
     $or:[
       {$and:[
@@ -33,7 +33,7 @@ Meteor.publish("events", function (options, searchString) {
         {invited: this.userId},
         {invited: {$exists: true}}
       ]}
-    ]}, options);
+    ]}, options*/);
 });
 
 // Meteor.publish("EventAndImages", function (eventId) {
