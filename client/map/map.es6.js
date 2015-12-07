@@ -54,8 +54,7 @@ class map {
     }
 
     function draggableMarkerChanged() {
-      console.log('draggableMarkerChanged', self.mapSvc.draggableMarker.position);
-      //$rootScope.$broadcast('draggableMarker.position.changed', self.mapSvc.draggableMarker.position);
+      $rootScope.$broadcast('draggableMarker.position.changed', self.mapSvc.draggableMarker.position);
     }
   }
 }

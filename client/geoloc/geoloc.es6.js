@@ -51,6 +51,8 @@ class Geoloc {
 
     function setGeolocModalController($scope, $rootScope, $state, $mdDialog, location, mapSvc) {
 
+      var blockLatLngBinding = false;
+
       // Scope vars & fns
       $scope.location = location;
       console.log('init $scope.location', $scope.location);
@@ -58,6 +60,8 @@ class Geoloc {
       $scope.geolocChoiceType = 'address';
       $scope.answer = answer;
       $scope.placeObjToLocation = placeObjToLocation;
+      $scope.latLngChanged = latLngChanged;
+      $scope.latLngFocused = latLngFocused;
 
       // Events listener
       $scope.$watch('location.lat', latLngChanged);
@@ -82,7 +86,7 @@ class Geoloc {
 
       function latLngChanged() {
         console.log('latLngChanged', $scope.location);
-        if ($scope.location && $scope.location.lat && $scope.location.lng) {
+        if (!blockLatLngBinding && $scope.location && $scope.location.lat && $scope.location.lng) {
           mapSvc.draggableMarker.position = {
             lat: $scope.location.lat,
             lng: $scope.location.lng
@@ -90,6 +94,10 @@ class Geoloc {
 
           mapSvc.setMapCenter(mapSvc.draggableMarker.position);
         }
+      }
+
+      function latLngFocused() {
+        blockLatLngBinding = false;
       }
 
       /**
@@ -108,10 +116,10 @@ class Geoloc {
        * @return {[type]} [description]
        */
       function draggableMarkerChanged(event, value) {
+
         var latLng = {};
 
         if (value.hasOwnProperty('lat') && value.hasOwnProperty('lng')) {
-
           if (typeof value.lat == 'function' && typeof value.lng == 'function') {
             latLng = {
               lat: value.lat(),
@@ -126,9 +134,10 @@ class Geoloc {
         }
 
         if (Object.keys(latLng).length && $scope.geolocChoiceType == 'coordinates') {
+          blockLatLngBinding = true;
+          console.log('draggableMarkerChanged', $scope.location);
           $scope.location = latLng;
         }
-
       }
 
       /**

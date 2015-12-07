@@ -30,13 +30,19 @@ var EventSchema = new SimpleSchema({
     label: "Heure de fin"
   },
   "position": {
-    type: Object
-    label:"Emplacement"
-  }/*,
+    type: Object,
+    label: "Emplacement"
+  },
   "position.lat": {
-    type:
-  }*/
-
+    type: Number,
+    label: "Latitude",
+    decimal: true
+  },
+  "position.lng": {
+    type: Number,
+    label: "Longitude",
+    decimal: true
+  }
 });
 
 Events.attachSchema(EventSchema);

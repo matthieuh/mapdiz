@@ -41,5 +41,6 @@
       )
         gm-infowindow(
           ng-show='filteredEvent.showInfo',
-          options="{content: '<h3>{{ filteredEvent.name }}</h3><p>{{ filteredEvent.description }}</p>'}"
+          options="{content: '<h3>{{ filteredEvent.name }}</h3><p>{{ filteredEvent.description }}</p>'}",
+          on-domready ='vm.mapSvc.draggableMarker.onDomready(map)'
         )

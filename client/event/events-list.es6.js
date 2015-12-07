@@ -34,6 +34,8 @@ class EventsList {
     self.url = url;
     self.images = $meteor.collectionFS(Images, false).subscribe('images');
 
+    console.log('self.mapSvc.filteredEvents', self.mapSvc.filteredEvents);
+
     // Bind filters parameters in session stoage
     localStorageService.bind($scope, 'vm.timeFilter.min', 0);
     localStorageService.bind($scope, 'vm.timeFilter.max', 15);
