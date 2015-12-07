@@ -1,7 +1,7 @@
 Images = new FS.Collection("images", {
   stores: [
     new FS.Store.GridFS("original"),
-    new FS.Store.GridFS("cropped", {
+    /*new FS.Store.GridFS("cropped", {
       transformWrite: function(fileObj, readStream, writeStream) {
         var cropInfos = fileObj.metadata.cropInfos;
         gm(readStream, fileObj.name())
@@ -10,7 +10,7 @@ Images = new FS.Collection("images", {
           .stream()
           .pipe(writeStream);
       }
-    }),
+    }),*/
     new FS.Store.GridFS("thumbnail", {
       transformWrite: function(fileObj, readStream, writeStream) {
         console.log('thumbnail gen', fileObj);

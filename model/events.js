@@ -42,6 +42,10 @@ var EventSchema = new SimpleSchema({
     type: Number,
     label: "Longitude",
     decimal: true
+  },
+  "cover": {
+    type: FS.File,
+    optional: true
   }
 });
 
