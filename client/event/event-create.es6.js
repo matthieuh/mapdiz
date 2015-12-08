@@ -20,25 +20,28 @@ SetModule('mapdiz');
 
 @Component({selector: 'event-create'})
 @View({templateUrl: 'client/event/event-create.html'})
-@Inject(['$scope', '$meteor', '$rootScope', '$state', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload'])
+@Inject(['$scope', '$meteor', '$rootScope', '$state', '$stateParams', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload'])
 
 class EventCreate {
-  constructor($scope, $meteor, $rootScope, $state, $log, mapSvc, $timeout, $window, $compile, Upload) {
+  constructor($scope, $meteor, $rootScope, $state, $stateParams, $log, mapSvc, $timeout, $window, $compile, Upload) {
 
     $meteor.subscribe('events');
 
     var self = this;
-    self.newEvent = {
+    self.newEvent = $meteor.object(Events, $stateParams.eventId) || {
+      name: '',
+      description: '',
       position: {},
       public: true
     };
+
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.mapSvc = mapSvc;
     self.addEvent = addEvent;
     self.deleteCover = deleteCover;
     self.events = $meteor.collection(Events);
-    self.images = $meteor.collectionFS(Images, false);
+    self.images = $meteor.collection(Images, false);
 
     $scope.addTimeToDatetime = addTimeToDatetime;
     $scope.$on('$destroy', function() {
@@ -138,10 +141,10 @@ class EventCreate {
       console.log('newEvent', newEvent);
       self.events
       .save(newEvent)
-      .then(function(result) {
-        console.log('result', result, result[0]._id);
+      .then(function(events) {
+        console.log('result', events, events[0]._id);
 
-        uploadPictures(result[0]._id);
+        uploadPictures(events[0]._id);
         //$state.go('app.events');
       }, function(err) {
         console.log('err', err);
@@ -151,13 +154,18 @@ class EventCreate {
     };
 
     function uploadPictures(savedEventId) {
-      Images.insert(self.cover, function (err, cover) {
-        console.log('err, cover', err, cover);
-        var savedCover = $meteor.object(Images, cover._id);
-        console.log('savedCover', savedCover);
-        var savedEvent = $meteor.object(Event, savedEventId);
-        console.log('savedEvent', savedEvent);
-        savedEvent.cover = savedCover;
+      console.log('uploadPictures', self.events, savedEventId);
+      var newSavedEvent = $meteor.object(Events, savedEventId);
+      console.log('newSavedEvent', newSavedEvent);
+      self.images
+      .save(self.cover)
+      .then(function(covers) {
+        console.log('covers', covers);
+        newSavedEvent.cover = covers[0]._id._id;
+
+        console.log('self.events[savedEventId]', self.events[savedEventId]);
+      }, function(err) {
+        console.log('err', err);
       });
     }
 

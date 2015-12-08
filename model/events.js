@@ -44,7 +44,8 @@ var EventSchema = new SimpleSchema({
     decimal: true
   },
   "cover": {
-    type: FS.File,
+    label: "Image de couverture",
+    type: String,
     optional: true
   }
 });
@@ -172,6 +173,5 @@ function convertToSlug(Text) {
   return Text
     .toLowerCase()
     .replace(/[^\w ]+/g,'')
-    .replace(/ +/g,'-')
-    ;
+    .replace(/ +/g,'-');
 };

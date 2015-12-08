@@ -77,8 +77,8 @@ class EventsList {
     };
 
     function url(event, store) {
-      if(event && event.mainPic) {
-        var image = _.find(self.images, {_id: event.mainPic});
+      if(event && event.cover) {
+        var image = _.find(self.images, {_id: event.cover});
         if (!image || !image.url) return null
         return image.url({store: store});
       }
