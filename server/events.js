@@ -36,11 +36,11 @@ Meteor.publish("events", function (options, searchString) {
     ]}, options*/);
 });
 
-// Meteor.publish("EventAndImages", function (eventId) {
-//   check(eventId, String);
-//   return [
-//     Parties.find({_id: eventId}, {fields: {secretInfo: 0}}),
-//     Images.find({roomId: mainPic})
-//   ];
-// });
-// 
+/*Meteor.publish("EventAndImages", function (eventId) {
+  check(eventId, String);
+  return [
+    Parties.find({_id: eventId}, {fields: {secretInfo: 0}}),
+    Images.find({roomId: mainPic})
+  ];
+});*/
+

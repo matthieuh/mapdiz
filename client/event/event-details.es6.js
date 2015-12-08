@@ -1,4 +1,4 @@
-"use strict";
+/*"use strict";
 
 var {SetModule, Component, View, Inject, State} = angular2now;
 
@@ -52,3 +52,4 @@ class EventDetails {
     });
   }
 }
+*/

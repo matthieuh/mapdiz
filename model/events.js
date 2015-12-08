@@ -149,7 +149,7 @@ Meteor.methods({
   }
 });
 
-var contactEmail = function (user) {
+var contactEmail = function(user) {
   if (user.emails && user.emails.length)
     return user.emails[0].address;
   if (user.services && user.services.facebook && user.services.facebook.email)
@@ -158,15 +158,25 @@ var contactEmail = function (user) {
 };
 
 
-Events.before.insert(function (userId, doc) {
+Events.before.insert(function(userId, doc) {
   console.log('Events.before.insert', userId, doc);
   doc.added = Date.now();
   doc.owner = userId;
   doc.url = convertToSlug(doc.name);
 });
 
-Events.before.update(function (userId, doc) {
+Events.before.update(function(userId, doc) {
   doc.updated = Date.now();
+});
+
+Events.after.findOne(function(userId, selector, options, doc) {
+  //Images.find({roomId: mainPic})
+  console.log('Events.after.findOne', userId, selector, options, doc);
+  if (doc && doc.cover) {
+    doc.coverObj = Images.findOne(doc.cover);
+  }
+  console.log('Events.after.findOne', userId, selector, options, doc);
+  return doc;
 });
 
 function convertToSlug(Text) {

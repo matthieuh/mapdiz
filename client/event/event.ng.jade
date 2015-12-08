@@ -10,7 +10,7 @@ header(ng-show="$root.currentUser || $root.loggingIn")
     a.delete-cover(href='#', ng-show='vm.cover', ng-click="vm.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  img.cover(ng-show='vm.cover', ng-src="{{ vm.cover }}")
+  img.cover(ng-show='vm.cover', ng-src="{{ vm.url(vm.newEvent, 'original') }}")
   .over-cover
     .title
       h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ vm.newEvent.name || "Nom de l'évenement" }}
@@ -55,9 +55,12 @@ header(ng-show="$root.currentUser || $root.loggingIn")
 
 main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
-  .alert.alert-danger
+  .alert.alert-danger(ng-show='vm.errorMsg')
     .title Oups !
-    .alert-content Les informations pour créer l'évenement sont incorrects :
+    .alert-content
+     p Les informations pour créer l'évenement sont incorrects :
+     ul
+      li {{ vm.errorMsg }}
 
   //- Description
   section

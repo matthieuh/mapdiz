@@ -87,7 +87,7 @@ form.form-inline.search-form.flex-column
       id='event-{{event._id}}'
     )
       .content-wrapper.flex
-        .event-pic-overlay.flex-auto(ui-sref="eventDetails({eventId: event._id, eventName: event.url})")
+        .event-pic-overlay.flex-auto(ui-sref="app.event({eventId: event._id, eventSlug: event.url})")
           img.event-pic(ng-src="{{ vm.url(event, 'thumbnail') }}")
         .price Gratuit
         a.delete(ng-click="vm.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
@@ -95,7 +95,7 @@ form.form-inline.search-form.flex-column
           .infos.flex-column
             .title.flex
               h2
-                a(ui-sref="eventDetails({eventId: event._id, eventName: event.url})") {{event.name}}
+                a(ui-sref="app.event({eventId: event._id, eventSlug: event.url})") {{event.name}}
               span.badge.public(ng-if="event.public") Public
               span.badge.private(ng-if="!event.public") Privé
             .date(ng-if='event.beginDate')

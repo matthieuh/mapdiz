@@ -13,34 +13,39 @@ var i18n_FR = {
 SetModule('mapdiz');
 
 @State({
-  name: 'app.events-create',
-  url: '/events/add',
+  name: 'app.event',
+  url: '/events/:eventId/:eventSlug',
   html5Mode: true
 })
 
-@Component({selector: 'event-create'})
-@View({templateUrl: 'client/event/event-create.html'})
+@Component({selector: 'event'})
+@View({templateUrl: 'client/event/event.html'})
 @Inject(['$scope', '$meteor', '$rootScope', '$state', '$stateParams', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload'])
 
 class EventCreate {
   constructor($scope, $meteor, $rootScope, $state, $stateParams, $log, mapSvc, $timeout, $window, $compile, Upload) {
 
-    $meteor.subscribe('events');
+    //$meteor.subscribe('events');
 
     var self = this;
-    self.newEvent = $meteor.object(Events, $stateParams.eventId) || {
+    var method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update'
+    var newEvent = {
       name: '',
       description: '',
       position: {},
       public: true
     };
 
+    self.newEvent = (method === 'create') ? newEvent : $meteor.object(Events, $stateParams.eventId);
+    console.log('self.newEvent', self.newEvent);
+
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.mapSvc = mapSvc;
     self.addEvent = addEvent;
     self.deleteCover = deleteCover;
-    self.events = $meteor.collection(Events);
+    self.url = url;
+    self.events = $meteor.collection(Events, false).subscribe('events');
     self.images = $meteor.collection(Images, false);
 
     $scope.addTimeToDatetime = addTimeToDatetime;
@@ -90,7 +95,6 @@ class EventCreate {
     `;
 
     var compiled = $compile(content)($scope);
-    console.log('compiled', compiled);
 
     mapSvc.getUserLoc().then(function(userGeoLoc) {
       mapSvc.map.center = userGeoLoc.center;
@@ -100,8 +104,22 @@ class EventCreate {
     mapSvc.draggableMarker.visible = false;
     mapSvc.draggableMarker.visible = true; // !!self.newEvent.position.lat;
 
+    /*if (self.newEvent.cover) {
+      self.cover = self.newEvent.cover.url({store: 'original'});
+      delete self.newEvent.cover;
+    }*/
+
     /////////////////////
 
+    function url(event, store) {
+      console.log('url', event, store);
+      if(event && event.cover) {
+        var image = $meteor.object(Images, event.cover);
+        console.log('image', image);
+        if (!image || !image.url) return null
+        return image.url({store: store});
+      }
+    };
 
     function addTimeToDatetime(time, datimeScopeName) {
       var momentDate = moment(self.newEvent[datimeScopeName]);
@@ -110,7 +128,6 @@ class EventCreate {
       momentDate.set('min', time.value.get('min'));
 
       self.newEvent[datimeScopeName] = momentDate.toDate();
-      console.log(self.newEvent[datimeScopeName]);
     }
 
     function deleteCover() {
@@ -133,37 +150,30 @@ class EventCreate {
       }
     };
 
-    function getGeoLocFrom(address) {
-      console.log(address);
-    }
-
     function addEvent(newEvent) {
-      console.log('newEvent', newEvent);
       self.events
       .save(newEvent)
       .then(function(events) {
-        console.log('result', events, events[0]._id);
+        console.log('events', events);
+        if (self.cover) {
+          uploadPictures(events[0]._id);
+        } else {
+          $state.go('app.events');
+        }
 
-        uploadPictures(events[0]._id);
-        //$state.go('app.events');
       }, function(err) {
         console.log('err', err);
+        self.errorMsg = err.message;
       });
-
-      //$state.go('app.events');
     };
 
     function uploadPictures(savedEventId) {
-      console.log('uploadPictures', self.events, savedEventId);
       var newSavedEvent = $meteor.object(Events, savedEventId);
-      console.log('newSavedEvent', newSavedEvent);
       self.images
       .save(self.cover)
       .then(function(covers) {
-        console.log('covers', covers);
         newSavedEvent.cover = covers[0]._id._id;
-
-        console.log('self.events[savedEventId]', self.events[savedEventId]);
+        $state.go('app.events');
       }, function(err) {
         console.log('err', err);
       });

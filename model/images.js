@@ -56,7 +56,7 @@ Images.allow({
     return userId;
   },
   download: function(userId, image) {
-    var linkedEvent = Events.findOne({mainPic: image._id});
+    var linkedEvent = Events.findOne({cover: image._id});
     if (linkedEvent && linkedEvent.public) {
       return true;
     } else {
