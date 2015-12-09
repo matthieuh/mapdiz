@@ -10,7 +10,7 @@ header(ng-show="$root.currentUser || $root.loggingIn")
     a.delete-cover(href='#', ng-show='vm.cover', ng-click="vm.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  img.cover(ng-show='vm.cover', ng-src="{{ vm.url(vm.newEvent, 'original') }}")
+  img.cover(ng-src="{{ vm.cover }}")
   .over-cover
     .title
       h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ vm.newEvent.name || "Nom de l'évenement" }}

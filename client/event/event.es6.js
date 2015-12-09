@@ -29,15 +29,23 @@ class EventCreate {
 
     var self = this;
     var method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update'
-    var newEvent = {
-      name: '',
-      description: '',
-      position: {},
-      public: true
-    };
 
-    self.newEvent = (method === 'create') ? newEvent : $meteor.object(Events, $stateParams.eventId);
-    console.log('self.newEvent', self.newEvent);
+    self.events = $meteor.collection(Events, false).subscribe('events');
+    self.images = $meteor.collection(Images, false);
+
+    if (method === 'create') {
+      self.newEvent = {
+        name: '',
+        description: '',
+        position: {},
+        public: true
+      };
+    } else {
+      self.newEvent = $scope.$meteorObject(Events, $stateParams.eventId);
+      console.log('self.newEvent.cover', self.newEvent.cover);
+      var cover = $scope.$meteorObject(Images, self.newEvent.cover);
+      self.cover = cover.url({store: 'original'});
+    }
 
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
@@ -45,9 +53,7 @@ class EventCreate {
     self.addEvent = addEvent;
     self.deleteCover = deleteCover;
     self.url = url;
-    self.events = $meteor.collection(Events, false).subscribe('events');
-    self.images = $meteor.collection(Images, false);
-
+    
     $scope.addTimeToDatetime = addTimeToDatetime;
     $scope.$on('$destroy', function() {
       mapSvc.draggableMarker.visible = false;
@@ -82,7 +88,7 @@ class EventCreate {
     var content = `
       <div class='info-window'>
         <div class='iw-container'>
-          <img ng-show='vm.cover' class='cover' ng-src='{{ vm.cover }}'>
+          <img class='cover' ng-src='{{ vm.cover || vm.url(vm.newEvent, "original") }}'>
           <div class='info-window-content'>
             <h4>{{ vm.newEvent.name || "Nom de l'évenement" }}</h4>
             <div class='description mxn1' ng-show='vm.newEvent.description'>
@@ -112,10 +118,8 @@ class EventCreate {
     /////////////////////
 
     function url(event, store) {
-      console.log('url', event, store);
       if(event && event.cover) {
         var image = $meteor.object(Images, event.cover);
-        console.log('image', image);
         if (!image || !image.url) return null
         return image.url({store: store});
       }

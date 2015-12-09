@@ -72,18 +72,24 @@ class MapService {
     function onMarkerDomready(map) {
       console.log('onMarkerDomready');
       var gmIw = document.querySelector('.gm-style-iw');
-      var iwPrev = gmIw.previousSibling;
-      var iwPrevChildren = iwPrev.children;
-      // Hide old infoWindow background
-      iwPrevChildren[1].style.display = 'none';
-      iwPrevChildren[3].style.display = 'none';
-      var iw = document.querySelector('.info-window');
-      iw.parentNode.style.display = 'block';
-      // Arrow over infoWindow
-      gmIw.parentNode.children[0].style['z-index'] = 1;
-      var arrowContainer = gmIw.parentNode.children[0].children[2];
-      arrowContainer.children[0].children[0].style['border-left'] = '1px solid rgba(255, 80, 36, 0.6)';
-      arrowContainer.children[1].children[0].style['border-right'] = '1px solid rgba(255, 80, 36, 0.6)';
+
+      if (gmIw) {
+        var iwPrev = gmIw.previousSibling;
+        var iwPrevChildren = iwPrev.children;
+        // Hide old infoWindow background
+        iwPrevChildren[1].style.display = 'none';
+        iwPrevChildren[3].style.display = 'none';
+        var iw = document.querySelector('.info-window');
+
+        if (iw) {
+          iw.parentNode.style.display = 'block';
+          // Arrow over infoWindow
+          gmIw.parentNode.children[0].style['z-index'] = 1;
+          var arrowContainer = gmIw.parentNode.children[0].children[2];
+          arrowContainer.children[0].children[0].style['border-left'] = '1px solid rgba(255, 80, 36, 0.6)';
+          arrowContainer.children[1].children[0].style['border-right'] = '1px solid rgba(255, 80, 36, 0.6)';
+        }
+      }
     }
 
     /**
