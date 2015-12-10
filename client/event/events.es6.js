@@ -1,6 +1,4 @@
-"use strict";
-
-var {Component, Service, View, Inject, State} = angular2now;
+let {Component, Service, View, Inject, State} = angular2now;
 
 angular.module('mapdiz');
 
@@ -13,10 +11,11 @@ angular.module('mapdiz');
 
 @Component({selector: 'events-list'})
 @View({templateUrl: 'client/event/events.html'})
-@Inject(['$scope', '$meteor', '$rootScope', '$state', '$filter', '$log', 'mapSvc', 'localStorageService'])
+@Inject(['$scope', '$reactive', '$meteor', '$rootScope', '$state', '$filter', '$log', 'mapSvc', 'localStorageService'])
 
 class EventsList {
-  constructor($scope, $meteor, $rootScope, $state, $filter, $log, mapSvc, localStorage) {
+  constructor($scope, $reactive, $meteor, $rootScope, $state, $filter, $log, mapSvc, localStorage) {
+    let reactiveContext = $reactive(this).attach($scope);
 
     var self = this;
     var orderBy = $filter('orderBy');
