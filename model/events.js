@@ -169,16 +169,6 @@ Events.before.update(function(userId, doc) {
   doc.updated = Date.now();
 });
 
-Events.after.findOne(function(userId, selector, options, doc) {
-  //Images.find({roomId: mainPic})
-  console.log('Events.after.findOne', userId, selector, options, doc);
-  if (doc && doc.cover) {
-    doc.coverObj = Images.findOne(doc.cover);
-  }
-  console.log('Events.after.findOne', userId, selector, options, doc);
-  return doc;
-});
-
 function convertToSlug(Text) {
   return Text
     .toLowerCase()

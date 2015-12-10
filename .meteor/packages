@@ -1,75 +1,75 @@
 # Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
 #
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
 
+# BASICS
 meteor-base             # Packages every Meteor app needs to have
 mobile-experience       # Packages for a great mobile UX
 mongo                   # The database Meteor supports right now
-blaze-html-templates    # Compile .html files into Meteor Blaze views
 session                 # Client-side reactive dictionary for your app
 jquery                  # Helpful client-side library
 tracker                 # Meteor's client-side reactive programming library
-
 standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 
+# TRANSLATION
+softwarerero:accounts-t9n
 
-angular
-matthieuh:angular-google-maps-native
-msavin:mongol
-angular:angular-material
-angularui:angular-ui-router
-accounts-password
-accounts-ui
-accounts-facebook
-accounts-twitter
-tmeasday:publish-counts
-email
-angularui:angular-google-maps
-pbastowski:angular-babel
-civilframe:angular-jade
-mquandalle:jade
-angularutils:pagination
-mquandalle:stylus
-stevezhu:lodash
-
-emmerge:graviton
-waitingkuo:normalize
-kit:basscss
+# THIRD PARTIES
 service-configuration
-danialfarid:ng-file-upload
-aldeed:geocoder
-matb33:collection-hooks
-pbastowski:angular2-now
-momentjs:moment
-richsilv:pikaday
-matthieuh:angucomplete-alt
 
-meteorhacks:kadira-debug
-johnar:angular-scroll
-fortawesome:fontawesome
-jasonaibrahim:angular-moment
+# FS
 cfs:gridfs
 cfs:standard-packages
 cfs:graphicsmagick
-matthieuh:angular-local-storage
-matthieuh:ng-img-crop
-vitalets:angular-xeditable
-netanelgilad:angular-sortable-view
 
-logging
-reload
-random
-ejson
-spacebars
-check
-aldeed:autoform
+# SCHEMAS / COLLECTIONS
 aldeed:collection2
-msavin:jetsetter
-matthieuh:angular-img-cropper
-softwarerero:accounts-t9n
-firebait:angular-click-outside
-matthieuh:angular-google-places-autocomplete
+matb33:collection-hooks
+
+# TOOLS
+stevezhu:lodash
+
+# DATES
+momentjs:moment
+richsilv:pikaday
+
+# TEMPLATES
+mquandalle:jade
+
+# STYLES
+mquandalle:stylus
+waitingkuo:normalize
+kit:basscss
+fortawesome:fontawesome
+
+# ACCOUNTS
+accounts-password
+accounts-facebook
+accounts-twitter
+
+# MAP / GEO BACK-END
+aldeed:geocoder
+
+# ANGULAR
+angular
 angular:angular-sanitize
+angular:angular-material
+angularui:angular-ui-router
+pbastowski:angular2-now
+civilframe:angular-jade
+jasonaibrahim:angular-moment
+firebait:angular-click-outside
+danialfarid:ng-file-upload
+johnar:angular-scroll
+matthieuh:angular-google-maps-native
+matthieuh:angular-img-cropper
+matthieuh:angular-google-places-autocomplete
+matthieuh:angucomplete-alt
+matthieuh:angular-local-storage
+
+# DEV ONLY
+msavin:mongol

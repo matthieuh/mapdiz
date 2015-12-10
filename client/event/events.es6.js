@@ -12,11 +12,11 @@ angular.module('mapdiz');
 })
 
 @Component({selector: 'events-list'})
-@View({templateUrl: 'client/event/events-list.html'})
+@View({templateUrl: 'client/event/events.html'})
 @Inject(['$scope', '$meteor', '$rootScope', '$state', '$filter', '$log', 'mapSvc', 'localStorageService'])
 
 class EventsList {
-  constructor($scope, $meteor, $rootScope, $state, $filter, $log, mapSvc, localStorageService) {
+  constructor($scope, $meteor, $rootScope, $state, $filter, $log, mapSvc, localStorage) {
 
     var self = this;
     var orderBy = $filter('orderBy');
@@ -36,16 +36,16 @@ class EventsList {
 
     console.log('self.mapSvc.filteredEvents', self.mapSvc.filteredEvents);
 
-    // Bind filters parameters in session stoage
-    localStorageService.bind($scope, 'vm.timeFilter.min', 0);
-    localStorageService.bind($scope, 'vm.timeFilter.max', 15);
-    localStorageService.bind($scope, 'vm.timeFilter.infinite', false);
-    localStorageService.bind($scope, 'vm.timeFilter.disabled', true);
+    // Bind filters parameters in session storage
+    localStorage.bind($scope, 'vm.timeFilter.min', 0);
+    localStorage.bind($scope, 'vm.timeFilter.max', 15);
+    localStorage.bind($scope, 'vm.timeFilter.infinite', false);
+    localStorage.bind($scope, 'vm.timeFilter.disabled', true);
 
-    localStorageService.bind($scope, 'vm.distanceFilter.min', 0);
-    localStorageService.bind($scope, 'vm.distanceFilter.max', 15);
-    localStorageService.bind($scope, 'vm.distanceFilter.infinite', false);
-    localStorageService.bind($scope, 'vm.distanceFilter.disabled', true);
+    localStorage.bind($scope, 'vm.distanceFilter.min', 0);
+    localStorage.bind($scope, 'vm.distanceFilter.max', 15);
+    localStorage.bind($scope, 'vm.distanceFilter.infinite', false);
+    localStorage.bind($scope, 'vm.distanceFilter.disabled', true);
 
     $meteor.autorun($scope, autorun);
     function autorun() {
@@ -71,6 +71,8 @@ class EventsList {
         subscriptionHandle = undefined;
       }
     });
+
+    ////////////////////////
 
     function centerOnUserGeoLoc() {
       mapSvc.setMapCenter('userGeoLoc');

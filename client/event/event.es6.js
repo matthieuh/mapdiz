@@ -30,9 +30,6 @@ class EventCreate {
     var self = this;
     var method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update'
 
-    self.events = $meteor.collection(Events, false).subscribe('events');
-    self.images = $meteor.collection(Images, false);
-
     if (method === 'create') {
       self.newEvent = {
         name: '',
@@ -42,18 +39,20 @@ class EventCreate {
       };
     } else {
       self.newEvent = $scope.$meteorObject(Events, $stateParams.eventId);
-      console.log('self.newEvent.cover', self.newEvent.cover);
+      /*console.log('self.newEvent.cover', self.newEvent.cover);
       var cover = $scope.$meteorObject(Images, self.newEvent.cover);
-      self.cover = cover.url({store: 'original'});
+      self.cover = cover.url({store: 'original'});*/
     }
 
+    self.events = $meteor.collection(Events, false).subscribe('events');
+    self.images = $meteor.collection(Images, false);
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.mapSvc = mapSvc;
     self.addEvent = addEvent;
     self.deleteCover = deleteCover;
     self.url = url;
-    
+
     $scope.addTimeToDatetime = addTimeToDatetime;
     $scope.$on('$destroy', function() {
       mapSvc.draggableMarker.visible = false;

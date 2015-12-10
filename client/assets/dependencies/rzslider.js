@@ -305,7 +305,6 @@ function throttle(func, wait, options) {
 
       unRegFn = this.scope.$watch('rzSliderModel', function(newValue, oldValue)
       {
-        console.log('rzSliderModel', newValue, parseInt(newValue), oldValue, self.scope.rzSliderFloor, self.scope.rzSliderCeil);
         if(newValue === oldValue) { return; }
         if(!angular.isNumber(parseInt(newValue)) || newValue < self.scope.rzSliderFloor) {
           self.scope.rzSliderModel = 0;

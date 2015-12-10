@@ -15,13 +15,9 @@ SetModule('mapdiz', [
   'angular-meteor',
   'angular-img-cropper',
   'ui.router',
-  'angularUtils.directives.dirPagination',
   'GoogleMapsNative',
   'ngFileUpload',
   'ngMaterial',
-  'ngImgCrop',
-  'xeditable',
-  'angular-sortable-view',
   'google.places',
   'angucomplete-alt',
   'duScroll',
@@ -44,6 +40,7 @@ class config {
     localStorageServiceProvider
       .setPrefix('mapdiz')
       .setStorageType('sessionStorage');
+
   }
 }
 
