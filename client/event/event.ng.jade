@@ -3,30 +3,30 @@
 
 header(ng-show="$root.currentUser || $root.loggingIn")
   .cover-manager
-    add-picture.edit-cover(picture='vm.cover')
+    add-picture.edit-cover(picture='eventDetails.cover')
       i.icon.ion-image
-      span(ng-hide='vm.cover')  Ajouter une couverture
-      span(ng-show='vm.cover')  Modifier la couverture
-    a.delete-cover(href='#', ng-show='vm.cover', ng-click="vm.deleteCover()")
+      span(ng-hide='eventDetails.cover')  Ajouter une couverture
+      span(ng-show='eventDetails.cover')  Modifier la couverture
+    a.delete-cover(href='#', ng-show='eventDetails.cover', ng-click="eventDetails.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  img.cover(ng-src="{{ vm.cover }}")
+  img.cover(ng-src="{{ eventDetails.cover }}")
   .over-cover
     .title
-      h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ vm.newEvent.name || "Nom de l'évenement" }}
-      input(type="text", ng-model="vm.newEvent.name", placeholder='Nom de l\'évenement', ng-show='editName')
+      h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
+      input(type="text", ng-model="eventDetails.newEvent.name", placeholder='Nom de l\'évenement', ng-show='editName')
       =' '
       button.validate.btn.btn-primary(ng-click='editName=false', ng-show='editName')
         i.icon.ion-checkmark
-    .geoloc(position='vm.newEvent.position')
+    .geoloc(position='eventDetails.newEvent.position')
       i.icon.ion-android-locate
       span.prefix Emplacement :
-      geoloc(location='vm.newEvent.position')
-        span(ng-show='vm.newEvent.position.address.display')
-          | {{ vm.newEvent.position.address.display }}
-        span(ng-show='!vm.newEvent.position.address.display && vm.newEvent.position.lat')
-          | Lat : {{ vm.newEvent.position.lat }} - Lng : {{ vm.newEvent.position.lng }}
-        span(ng-hide='vm.newEvent.position.lat || vm.newEvent.position.address.display') Choisir l'emplacement
+      geoloc(location='eventDetails.newEvent.position')
+        span(ng-show='eventDetails.newEvent.position.address.display')
+          | {{ eventDetails.newEvent.position.address.display }}
+        span(ng-show='!eventDetails.newEvent.position.address.display && eventDetails.newEvent.position.lat')
+          | Lat : {{ eventDetails.newEvent.position.lat }} - Lng : {{ eventDetails.newEvent.position.lng }}
+        span(ng-hide='eventDetails.newEvent.position.lat || eventDetails.newEvent.position.address.display') Choisir l'emplacement
     .date
       i.icon.ion-ios-calendar-outline
       span.prefix  Début
@@ -36,10 +36,10 @@ header(ng-show="$root.currentUser || $root.loggingIn")
         style="display: none"
       )
       a.date-field.editable#edit-beginDate
-        | {{ vm.newEvent.beginDate ? ( vm.newEvent.beginDate | date:'dd/MM/yyyy' ) : 'Date de début' }}
+        | {{ eventDetails.newEvent.beginDate ? ( eventDetails.newEvent.beginDate | date:'dd/MM/yyyy' ) : 'Date de début' }}
       span.between à
-      time-picker(ng-model='vm.newEvent.beginTime')
-        | {{ vm.newEvent.beginTime ? ( vm.newEvent.beginTime | date:'H:mm' ) : 'heure de début' }}
+      time-picker(ng-model='eventDetails.newEvent.beginTime')
+        | {{ eventDetails.newEvent.beginTime ? ( eventDetails.newEvent.beginTime | date:'H:mm' ) : 'heure de début' }}
 
     .date
       i.icon.ion-ios-calendar-outline
@@ -49,31 +49,32 @@ header(ng-show="$root.currentUser || $root.loggingIn")
         name='endDate',
         style="display: none"
       )
-      a.date-field.editable#edit-endDate  {{ vm.newEvent.endDate ? ( vm.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
+      a.date-field.editable#edit-endDate  {{ eventDetails.newEvent.endDate ? ( eventDetails.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
       span.between à
-      time-picker(ng-model='vm.newEvent.endTime')  {{ vm.newEvent.endTime ? ( vm.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
+      time-picker(ng-model='eventDetails.newEvent.endTime')  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 
 main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
-  .alert.alert-danger(ng-show='vm.errorMsg')
+  .alert.alert-danger(ng-show='eventDetails.errorMsg')
     .title Oups !
     .alert-content
      p Les informations pour créer l'évenement sont incorrects :
      ul
-      li {{ vm.errorMsg }}
+      li {{ eventDetails.errorMsg }}
 
   //- Description
   section
+    p {{ eventDetails.cover }}
     h3
       i.icon.ion-ios-compose-outline
       |  Description
     article
-      textarea#description.block.col-12.field(ng-model="vm.newEvent.description", placeholder='Description de l\'évenement')
+      textarea#description.block.col-12.field(ng-model="eventDetails.newEvent.description", placeholder='Description de l\'évenement')
 
   label.block.col-12(for="public") Public
-    input#publict(type="checkbox", ng-model="vm.newEvent.public")
+    input#publict(type="checkbox", ng-model="eventDetails.newEvent.public")
 
   section
-    {{ vm.newEvent | json }}
+    {{ eventDetails.newEvent | json }}
 
-  button.btn.btn-primary(ng-click="vm.addEvent(vm.newEvent)") Ajouter
+  button.btn.btn-primary(ng-click="eventDetails.save()") Ajouter

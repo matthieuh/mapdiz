@@ -12,32 +12,42 @@ SetModule('mapdiz');
 
 @Component({selector: 'app'})
 @View({templateUrl: 'client/app/app.html'})
-@Inject('$scope', '$rootScope', '$state', '$meteor', '$log')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor', '$log')
 
 class App {
 
-  constructor($scope, $rootScope, $state, $meteor, $log) {
+  constructor($scope, $reactive, $rootScope, $state, $meteor, $log) {
     $log.info('App');
 
     var self = this;
+
     self.url = url;
     self.profilePics = $meteor.collectionFS(ProfilePics, true);
+
+    let reactiveContext = $reactive(self).attach($scope);
+    reactiveContext.subscribe('events');
+    reactiveContext.subscribe('images');
+
     google = $scope.google;
 
     $scope.$state = $state;
+
+
+
+    //////////////////////////
+
     $rootScope.$on("$stateChangeError",
       function (event, toState, toParams, fromState, fromParams, error) {
       // We can catch the error thrown when the $requireUser promise is rejected
       // and redirect the user back to the main page
       if (error === "AUTH_REQUIRED") {
-        $state.go('events');
+        $state.go('app.events');
       }
     });
 
-    $rootScope.$watch('currentUser', function(nv, ov) {
-      // user logout - redirect to parties-list
+    $rootScope.$watch('currentUser', (nv, ov) => {
       if (!nv && ov) {
-        $state.go('events');
+        $state.go('app.events');
       }
     });
 
@@ -46,7 +56,7 @@ class App {
       $rootScope.currentState = to.name;
     });
 
-    $meteor.waitForUser().then(function() {
+    $meteor.waitForUser().then( () => {
       if (!$rootScope.currentUser) return;
       var profilePicsHandle;
       var usersHandle;

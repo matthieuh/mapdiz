@@ -8,14 +8,13 @@
     gm-map(
       center="vm.mapSvc.map.center",
       zoom="vm.mapSvc.map.zoom",
-      options='vm.mapSvc.map.options',
       on-tilesloaded='vm.mapSvc.updateVisibleMarkers(map); $root.gmapLoaded(map)',
       on-dragend='vm.mapSvc.dragEnd(map);',
       on-zoom-changed='vm.mapSvc.mapZoomChange(map)',
     )
-      gm-marker.my-position-marker(
-        position='vm.mapSvc.myLocation.position',
-        options="{icon: 'assets/markers/home.png'}"
+      gm-circle.my-position-marker(
+        center='vm.mapSvc.myLocation.position',
+        options="{radius: radius, fillColor: fillColor, strokeColor: '#005BB7'}"
       )
       gm-marker.add-marker(
         position='vm.mapSvc.draggableMarker.position',
@@ -35,7 +34,7 @@
       gm-marker.event-marker(
         ng-repeat='filteredEvent in vm.mapSvc.filteredEvents',
         position='filteredEvent.position',
-        on-click='filteredEvent.showInfo=!filteredEvent.showInfo',
+        on-click='filteredEvent.showInfoClick=!filteredEvent.showInfoClick',
         on-mouseover='vm.mapSvc.markerMouseOver(filteredEvent); filteredEvent.showInfo = true',
         on-mouseout='vm.mapSvc.markerMouseOut(filteredEvent); filteredEvent.showInfo = false'
       )

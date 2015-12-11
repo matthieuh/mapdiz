@@ -13,21 +13,20 @@ SetModule('mapdiz');
 @State({
   name: 'app.event',
   url: '/events/:eventId/:eventSlug',
+  params: { eventId: 'name', eventSlug: ''},
   html5Mode: true
 })
 
-@Component({selector: 'event'})
+@Component({selector: 'event', controllerAs: 'eventDetails' })
 @View({templateUrl: 'client/event/event.html'})
 @Inject(['$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload'])
 
-class EventCreate {
+class Event {
   constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $log, mapSvc, $timeout, $window, $compile, Upload) {
+    var self = this;
 
-
-    let reactiveContext = $reactive(this).attach($scope);
+    let reactiveContext = $reactive(self).attach($scope);
     let method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update'
-
-    this.newEvent = {};
 
     reactiveContext.helpers({
       newEvent: () => {
@@ -39,29 +38,40 @@ class EventCreate {
             public: true
           };
         } else {
-          console.log('$stateParams.eventId', $stateParams.eventId);
-          return Events.findOne($stateParams.eventId)
+          return Events.findOne($stateParams.eventId);
         }
+      },
+    });
+
+    $scope.$watchCollection('eventDetails.newEvent.position', () => {
+      if (self.newEvent && self.newEvent.position && self.newEvent.position.lat) {
+        mapSvc.map.center = {
+          lat: self.newEvent.position.lat,
+          lng: self.newEvent.position.lng
+        };
       }
     });
 
-    reactiveContext.subscribe('images', () => [this.newEvent]);
-
-    reactiveContext.helpers({
-      cover: () => {
-        Images.findOne(this.newEvent.cover)
+    $scope.$watch('eventDetails.newEvent.cover', () => {
+      if (self.newEvent && self.newEvent.cover) {
+        reactiveContext.helpers({
+          cover: () => {
+            return Images.findOne(self.newEvent.cover);
+          }
+        })
       }
     });
 
-
-    console.log('cover', this.newEvent, self.cover);
-
-
+    $scope.$watchCollection('eventDetails.cover', () => {
+      if (typeof self.cover == 'object') {
+        self.cover = self.cover.url();
+      }
+    });
 
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.mapSvc = mapSvc;
-    self.addEvent = addEvent;
+    self.save = save;
     self.deleteCover = deleteCover;
     self.url = url;
     //self.cover =
@@ -79,7 +89,7 @@ class EventCreate {
       i18n: i18n_FR,
       onSelect: function() {
         var beginDateValue = this.getMoment().toDate();
-        this.newEvent.beginDate = beginDateValue;
+        self.newEvent.beginDate = beginDateValue;
         $scope.$apply();
       }
     });
@@ -92,7 +102,7 @@ class EventCreate {
       i18n: i18n_FR,
       onSelect: function() {
         var endDateValue = this.getMoment().toDate();;
-        this.newEvent.endDate = endDateValue;
+        self.newEvent.endDate = endDateValue;
         $scope.$apply();
       }
     });
@@ -100,11 +110,11 @@ class EventCreate {
     var content = `
       <div class='info-window'>
         <div class='iw-container'>
-          <img class='cover' ng-src='{{ vm.cover || vm.url(vm.newEvent, "original") }}'>
+          <img class='cover' ng-src='{{ eventDetails.cover }}'>
           <div class='info-window-content'>
-            <h4>{{ vm.newEvent.name || "Nom de l'évenement" }}</h4>
-            <div class='description mxn1' ng-show='vm.newEvent.description'>
-              <strong>Description :</strong> {{ vm.newEvent.description }}
+            <h4>{{ eventDetails.newEvent.name || "Nom de l'évenement" }}</h4>
+            <div class='description mxn1' ng-show='eventDetails.newEvent.description'>
+              <strong>Description :</strong> {{ eventDetails.newEvent.description }}
               <div class="iw-bottom-gradient"></div>
             </div>
           </div>
@@ -114,17 +124,20 @@ class EventCreate {
 
     var compiled = $compile(content)($scope);
 
-    mapSvc.getUserLoc().then(function(userGeoLoc) {
-      mapSvc.map.center = userGeoLoc.center;
-      mapSvc.draggableMarker.position = userGeoLoc.center;
-    });
-    mapSvc.draggableMarker.content = compiled[0];
-    mapSvc.draggableMarker.visible = false;
-    mapSvc.draggableMarker.visible = true; // !!this.newEvent.position.lat;
+    if (method === 'create') {
+      mapSvc.getUserLoc().then(function(userGeoLoc) {
+        mapSvc.map.center = userGeoLoc.center;
+        mapSvc.draggableMarker.position = userGeoLoc.center;
+      });
+      mapSvc.draggableMarker.content = compiled[0];
+      mapSvc.draggableMarker.visible = false;
+      mapSvc.draggableMarker.visible = true;
+    }
+    // !!self.newEvent.position.lat;
 
-    /*if (this.newEvent.cover) {
-      self.cover = this.newEvent.cover.url({store: 'original'});
-      delete this.newEvent.cover;
+    /*if (self.newEvent.cover) {
+      self.cover = self.newEvent.cover.url({store: 'original'});
+      delete self.newEvent.cover;
     }*/
 
     /////////////////////
@@ -138,12 +151,12 @@ class EventCreate {
     };
 
     function addTimeToDatetime(time, datimeScopeName) {
-      var momentDate = moment(this.newEvent[datimeScopeName]);
+      var momentDate = moment(self.newEvent[datimeScopeName]);
 
       momentDate.set('hour', time.value.get('hour'));
       momentDate.set('min', time.value.get('min'));
 
-      this.newEvent[datimeScopeName] = momentDate.toDate();
+      self.newEvent[datimeScopeName] = momentDate.toDate();
     }
 
     function deleteCover() {
@@ -152,39 +165,63 @@ class EventCreate {
 
     function beginTimeSelected(selected) {
       if(selected && selected.title) {
-        this.newEvent.beginTime = selected.title;
+        self.newEvent.beginTime = selected.title;
       } else {
-        this.newEvent.beginTime = undefined;
+        self.newEvent.beginTime = undefined;
       }
     };
 
     function endTimeSelected(selected) {
       if(selected && selected.title) {
-        this.newEvent.endTime = selected.title;
+        self.newEvent.endTime = selected.title;
       } else {
-        this.newEvent.endTime = undefined;
+        self.newEvent.endTime = undefined;
       }
     };
 
-    function addEvent(newEvent) {
-      self.events
-      .save(newEvent)
-      .then(function(events) {
-        console.log('events', events);
-        if (self.cover) {
-          uploadPictures(events[0]._id);
-        } else {
-          $state.go('app.events');
-        }
+    function save() {
+      if (method == 'create') { // Create
+        console.log('saving event');
+        Events.insert(self.newEvent, (error, savedEventId) => {
+          if (error) {
+            console.log('Oops, unable to save the event...', error);
+            self.errorMsg = error.message;
+          }
+          else {
+            console.log('Save done!', savedEventId);
 
-      }, function(err) {
-        console.log('err', err);
-        self.errorMsg = err.message;
-      });
+            if (typeof self.cover !== 'object') {
+              uploadPictures(savedEventId);
+            } else {
+              $state.go('app.events');
+            }
+          }
+        });
+      } else { // Update
+        console.log('updating event');
+        Events.update({_id: $stateParams.eventId}, {
+          $set: {
+            name: self.newEvent.name,
+            description: self.newEvent.description,
+            'public': self.newEvent.public,
+            position: self.newEvent.position
+          }
+        }, (error) => {
+          if (error) {
+            console.log('Oops, unable to update the event...', error);
+            self.errorMsg = error.message;
+          } else {
+            console.log('Update done!');
+            if (typeof self.cover !== 'object') {
+              uploadPictures(savedEventId);
+            }
+          }
+        });
+      }
     };
 
     function uploadPictures(savedEventId) {
-      var newSavedEvent = $meteor.object(Events, savedEventId);
+      /*var newSavedEvent = $meteor.object(Events, savedEventId);
       self.images
       .save(self.cover)
       .then(function(covers) {
@@ -192,9 +229,31 @@ class EventCreate {
         $state.go('app.events');
       }, function(err) {
         console.log('err', err);
-      });
+      });*/
+
+      if (self.newEvent.cover) { // Update
+        Images.update({_id: self.newEvent.cover}, {
+          $set: self.cover
+        }, (error) => {
+          if (error) {
+            console.log('Oops, unable to update the image...', error);
+          } else {
+            console.log('Save image done!', savedEventId);
+            $state.go('app.events');
+          }
+        });
+      } else { // Create
+        Images.insert(self.cover, (error, savedEventId) => {
+          if (error) {
+            console.log('Oops, unable to save the event...', error);
+            self.errorMsg = error.message;
+          } else {
+            Events.update({_id: savedEventId}, {$set: {cover: savedImageId}});
+            console.log('Save done!', savedEventId);
+            $state.go('app.events');
+          }
+        });
+      }
     }
-
-
 	}
 }
