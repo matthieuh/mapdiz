@@ -45,14 +45,16 @@ class config {
 }
 
 
-@Component({selector: 'mapdiz'})
+@Component({selector: 'mapdiz', controllerAs: 'mapdiz'})
 @View({ templateUrl: 'client/1mapdiz/mapdiz.html' })
-@Inject('$scope', '$rootScope', '$state', '$meteor')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor')
 
 class Mapdiz {
-  constructor($scope, $rootScope, $state, $meteor) {
+  constructor($scope, $reactive, $rootScope, $state, $meteor) {
     var self = this;
-    console.log('Mapdiz');
+
+    let reactiveContext = $reactive(self).attach($scope);
+
     $scope.$state = $state;
 
     $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
@@ -60,6 +62,14 @@ class Mapdiz {
       $rootScope.currentState = to.name;
     });
 
+    reactiveContext.helpers({
+      isLoggedIn: () => {
+        return Meteor.userId() !== null;
+      },
+      currentUserId: () => {
+        return Meteor.userId();
+      }
+    });
   }
 }
 

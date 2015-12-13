@@ -9,7 +9,7 @@
     right: 0px
     margin: 0px
     padding: 0px
-    overflow-y: auto
+    //overflow-y: auto
 
     header
       display: flex
@@ -33,6 +33,7 @@
         color: #000
 
       .cover-manager
+        z-index: 9
         position: absolute
         top: 5px
         right: 5px
@@ -42,7 +43,10 @@
 
       .cover
         display: flex
-        width: 100%
+        
+        img
+          height: 100%
+          max-width: inherit;
 
       .over-cover
         z-index: 8
@@ -113,3 +117,6 @@
 
       textarea
         resize: vertical
+
+  .slimScrollDiv
+    flex: 1

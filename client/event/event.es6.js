@@ -28,6 +28,10 @@ class Event {
     let reactiveContext = $reactive(self).attach($scope);
     let method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update'
 
+    $('event').slimScroll({
+      height: 'inherit'
+    });
+
     reactiveContext.helpers({
       newEvent: () => {
         if (method === 'create') {
@@ -35,7 +39,7 @@ class Event {
             name: '',
             description: '',
             position: {},
-            public: true
+            'public': true
           };
         } else {
           return Events.findOne($stateParams.eventId);
@@ -74,7 +78,7 @@ class Event {
     self.save = save;
     self.deleteCover = deleteCover;
     self.url = url;
-    //self.cover =
+    self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder'
 
     $scope.addTimeToDatetime = addTimeToDatetime;
     $scope.$on('$destroy', function() {
@@ -132,6 +136,9 @@ class Event {
       mapSvc.draggableMarker.content = compiled[0];
       mapSvc.draggableMarker.visible = false;
       mapSvc.draggableMarker.visible = true;
+    } else {
+      mapSvc.map.zoom = 15;
+      console.log('mapSvc.filteredEvents', mapSvc.filteredEvents);
     }
     // !!self.newEvent.position.lat;
 
@@ -161,6 +168,7 @@ class Event {
 
     function deleteCover() {
       delete self.cover;
+      delete self.newEvent.cover;
     }
 
     function beginTimeSelected(selected) {
@@ -213,7 +221,8 @@ class Event {
           } else {
             console.log('Update done!');
             if (typeof self.cover !== 'object') {
-              uploadPictures(savedEventId);
+              console.log('launch uploadPictures...');
+              uploadPictures(self.newEvent._id);
             }
           }
         });
@@ -221,16 +230,7 @@ class Event {
     };
 
     function uploadPictures(savedEventId) {
-      /*var newSavedEvent = $meteor.object(Events, savedEventId);
-      self.images
-      .save(self.cover)
-      .then(function(covers) {
-        newSavedEvent.cover = covers[0]._id._id;
-        $state.go('app.events');
-      }, function(err) {
-        console.log('err', err);
-      });*/
-
+      console.log('uploadPictures', self.newEvent.cover);
       if (self.newEvent.cover) { // Update
         Images.update({_id: self.newEvent.cover}, {
           $set: self.cover
@@ -243,13 +243,15 @@ class Event {
           }
         });
       } else { // Create
-        Images.insert(self.cover, (error, savedEventId) => {
+        Images.insert(self.cover, (error, image) => {
           if (error) {
             console.log('Oops, unable to save the event...', error);
             self.errorMsg = error.message;
           } else {
-            Events.update({_id: savedEventId}, {$set: {cover: savedImageId}});
-            console.log('Save done!', savedEventId);
+            console.log('Save done!', savedEventId, image._id);
+            Events.update({_id: savedEventId}, {
+              $set: {cover: image._id}
+            });
             $state.go('app.events');
           }
         });

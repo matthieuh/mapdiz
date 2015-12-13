@@ -10,7 +10,8 @@ header(ng-show="$root.currentUser || $root.loggingIn")
     a.delete-cover(href='#', ng-show='eventDetails.cover', ng-click="eventDetails.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  img.cover(ng-src="{{ eventDetails.cover }}")
+  .cover
+    img(ng-src="{{ eventDetails.cover }}")
   .over-cover
     .title
       h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
@@ -64,7 +65,6 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
   //- Description
   section
-    p {{ eventDetails.cover }}
     h3
       i.icon.ion-ios-compose-outline
       |  Description
@@ -74,7 +74,4 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
   label.block.col-12(for="public") Public
     input#publict(type="checkbox", ng-model="eventDetails.newEvent.public")
 
-  section
-    {{ eventDetails.newEvent | json }}
-
-  button.btn.btn-primary(ng-click="eventDetails.save()") Ajouter
+  button.btn.btn-primary(ng-click="eventDetails.save()") {{ eventDetails.validFormBtn }}

@@ -100,8 +100,8 @@ form.form-inline.search-form.flex-column
               span.badge.private(ng-if="!event.public") Privé
             .date(ng-if='event.beginDate')
               i.icon.ion-ios-calendar-outline
-              span(ng-if='event.beginDate')  {{ event.beginDate | date}}
-              span(ng-if='event.beginTime')  à {{ event.beginTime }}
+              span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
+              span(ng-if='event.beginTime')  à {{ event.beginTime | date:'H:mm' }}
             p.description {{ event.description }}
             //- div(ng-if="event.public")
             //-   | Everyone is invited

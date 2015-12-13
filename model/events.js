@@ -47,6 +47,10 @@ var EventSchema = new SimpleSchema({
     label: "Image de couverture",
     type: String,
     optional: true
+  },
+  "public": {
+    label: "Publique",
+    type: Boolean
   }
 });
 

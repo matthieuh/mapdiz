@@ -14,7 +14,7 @@
     )
       gm-circle.my-position-marker(
         center='vm.mapSvc.myLocation.position',
-        options="{radius: radius, fillColor: fillColor, strokeColor: '#005BB7'}"
+        options="{radius: 500, fillColor: '#008BB2', strokeColor: '#008BB2', strokeOpacity: 0.8, strokeWeight: 1}"
       )
       gm-marker.add-marker(
         position='vm.mapSvc.draggableMarker.position',
@@ -36,7 +36,7 @@
         position='filteredEvent.position',
         on-click='filteredEvent.showInfoClick=!filteredEvent.showInfoClick',
         on-mouseover='vm.mapSvc.markerMouseOver(filteredEvent); filteredEvent.showInfo = true',
-        on-mouseout='vm.mapSvc.markerMouseOut(filteredEvent); filteredEvent.showInfo = false'
+        on-mouseout='vm.mapSvc.markerMouseOut(filteredEvent)'
       )
         gm-infowindow(
           ng-show='filteredEvent.showInfo',
