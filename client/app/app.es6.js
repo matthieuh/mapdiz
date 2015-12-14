@@ -10,28 +10,25 @@ SetModule('mapdiz');
   abstract: true
 })
 
-@Component({selector: 'app'})
+@Component({selector: 'app', controllerAs: 'app'})
 @View({templateUrl: 'client/app/app.html'})
-@Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor', '$log')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor', '$log', '$compile')
 
 class App {
 
-  constructor($scope, $reactive, $rootScope, $state, $meteor, $log) {
+  constructor($scope, $reactive, $rootScope, $state, $meteor, $log, $compile) {
     $log.info('App');
 
     var self = this;
 
-    self.url = url;
-    self.profilePics = $meteor.collectionFS(ProfilePics, true);
-
     let reactiveContext = $reactive(self).attach($scope);
+
     reactiveContext.subscribe('events');
     reactiveContext.subscribe('images');
 
     google = $scope.google;
 
     $scope.$state = $state;
-
 
 
     //////////////////////////
@@ -74,10 +71,5 @@ class App {
       });
     });
 
-    function url() {
-      var image = self.profilePic;
-      if (!image || !image.url) return null;
-      return image.url({store: 'profilePic-small'});
-    };
   }
 }

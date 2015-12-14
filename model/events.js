@@ -1,3 +1,5 @@
+Schema = {}
+
 Events = new Mongo.Collection("events");
 
 var EventSchema = new SimpleSchema({
@@ -51,6 +53,17 @@ var EventSchema = new SimpleSchema({
   "public": {
     label: "Publique",
     type: Boolean
+  },
+  "rsvps": {
+    label: "Participants",
+    type: [Object],
+    optional: true
+  },
+  "rsvps.$.user": {
+    type: Schema.User
+  },
+  "rsvps.$.rsvp": {
+    type: String
   }
 });
 
@@ -75,22 +88,24 @@ Events.allow({
 });
 
 Meteor.methods({
-  invite: function (partyId, userId) {
-  	console.log('invite', partyId, userId);
-    check(partyId, String);
+  invite: function (eventId, userId) {
+
+    check(eventId, String);
     check(userId, String);
-    var event = Events.findOne(partyId);
-    console.log('event', event);
+
+    let event = Events.findOne(eventId);
+
     if (!event)
       throw new Meteor.Error(404, "No such event");
+
     if (event.owner !== this.userId)
       throw new Meteor.Error(404, "No such event");
+
     if (event.public)
-      throw new Meteor.Error(400,
-        "That event is public. No need to invite people.");
+      throw new Meteor.Error(400, "That event is public. No need to invite people.");
 
     if (userId !== event.owner && ! _.contains(event.invited, userId)) {
-      Events.update(partyId, { $addToSet: { invited: userId } });
+      Events.update(eventId, { $addToSet: { invited: userId } });
 
       var from = contactEmail(Meteor.users.findOne(this.userId));
       var to = contactEmail(Meteor.users.findOne(userId));
@@ -99,56 +114,74 @@ Meteor.methods({
         // This code only runs on the server. If you didn't want clients
         // to be able to see it, you could move it to a separate file.
         Email.send({
-          from: "noreply@secretp.com",
+          from: "noreply@mapdiz.com",
           to: to,
           replyTo: from || undefined,
           subject: "PARTY: " + event.name,
           text:
-          "Hey, I just invited you to '" + event.name + "' on SecretP." +
-          "\n\nCome check it out: " + Meteor.absoluteUrl() + "/events/" + partyId + "\n"
+          "Bonjour, Je t'invite à mon évenement '" + event.name + "' sur Mapdiz." +
+          "\n\nVenez me donner votre disponibilité : " + Meteor.absoluteUrl() + "/events/" + eventId + "/"+ event.url +"\n"
         });
       }
     }
   },
-  rsvp: function (partyId, rsvp) {
-    check(partyId, String);
+  rsvp: function (eventId, rsvp) {
+
+    console.log('rsvp', eventId, rsvp);
+
+    check(eventId, String);
     check(rsvp, String);
-    if (! this.userId)
+
+
+    if (!this.userId)
       throw new Meteor.Error(403, "Vous devez être connecté pour réserver !");
-    if (! _.contains(['yes', 'no', 'maybe'], rsvp))
+
+    if (!_.contains(['yes', 'maybe', 'no'], rsvp))
       throw new Meteor.Error(400, "Réservation invalide");
-    var event = Events.findOne(partyId);
-    if (! event)
+
+    let event = Events.findOne(eventId);
+
+     console.log('event',event);
+
+    if (!event)
       throw new Meteor.Error(404, "Evènement introuvable");
-    if (! event.public && event.owner !== this.userId &&
+
+    if (!event.public && event.owner !== this.userId &&
       !_.contains(event.invited, this.userId))
-    // private, but let's not tell this to the user
       throw new Meteor.Error(403, "Evènement introuvable");
 
-    var rsvpIndex = _.indexOf(_.pluck(event.rsvps, 'user'), this.userId);
+    let rsvpIndex = _.indexOf(_.pluck(event.rsvps, 'user'), this.userId);
+
+    console.log('rsvpIndex', rsvpIndex);
+
     if (rsvpIndex !== -1) {
       // update existing rsvp entry
 
       if (Meteor.isServer) {
         // update the appropriate rsvp entry with $
         Events.update(
-          {_id: partyId, "rsvps.user": this.userId},
+          {_id: eventId, "rsvps.user": this.userId},
           {$set: {"rsvps.$.rsvp": rsvp}});
+
       } else {
         // minimongo doesn't yet support $ in modifier. as a temporary
         // workaround, make a modifier that uses an index. this is
         // safe on the client since there's only one thread.
-        var modifier = {$set: {}};
+        let modifier = {$set: {}};
         modifier.$set["rsvps." + rsvpIndex + ".rsvp"] = rsvp;
-        Events.update(partyId, modifier);
+
+        Events.update(eventId, modifier);
       }
 
       // Possible improvement: send email to the other people that are
       // coming to the party.
     } else {
       // add new rsvp entry
-      Events.update(partyId,
-        {$push: {rsvps: {user: this.userId, rsvp: rsvp}}});
+      Events.update(eventId, {
+        $push: {rsvps: {user: this.userId, rsvp: rsvp}}
+      }, (error, doc) => {
+        console.log('error', error, doc);
+      });
     }
   }
 });

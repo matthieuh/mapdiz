@@ -26,9 +26,13 @@ cfs:gridfs
 cfs:standard-packages
 cfs:graphicsmagick
 
+# EMAILS
+email
+
 # SCHEMAS / COLLECTIONS
 aldeed:collection2
 matb33:collection-hooks
+check
 
 # TOOLS
 stevezhu:lodash

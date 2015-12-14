@@ -6,21 +6,24 @@ var {SetModule, Component, Service, View, Inject, State} = angular2now;
 
 SetModule('mapdiz');
 
-@Component({selector: 'map'})
+@Component({selector: 'map', controllerAs: 'Map'})
 @View({templateUrl: 'client/map/map.html'})
-@Inject(['$scope', '$meteor', '$rootScope', '$state', '$log', 'mapSvc', '$timeout'])
+@Inject('$scope', '$meteor', '$rootScope', '$state', '$log', 'mapSvc', '$timeout', '$compile')
 
 class map {
-  constructor($scope, $meteor, $rootScope, $state, $log, mapSvc, $timeout) {
+  constructor($scope, $meteor, $rootScope, $state, $log, mapSvc, $timeout, $compile) {
     $log.info('MapCtrl');
 
     var self = this;
-    var subscriptionHandle;
 
     self.mapSvc = mapSvc;
     self.mapControl = {};
     self.draggableMarkerOnDrag = draggableMarkerOnDrag;
     self.draggableMarkerChanged = draggableMarkerChanged;
+    self.initInfoWindow = initInfoWindow;
+    self.eventOptions = {
+      content: 'blablabla'
+    };
 
     $meteor.autorun($scope, autorun);
 
@@ -43,9 +46,6 @@ class map {
       event.show = false;
     });
 
-    $scope.$on('$destroy', function() {
-      // subscriptionHandle.stop();
-    });
 
     /////////////////////////////
 
@@ -55,6 +55,39 @@ class map {
 
     function draggableMarkerChanged() {
       $rootScope.$broadcast('draggableMarker.position.changed', self.mapSvc.draggableMarker.position);
+    }
+
+    function initInfoWindow(mapInstance, eventIndex, currentTarget) {
+      console.log('initInfoWindow', eventIndex, mapSvc.filteredEvents[eventIndex], currentTarget);
+
+      var eventContent = `
+        <div class='info-window'>
+          <div class='iw-container'>
+            <img class='cover' ng-src='{{ Map.mapSvc.filteredEvents[${eventIndex}].cover }}'>
+            <div class='info-window-content'>
+              <h4>{{ Map.mapSvc.filteredEvents[${eventIndex}].name || "Nom de l'évenement" }}</h4>
+              <div class='description mxn1' ng-show='Map.mapSvc.filteredEvents[${eventIndex}].description'>
+                <strong>Description :</strong> {{ Map.mapSvc.filteredEvents[${eventIndex}].description }}
+                <div class="iw-bottom-gradient"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      console.log('eventContent', eventContent);
+
+      var compiled = $compile(eventContent)($scope);
+
+      console.log('compiled', compiled);
+
+      self.eventOptions[eventIndex] = self.eventOptions[eventIndex] || {};
+      self.eventOptions = {
+        content: 'modified'
+      };
+      //self.eventOptions.content = 'modified';
+      mapSvc.draggableMarker.visible = false;
+      mapSvc.draggableMarker.visible = true;
     }
   }
 }

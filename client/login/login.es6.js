@@ -40,13 +40,9 @@ class Login {
       $meteor.loginWithPassword(user, password, displayError)
     }
 
-    function createAccount() {
-      var options = {
-        email: self.email,
-        password: self.password
-      };
-
-      $meteor.createUser(options, displayError);
+    function createAccount(newAccount) {
+      console.log('newAccount', newAccount);
+      Accounts.createUser(newAccount, displayError);
     }
 
     function changePassword(oldPassword, newPassword) {

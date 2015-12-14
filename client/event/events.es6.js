@@ -131,14 +131,9 @@ class EventsList {
     }
 
     function rsvp(eventId, rsvp) {
-      $meteor.call('rsvp', eventId, rsvp).then(
-        function (data) {
-          console.log('success responding', data);
-        },
-        function (err) {
-          console.log('failed', err);
-        }
-      );
+      Meteor.call('rsvp', eventId, rsvp, (err, result) => {
+        console.log('responding', err, result);
+      });
     }
   }
 }

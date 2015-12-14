@@ -39,6 +39,9 @@ class MapService {
         content: "Déplace-moi sur le lieu de l'évenement",
         onDomready: onMarkerDomready
       },
+      eventMarker: {
+        content: "ttttest"
+      },
       events: [],
       visibleEvents: [],
       filteredEvents: [],

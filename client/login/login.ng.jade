@@ -35,11 +35,13 @@
       | Ou
       a(ng-click='vm.displayCreateAccount = !vm.displayCreateAccount') connectez-vous
 
-    form(ng-submit='vm.createAccount(vm.login, vm.password)')
+    form(ng-submit='vm.createAccount(vm.newAccount)')
+      label Identifiant
+      input.block.col-12.field(type='text', ng-model='vm.newAccount.username', name='username')
       label E-mail
-      input.block.col-12.field(type='text', ng-model='vm.email')
+      input.block.col-12.field(type='text', ng-model='vm.newAccount.email', name='email')
       label(for='password') Mot de passe
-      input#password.block.col-12.field(type='password', name='password', ng-model='vm.password')
+      input#password.block.col-12.field(type='password', name='password', ng-model='vm.newAccount.password')
       .error-message(ng-show='vm.errors') {{ vm.errors }}
       button.btn.btn-center.btn-primary(type='submit') Créer votre compte
 
