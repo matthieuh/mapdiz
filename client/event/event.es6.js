@@ -77,7 +77,6 @@ class Event {
     self.mapSvc = mapSvc;
     self.save = save;
     self.deleteCover = deleteCover;
-    self.url = url;
     self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder'
 
     $scope.addTimeToDatetime = addTimeToDatetime;
@@ -149,13 +148,6 @@ class Event {
 
     /////////////////////
 
-    function url(event, store) {
-      if(event && event.cover) {
-        var image = $meteor.object(Images, event.cover);
-        if (!image || !image.url) return null
-        return image.url({store: store});
-      }
-    };
 
     function addTimeToDatetime(time, datimeScopeName) {
       var momentDate = moment(self.newEvent[datimeScopeName]);

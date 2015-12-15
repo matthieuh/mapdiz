@@ -27,20 +27,21 @@
         gm-infowindow.drg-marker-info-window(
           options="{content: Map.mapSvc.draggableMarker.content}",
           ng-show='Map.mapSvc.draggableMarker.visible',
-          on-domready ='Map.mapSvc.draggableMarker.onDomready(map)'
+          on-domready='Map.mapSvc.draggableMarker.onDomready(map)'
         )
 
       gm-marker.event-marker(
         ng-repeat='filteredEvent in Map.mapSvc.filteredEvents',
         position='filteredEvent.position',
         on-click='filteredEvent.showInfo=!filteredEvent.showInfo',
-        on-mouseover='Map.mapSvc.markerMouseOver(filteredEvent); filteredEvent.showInfo = true'
+        on-mouseover='Map.mapSvc.markerMouseOver(filteredEvent);',
+        on-mouseout='Map.mapSvc.markerMouseOut(filteredEvent);',
+        gm-then="Map.onMarkerDomready(map)"
       )
         gm-infowindow(
           ng-show='filteredEvent.showInfo',
-          options="{content: Map.eventOptions.content}",
-          on-domready="Map.initInfoWindow(map, $index, $event)"
-        )
+          options="{content: Map.getInfoWindowContent($index)}",
+          on-domready='Map.mapSvc.draggableMarker.onDomready(map)')
 
 
 //- ,

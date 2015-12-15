@@ -75,8 +75,9 @@ class MapService {
     function onMarkerDomready(map) {
       console.log('onMarkerDomready');
       var gmIw = document.querySelector('.gm-style-iw');
-
+      console.log('gmIw', gmIw);
       if (gmIw) {
+        gmIw.firstChild.style.display = 'flex';
         var iwPrev = gmIw.previousSibling;
         var iwPrevChildren = iwPrev.children;
         // Hide old infoWindow background
@@ -85,6 +86,7 @@ class MapService {
         var iw = document.querySelector('.info-window');
 
         if (iw) {
+          console.log('iw', iw);
           iw.parentNode.style.display = 'block';
           // Arrow over infoWindow
           gmIw.parentNode.children[0].style['z-index'] = 1;
@@ -159,7 +161,8 @@ class MapService {
       var containers = document.getElementsByClassName('events-list');
       if (containers) var container = angular.element(containers[0]);
       var someElement = angular.element(document.getElementById('event-' + event._id));
-      if (container && someElement) container.scrollToElement(someElement, 0, 500);
+      console.log('someElement', someElement);
+      if (container && someElement && !_.isEmpty(someElement)) container.scrollToElement(someElement, 0, 500);
     };
 
     function markerMouseOut(event) {

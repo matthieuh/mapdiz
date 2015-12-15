@@ -20,10 +20,20 @@ class map {
     self.mapControl = {};
     self.draggableMarkerOnDrag = draggableMarkerOnDrag;
     self.draggableMarkerChanged = draggableMarkerChanged;
-    self.initInfoWindow = initInfoWindow;
-    self.eventOptions = {
-      content: 'blablabla'
-    };
+    self.getInfoWindowContent = (eventIndex) => {
+      var event = mapSvc.filteredEvents[eventIndex];
+      var eventContent = `
+        <div class='info-window'>
+          <div class='iw-container'>
+            <img class='cover' src='${ event.cover }'>
+            <div class='info-window-content'>
+              <h4>${ event.name }</h4>
+            </div>
+          </div>
+        </div>
+      `;
+      return eventContent;
+    }
 
     $meteor.autorun($scope, autorun);
 
@@ -57,8 +67,13 @@ class map {
       $rootScope.$broadcast('draggableMarker.position.changed', self.mapSvc.draggableMarker.position);
     }
 
-    function initInfoWindow(mapInstance, eventIndex, currentTarget) {
-      console.log('initInfoWindow', eventIndex, mapSvc.filteredEvents[eventIndex], currentTarget);
+    /*function initInfoWindow(mapInstance, eventIndex, infoWindow, event) {
+
+      $timeout(function () {
+        markerInstance.setAnimation(google.maps.Animation.BOUNCE);
+      }, 3000);
+
+      console.log('initInfoWindow', mapInstance, eventIndex, infoWindow, event);
 
       var eventContent = `
         <div class='info-window'>
@@ -79,16 +94,11 @@ class map {
 
       var compiled = $compile(eventContent)($scope);
 
-      console.log('compiled', compiled);
+      console.log('compiled', compiled[0]);
 
-      self.eventOptions[eventIndex] = self.eventOptions[eventIndex] || {};
-      self.eventOptions = {
-        content: 'modified'
-      };
+      self.infowindowContent[eventIndex] = compiled[0];
       //self.eventOptions.content = 'modified';
-      mapSvc.draggableMarker.visible = false;
-      mapSvc.draggableMarker.visible = true;
-    }
+    }*/
   }
 }
 
