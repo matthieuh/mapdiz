@@ -1,48 +1,82 @@
 [root-state^='home']
-  /*.nav-bar-main
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    background-color: transparent
-    font-family: 'Open Sans', sans-serif
-    color: mainColor
-  */
 
   .nav-bar-main
     position: absolute
     top: 0
     left: 0
     right: 0
+    background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%;
+    box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16);
 
     h1
-
       a
-
-        img.logo
+        &:hover
+          cursor: inherit
 
         .title-txt
-          color: mainColor
+          color: white
 
     .top-menu
       a.top-menu-link
         .title-icon
-          color: mainColor
+          color: white
 
         &:hover
           background-color: transparent
-          text-shadow: none
+          color: brand-primary
 
-    .title
-      color: mainColor
+    .title, .icon
+      color: white
 
-    .icon
-      text-shadow: none
+    .icon:hover
+      color: brand-primary
 
   .nav-bar .top-menu .title-icon .icon
     text-shadow: none
 
   home
     .homepage-layer
-      height: 500px
-      background-image: url("http://static1.squarespace.com/static/55c37beae4b0336075603f86/55c3cd80e4b01531b3208f2e/5603032be4b008bd0ad4e6fb/1443279872878/?format=1500w")
+      padding: 255px 0 55px 0
+      background-color: #59748F
+      background-image: url('http://www.so-events.at/SYSTEM/image_background/standard/background_02.jpg')
+      background-position: center center
+      background-size: cover
+      background-repeat: no-repeat
+
+      h1
+        font-family: "Lato", sans-serif
+        font-weight: 400
+        color: white
+        background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%;
+        box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16);
+
+      .homepage-search-box
+        display: flex
+        justify-content: center
+        align-items: center
+        margin-top: 50px
+
+        .grouped-form
+          display: flex
+          justify-content: center
+          align-items: center
+
+          .item
+            flex: 1
+            margin: 0
+
+            &(:last-child)
+              border-right: 0px none
+
+          .button
+            display: block
+            border-radius: 0px
+            font-size: 15px
+            margin: 0px
+
+          .input-with-icon
+            .input-icon
+              color: brand-primary
+
+        #location
+          width: 450px

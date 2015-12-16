@@ -25,9 +25,13 @@ class map {
       var eventContent = `
         <div class='info-window'>
           <div class='iw-container'>
-            <img class='cover' src='${ event.cover }'>
+            ${ event.cover ? `<div class='cover' style='background-image:url(${ Images.findOne(event.cover).url() })'></div>` : `` }
             <div class='info-window-content'>
               <h4>${ event.name }</h4>
+              <div class='description mxn1' ng-show='eventDetails.newEvent.description'>
+                <strong>Description :</strong> ${ event.description }
+                <div class="iw-bottom-gradient"></div>
+              </div>
             </div>
           </div>
         </div>

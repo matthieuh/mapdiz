@@ -200,6 +200,7 @@ Events.before.insert(function(userId, doc) {
   doc.added = Date.now();
   doc.owner = userId;
   doc.url = convertToSlug(doc.name);
+  doc.name = capitalizeFirstLetter(doc.name);
 });
 
 Events.before.update(function(userId, doc) {
@@ -212,3 +213,7 @@ function convertToSlug(Text) {
     .replace(/[^\w ]+/g,'')
     .replace(/ +/g,'-');
 };
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

@@ -70,8 +70,13 @@ class MapService {
 
     return service;
 
-    /////////////////
+    /////////////////////////
 
+    /**
+     * [onMarkerDomready description]
+     * @param  {[type]} map [description]
+     * @return {[type]}     [description]
+     */
     function onMarkerDomready(map) {
       console.log('onMarkerDomready');
       var gmIw = document.querySelector('.gm-style-iw');
@@ -161,7 +166,6 @@ class MapService {
       var containers = document.getElementsByClassName('events-list');
       if (containers) var container = angular.element(containers[0]);
       var someElement = angular.element(document.getElementById('event-' + event._id));
-      console.log('someElement', someElement);
       if (container && someElement && !_.isEmpty(someElement)) container.scrollToElement(someElement, 0, 500);
     };
 

@@ -1,3 +1,14 @@
 .homepage-layer
+  .container
+    h1 Trouvez un évenement autour de chez vous !
+    //- h2
+
+    form.homepage-search-box
+      .grouped-form
+        .input#location.input-with-icon.item
+          input(placeholder='Adresse de localisation', type='text', name='location')
+          button.input-icon.fa.fa-location-arrow.fa-lg
+        button.button.button-primary Rechercher
+
 
 div(ui-sref='app.events') WELCOME
