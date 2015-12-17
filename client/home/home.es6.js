@@ -76,9 +76,13 @@ class Home {
 
     function search() {
       var latLng = self.myLocation.latLng;
-      var latLngParam = `${ latLng.lat },${ latLng.lng }`;
-      console.log('latLngParam', latLngParam);
-      $state.go('app.events', {latlng: latLngParam});
+      if (latLng) {
+        var latLngParam = `${ latLng.lat },${ latLng.lng }`;
+        console.log('latLngParam', latLngParam);
+        $state.go('app.events', {latlng: latLngParam});
+      } else {
+        $state.go('app.events');
+      }
     }
   }
 }

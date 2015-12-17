@@ -118,7 +118,7 @@ class EventsList {
       if ($rootScope.currentUser)
         if ($rootScope.currentUser._id)
           if (owner._id === $rootScope.currentUser._id)
-            return "me";
+            return "moi";
 
       return owner;
     }
@@ -140,22 +140,21 @@ class EventsList {
      */
     function setMapCenter() {
 
-      console.log('$stateParams.latlng', $stateParams.latlng);
       if ($stateParams.latlng) {
         var splittedLatlng = $stateParams.latlng.split(',');
-        console.log('splittedLatlng.length', splittedLatlng, splittedLatlng.length);
+
         if (splittedLatlng.length >= 2) {
+
           var searchedLatlng = {
             lat: splittedLatlng[0],
             lng: splittedLatlng[1]
           };
-          console.log('searchedLatlng', searchedLatlng);
+
           mapSvc.setMapCenter(searchedLatlng);
         } else {
           centerOnUserGeoloc();
         }
       } else {
-        console.log('centerOnUserGeoloc1');
         centerOnUserGeoloc()
       }
     }
@@ -165,13 +164,11 @@ class EventsList {
      * @return {[type]} [description]
      */
     function centerOnUserGeoloc() {
-      console.log('centerOnUserGeoloc2');
       var newPosition = mapSvc.getNewPosition();
-      console.log('newPosition', newPosition);
+
       if (_.isEmpty(newPosition)){
         mapSvc.setMapCenter('userGeoLoc');
       } else {
-        console.log('Set last position', newPosition);
         mapSvc.setMapCenter(newPosition.center);
         mapSvc.setMapZoom(newPosition.zoom);
       }

@@ -53,6 +53,7 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       a.date-field.editable#edit-endDate  {{ eventDetails.newEvent.endDate ? ( eventDetails.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
       span.between à
       time-picker(ng-model='eventDetails.newEvent.endTime')  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
+      invitation(ng-model='eventDetails.endTime')
 
 main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
@@ -73,5 +74,8 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
   label.block.col-12(for="public") Public
     input#publict(type="checkbox", ng-model="eventDetails.newEvent.public")
+
+  p(ng-init='toto="test"') {{ eventDetails.newEvent | json }}
+
 
   button.btn.btn-primary(ng-click="eventDetails.save()") {{ eventDetails.validFormBtn }}

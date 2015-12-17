@@ -1,0 +1,38 @@
+.time-picker
+  position: relative
+  
+  a
+    font-weight: bold
+
+  .time-picker-dialog
+    z-index: 9999 !important
+    display: block
+    position: absolute
+    width: 295px
+    padding: 8px
+    border-width: 1px
+    border-style: solid
+    border-color: #CCC #CCC #BBB
+    background-color: white
+    box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.5)
+    color: black
+
+    .hours, .minutes
+      display: inline-block
+      
+      select
+        color: black
+        
+        &:hover
+          cursor: pointer
+      
+    .hours
+      margin-right: 5px
+      
+    .btn-close
+      color: #AAA
+      font-size: 20px
+      text-decoration: none
+      position: absolute
+      right: 5px
+      top: 0px
