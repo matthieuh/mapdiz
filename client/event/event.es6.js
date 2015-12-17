@@ -17,7 +17,7 @@ SetModule('mapdiz');
   html5Mode: true
 })
 
-@Component({selector: 'event', controllerAs: 'eventDetails' })
+@Component({selector: 'event', controllerAs: 'eventDetails'})
 @View({templateUrl: 'client/event/event.html'})
 @Inject(['$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload'])
 

@@ -6,9 +6,22 @@
     form.homepage-search-box
       .grouped-form
         .input#location.input-with-icon.item
-          input(placeholder='Adresse de localisation', type='text', name='location')
-          button.input-icon.fa.fa-location-arrow.fa-lg
-        button.button.button-primary Rechercher
+          input(
+            placeholder='Adresse de localisation',
+            type='text',
+            name='location',
+            autocomplete='off',
+            g-places-autocomplete,
+            ng-model='Home.myLocation["address"]'
+          )
+          button.input-icon.fa.fa-lg(
+            ng-click='Home.setMyLocation()',
+            title='Utiliser ma position actuelle',
+            ng-class="Home.gettingGeoloc ? ['fa-spinner', 'fa-spin'] : 'fa-location-arrow'"
+          )
+        button.button.button-primary(ng-click='Home.search()') Rechercher
 
 
 div(ui-sref='app.events') WELCOME
+{{ Home.myLocation | json }}
+{{ Home.gettingGeoloc }}

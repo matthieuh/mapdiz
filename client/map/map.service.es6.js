@@ -245,7 +245,12 @@ class MapService {
       console.log('getting user geolocation ...')
 
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position){
+        navigator.geolocation.getCurrentPosition( (position, error) => {
+          console.log('eolocation.getCurrentPosition', position, error);
+          if (error) {
+            return deferred.reject(error);
+          }
+          console.log('position', position);
           var userGeoLoc = {
             center: {
               lat: position.coords.latitude,
@@ -254,7 +259,16 @@ class MapService {
             zoom: 12
           };
           deferred.resolve(userGeoLoc);
-        }, positionError, { enableHighAccuracy: true });
+        }, (error) => {
+          console.log('error', error);
+          var errors = {
+            1: "Authorization fails", // permission denied
+            2: "Can\'t detect your location", //position unavailable
+            3: "Connection timeout"
+          };
+          deferred.reject(errors[error]);
+        }, { enableHighAccuracy: true });
+
       } else {
           deferred.reject("Your browser is out of fashion, there\'s no geolocation!");
       }
@@ -289,11 +303,3 @@ class MapService {
     }
   }
 }
-
-var positionError = function(error) {
-  var errors = {
-    1: "Authorization fails", // permission denied
-    2: "Can\'t detect your location", //position unavailable
-    3: "Connection timeout"
-  };
-};

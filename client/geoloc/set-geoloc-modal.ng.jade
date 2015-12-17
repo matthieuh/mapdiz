@@ -22,14 +22,6 @@ md-dialog.set-geoloc-modal
               ng-model='placesObj',
               ng-change='placeObjToLocation(placesObj)'
             )
-            //- button.validate.btn.btn-primary(ng-click='editAddress=false; placeObjToLocation(placesObj)')
-              i.icon.ion-checkmark
-          //- .address
-            p.white(ng-bind-html='location.address.html', ng-show='editAddress == false || placesObj')
-            button.validate.btn.btn-primary(ng-click='editAddress=false; placeObjToLocation(placesObj)')
-              i.icon.ion-edit
-
-          //- input#address.block.col-12.field(type="number", ng-model="address", )
         .location-selector(ng-show='geolocChoiceType == "coordinates"')
           label.white(for="latInput") Latitude
           input#latInput.block.col-12.field(

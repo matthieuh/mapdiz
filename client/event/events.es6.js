@@ -4,17 +4,17 @@ angular.module('mapdiz');
 
 @State({
   name: 'app.events',
-  url: '/events',
+  url: '/events?latlng',
   defaultRoute: true,
   html5Mode: true
 })
 
 @Component({selector: 'events-list'})
 @View({templateUrl: 'client/event/events.html'})
-@Inject(['$scope', '$reactive', '$meteor', '$rootScope', '$state', '$filter', '$log', 'mapSvc', 'localStorageService'])
+@Inject('$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService')
 
 class EventsList {
-  constructor($scope, $reactive, $meteor, $rootScope, $state, $filter, $log, mapSvc, localStorage) {
+  constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage) {
     let reactiveContext = $reactive(this).attach($scope);
 
     var self = this;
@@ -53,15 +53,7 @@ class EventsList {
         subscriptionHandle = handle;
         self.users = $meteor.collection(Meteor.users, false);
       });
-      var newPosition = mapSvc.getNewPosition();
-      console.log('Set last position 1', newPosition, !_.isEmpty(newPosition));
-      if (_.isEmpty(newPosition)){
-        centerOnUserGeoLoc();
-      } else {
-        console.log('Set last position', newPosition);
-        mapSvc.setMapCenter(newPosition.center);
-        mapSvc.setMapZoom(newPosition.zoom);
-      }
+      setMapCenter();
     };
 
     $scope.$on('$destroy', function() {
@@ -72,10 +64,6 @@ class EventsList {
     });
 
     ////////////////////////
-
-    function centerOnUserGeoLoc() {
-      mapSvc.setMapCenter('userGeoLoc');
-    };
 
     function url(event, store) {
       if(event && event.cover) {
@@ -115,6 +103,11 @@ class EventsList {
       return Meteor.users.findOne(userId);
     }
 
+    /**
+     * [creator description]
+     * @param  {[type]} event [description]
+     * @return {[type]}       [description]
+     */
     function creator(event) {
       if (!event)
         return;
@@ -130,10 +123,58 @@ class EventsList {
       return owner;
     }
 
+    /**
+     * [rsvp description]
+     * @param  {[type]} eventId [description]
+     * @param  {[type]} rsvp    [description]
+     * @return {[type]}         [description]
+     */
     function rsvp(eventId, rsvp) {
       Meteor.call('rsvp', eventId, rsvp, (err, result) => {
         console.log('responding', err, result);
       });
+    }
+
+    /**
+     * [setMapCenter Set map center]
+     */
+    function setMapCenter() {
+
+      console.log('$stateParams.latlng', $stateParams.latlng);
+      if ($stateParams.latlng) {
+        var splittedLatlng = $stateParams.latlng.split(',');
+        console.log('splittedLatlng.length', splittedLatlng, splittedLatlng.length);
+        if (splittedLatlng.length >= 2) {
+          var searchedLatlng = {
+            lat: splittedLatlng[0],
+            lng: splittedLatlng[1]
+          };
+          console.log('searchedLatlng', searchedLatlng);
+          mapSvc.setMapCenter(searchedLatlng);
+        } else {
+          centerOnUserGeoloc();
+        }
+      } else {
+        console.log('centerOnUserGeoloc1');
+        centerOnUserGeoloc()
+      }
+    }
+
+    /**
+     * [centerOnUserGeoloc description]
+     * @return {[type]} [description]
+     */
+    function centerOnUserGeoloc() {
+      console.log('centerOnUserGeoloc2');
+      var newPosition = mapSvc.getNewPosition();
+      console.log('newPosition', newPosition);
+      if (_.isEmpty(newPosition)){
+        mapSvc.setMapCenter('userGeoLoc');
+      } else {
+        console.log('Set last position', newPosition);
+        mapSvc.setMapCenter(newPosition.center);
+        mapSvc.setMapZoom(newPosition.zoom);
+      }
     }
   }
 }
