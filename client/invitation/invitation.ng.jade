@@ -1,9 +1,11 @@
 div Invitations
 
-//- md-list(ng-show='invitation.canInvite()')
+{{ Invitation.ngModel | json }}
+
+md-list(ng-show='Invitation.canInvite()')
   md-subheader.md-no-sticky Users to invite:
-  md-list-item(ng-repeat='user in invitation.users | uninvited:invitation.ngModel')
+  md-list-item(ng-repeat='user in Invitation.users | uninvited:Invitation.ngModel')
     div {{ user | displayName }}
-    md-button(ng-click='invitation.invite(user)') Invite
-  md-list-item(ng-if='(invitation.users | uninvited:invitation.ngModel).length <= 0')
+    md-button(ng-click='Invitation.invite(user)') Invite
+  md-list-item(ng-if='(Invitation.users | uninvited:Invitation.ngModel).length <= 0')
     | Everyone are already invited.

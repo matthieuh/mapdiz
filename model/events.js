@@ -52,7 +52,8 @@ var EventSchema = new SimpleSchema({
   },
   "public": {
     label: "Publique",
-    type: Boolean
+    type: Boolean,
+    defaultValue: false
   },
   "rsvps": {
     label: "Participants",
@@ -64,6 +65,11 @@ var EventSchema = new SimpleSchema({
   },
   "rsvps.$.rsvp": {
     type: String
+  },
+  "invited": {
+    label: "Invités",
+    type: [String],
+    optional: true
   }
 });
 
@@ -111,6 +117,7 @@ Meteor.methods({
       var to = contactEmail(Meteor.users.findOne(userId));
 
       if (Meteor.isServer && to) {
+        console.log('email send');
         // This code only runs on the server. If you didn't want clients
         // to be able to see it, you could move it to a separate file.
         Email.send({
@@ -119,19 +126,17 @@ Meteor.methods({
           replyTo: from || undefined,
           subject: "PARTY: " + event.name,
           text:
-          "Bonjour, Je t'invite à mon évenement '" + event.name + "' sur Mapdiz." +
-          "\n\nVenez me donner votre disponibilité : " + Meteor.absoluteUrl() + "/events/" + eventId + "/"+ event.url +"\n"
+          "Bonjour,\n\n" +
+          "Je t'invite à mon évenement '" + event.name + "' sur Mapdiz.\n\n" +
+          "Venez me donner votre disponibilité : " + Meteor.absoluteUrl() + "events/" + eventId + "/"+ event.url +"\n"
         });
       }
     }
   },
   rsvp: function (eventId, rsvp) {
 
-    console.log('rsvp', eventId, rsvp);
-
     check(eventId, String);
     check(rsvp, String);
-
 
     if (!this.userId)
       throw new Meteor.Error(403, "Vous devez être connecté pour réserver !");
@@ -193,7 +198,6 @@ var contactEmail = function(user) {
     return user.services.facebook.email;
   return null;
 };
-
 
 Events.before.insert(function(userId, doc) {
   console.log('Events.before.insert', userId, doc);

@@ -6,6 +6,7 @@ angular.module('mapdiz');
 
 @Component({
   selector: 'invitation',
+  controllerAs: 'Invitation',
   bind: {
     ngModel: '='
   }
@@ -25,7 +26,7 @@ class Invitation {
 
     console.log('ngModel', self.ngModel);
 
-    /*let reactiveContext = $reactive(self).attach($scope);
+    let reactiveContext = $reactive(self).attach($scope);
 
     console.log('ngModel', self.ngModel);
 
@@ -39,9 +40,9 @@ class Invitation {
       currentUserId: () => {
         return Meteor.userId();
       }
-    });*/
+    });
 
-    /*self.invite = invite;
+    self.invite = invite;
     self.canInvite = canInvite;
 
     ////////////
@@ -62,7 +63,7 @@ class Invitation {
         return false;
 
       return !self.ngModel.public && self.ngModel.owner === Meteor.userId();
-    }*/
+    }
 
   }
 }

@@ -1,32 +1,41 @@
-"use strict";
+var {SetModule, Component, View, Inject, State} = angular2now;
 
-var {Component, View, Inject, State} = angular2now;
-
-angular.module('mapdiz');
+SetModule('mapdiz');
 
 @State({
   name: 'app.profile',
   url: '/profile'
 })
 
-@Component({selector: 'profile'})
+@Component({selector: 'profile', controllerAs: 'Profile'})
 @View({templateUrl: 'client/user/profile.html'})
-@Inject(['$scope', '$rootScope', '$meteor', '$stateParams', '$log', 'mapSvc'])
+@Inject('$scope', '$reactive', 'mapSvc', '$log')
 
-class MyAccount {
+class Profile {
 
-  constructor($scope, $rootScope, $meteor, $stateParams, $log, mapSvc) {
-    $log.info('MyAccount Class')
-    console.log('MyAccount Class', $rootScope.currentUser);
-    var self = this;
-    var subscriptionHandle;
+  constructor($scope, $reactive, mapSvc, $log) {
+    $log.info('Profile');
 
-    self.addImage = addImage;
-    self.profilePics = $meteor.collectionFS(ProfilePics, false).subscribe('profilePics');
+    $reactive(this).attach($scope);
 
-    $meteor.waitForUser().then(getUserInfos);
+    this.helpers({
+      isLoggedIn() {
+        return Meteor.userId() != null;
+      },
+      currentUser() {
+        return Meteor.user();
+      }
+    });
 
-    function getUserInfos() {
+    console.log('currentUser', this.currentUser);
+
+    centerMapOnUserLoc();
+
+    this.openProfilePicInput = openProfilePicInput;
+    var profilPicInput = $('#profile-pic-input');
+    profilPicInput.bind("change", uploadProfilePic);
+
+   /*function getUserInfos() {
       self.url = url;
       $meteor.subscribe('users').then(function(handle){
         subscriptionHandle = handle;
@@ -37,7 +46,7 @@ class MyAccount {
         console.log('autorun account', self.user);
         console.log('autorun account 2', self.profilePic);
       });
-    };
+    };*/
 
     // $scope.$on('$destroy', function() {
     //   if(angular.isDefined(subscriptionHandle)){
@@ -51,25 +60,48 @@ class MyAccount {
     // self.profilePic = $meteor.object(ProfilePics, self.user.profilePicture, true).subscribe('profilePics');
     // console.log('self.profilePic 2 ;)', self.profilePic);
 
-    function addImage() {
-      $('#upload-file').bind("change", function(event) {
-        var picToSave = new FS.File( event.target.files[0]);
-        console.log('addImage', event.target.files[0], picToSave);
-        self.profilePics.save(picToSave).then(function(fileObj){
-          console.log('then', fileObj);
-          self.profilePic = fileObj[0]._id;
-          console.log('self.profilePic add ;)', self.profilePic);
-        }, function(error){
-          console.log('save error', error);
-        });
-      }).click();
-    };
 
-    function url() {
+
+    /*function url() {
       if (!self.user || !self.user.profilePicture) return null;
       self.profilePic = _.find(self.profilePics, {_id: self.user.profilePicture});
       if (!self.profilePic || !self.profilePic.url) return null;
       return self.profilePic.url({store: 'profilePic-large'});
+    };*/
+
+    ///////////////////
+
+    /**
+     * [centerOnUserGeoloc description]
+     * @return {[type]} [description]
+     */
+    function centerMapOnUserLoc() {
+      var newPosition = mapSvc.getNewPosition();
+
+      if (_.isEmpty(newPosition)){
+        mapSvc.setMapCenter('userGeoLoc');
+      } else {
+        mapSvc.setMapCenter(newPosition.center);
+        mapSvc.setMapZoom(newPosition.zoom);
+      }
+    }
+
+    /**
+     * [uploadImage description]
+     * @return {[type]} [description]
+     */
+    function openProfilePicInput() {
+      profilPicInput.click();
     };
+
+    function uploadProfilePic(event) {
+      console.log('uploadImage', event.target.files[0]);
+      ProfilePics.insert(event.target.files[0], function (err, fileObj) {
+        if (err)
+          console.log('uploadProfilePic', err);
+        else
+          console.log('success');
+      });
+    }
   }
 }

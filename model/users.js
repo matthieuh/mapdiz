@@ -1,30 +1,3 @@
-Schema.UserProfile = new SimpleSchema({
-  firstName: {
-    type: String,
-    regEx: /^[a-zA-Z-]{2,25}$/,
-    optional: true
-  },
-  lastName: {
-    type: String,
-    regEx: /^[a-zA-Z]{2,25}$/,
-    optional: true
-  },
-  birthday: {
-    type: Date,
-    optional: true
-  },
-  gender: {
-    type: String,
-    allowedValues: ['Male', 'Female'],
-    optional: true
-  },
-  organization : {
-    type: String,
-    regEx: /^[a-z0-9A-z .]{3,30}$/,
-    optional: true
-  },
-});
-
 Schema.User = new SimpleSchema({
   _id: {
     type: String,
@@ -56,10 +29,6 @@ Schema.User = new SimpleSchema({
   createdAt: {
     type: Date
   },
-  profile: {
-    type: Schema.UserProfile,
-    optional: true
-  },
   services: {
     type: Object,
     optional: true,
@@ -76,6 +45,30 @@ Schema.User = new SimpleSchema({
     optional: true,
     blackbox: true,
     allowedValues: ['booker', 'provider', 'admin']
+  },
+  firstName: {
+    type: String,
+    regEx: /^[a-zA-Z-]{2,25}$/,
+    optional: true
+  },
+  lastName: {
+    type: String,
+    regEx: /^[a-zA-Z]{2,25}$/,
+    optional: true
+  },
+  birthday: {
+    type: Date,
+    optional: true
+  },
+  gender: {
+    type: String,
+    allowedValues: ['Male', 'Female'],
+    optional: true
+  },
+  organization : {
+    type: String,
+    regEx: /^[a-z0-9A-z .]{3,30}$/,
+    optional: true
   },
   heartbeat: {
     type: Date,
