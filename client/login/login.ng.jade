@@ -1,7 +1,6 @@
-.login-menu(id='connect-btn', ng-click='vm.togglePopup()')
-  img.profile-picture-mini(ng-src="{{ vm.url() }}", ng-if="$root.currentUser")
-  .title-icon
-    i.icon.ion-ios-person-outline
+.login-menu(id='connect-btn', ng-click='vm.togglePopup()', ng-cloak)
+  img.title-icon.profile-picture-mini(ng-src="{{ vm.avatar.url('avatar-small') }}", ng-show="vm.avatar")
+  i.title-icon.icon.ion-ios-person-outline(ng-show="!$root.currentUser || !vm.avatar")
   .title(ng-if="$root.currentUser") {{ $root.currentUser | displayName }}
   .title(ng-if="!$root.currentUser") Se connecter
 
@@ -55,7 +54,7 @@
     form(ng-submit='vm.changePassword(vm.password, vm.newPassword)')
       label(for='password') Mot de passe
       input#password.block.col-12.field(type='password', name='password', ng-model='vm.password')
-      abel(for='password') Nouveau mot de passe
+      label(for='password') Nouveau mot de passe
       input#password.block.col-12.field(type='password', name='password', ng-model='vm.newPassword')
       .error-message(ng-show='vm.errors') {{ vm.errors }}
       .btns.btns-center

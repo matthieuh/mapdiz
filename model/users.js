@@ -70,6 +70,11 @@ Schema.User = new SimpleSchema({
     regEx: /^[a-z0-9A-z .]{3,30}$/,
     optional: true
   },
+  avatar: {
+    label: "Photo de profil",
+    type: String,
+    optional: true
+  },
   heartbeat: {
     type: Date,
     optional: true

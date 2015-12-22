@@ -2,7 +2,7 @@ Schema = {}
 
 Events = new Mongo.Collection("events");
 
-var EventSchema = new SimpleSchema({
+Schema.Event = new SimpleSchema({
   "name": {
     type: String,
     label: "Name",
@@ -73,7 +73,7 @@ var EventSchema = new SimpleSchema({
   }
 });
 
-Events.attachSchema(EventSchema);
+Events.attachSchema(Schema.Event);
 
 Events.allow({
   insert: function (userId, event) {

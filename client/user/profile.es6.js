@@ -16,24 +16,29 @@ class Profile {
   constructor($scope, $reactive, mapSvc, $log) {
     $log.info('Profile');
 
-    $reactive(this).attach($scope);
+    var self = this;
 
-    this.helpers({
+    $reactive(self).attach($scope);
+
+    self.helpers({
       isLoggedIn() {
         return Meteor.userId() != null;
       },
       currentUser() {
         return Meteor.user();
+      },
+      avatar: () => {
+        return Avatars.findOne(self.getReactively('currentUser.avatar'));
       }
     });
 
-    console.log('currentUser', this.currentUser);
+    console.log('$scope', $scope);
 
     centerMapOnUserLoc();
 
-    this.openProfilePicInput = openProfilePicInput;
-    var profilPicInput = $('#profile-pic-input');
-    profilPicInput.bind("change", uploadProfilePic);
+    this.openAvatarInput = openAvatarInput;
+    var avatarInput = $('#avatar-input');
+    avatarInput.bind("change", uploadAvatar);
 
    /*function getUserInfos() {
       self.url = url;
@@ -90,17 +95,18 @@ class Profile {
      * [uploadImage description]
      * @return {[type]} [description]
      */
-    function openProfilePicInput() {
-      profilPicInput.click();
+    function openAvatarInput() {
+      avatarInput.click();
     };
 
-    function uploadProfilePic(event) {
+    function uploadAvatar(event) {
       console.log('uploadImage', event.target.files[0]);
-      ProfilePics.insert(event.target.files[0], function (err, fileObj) {
-        if (err)
+      Avatars.insert(event.target.files[0], function (err, fileObj) {
+        if (err) {
           console.log('uploadProfilePic', err);
-        else
+        } else {
           console.log('success');
+        }
       });
     }
   }

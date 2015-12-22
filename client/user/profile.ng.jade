@@ -1,18 +1,17 @@
 header.flex.p2
-  .profile-picture-container
+  .avatar-container
     //- img.profile-picture(src='http://geoadrs.com/image/default-user.png', ng-if='!vm.profilePic.url')
-    img.profile-picture(ng-src="{{ Profile.url() }}")
-    input#profile-pic-input(
+    img.avatar(ng-src='{{ Profile.avatar.url("avatar-large") }}')
+    input#avatar-input(
       type="file",
       ng-show='false'
     )
-    .edit-pic-btn(ng-click='Profile.openProfilePicInput()') Changer
+    .edit-avatar-btn(ng-click='Profile.openAvatarInput()') Changer
   infos.ml2.flex-auto
     h1 Mon Compte
     hr
     p Membre depuis le {{ Profile.currentUser.createdAt | date: 'dd/M/yyyy' }}
     p E-mail : {{ Profile.currentUser.emails[0].address }}
-    p {{ imgPath }}
 
-section {{ Profile.currentUser | json }}
+section {{ Profile.currentUser | json }} {{ Mapdiz.avatar | json }}
 

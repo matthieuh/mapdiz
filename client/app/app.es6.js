@@ -61,10 +61,6 @@ class App {
         usersHandle = handle;
         self.user =  Meteor.users.findOne($rootScope.currentUser._id);
       });
-      $meteor.subscribe('profilePics').then(function(handle) {
-        profilePicsHandle = handle;
-        self.profilePic = $meteor.object(ProfilePics, self.user.profilePicture, true);
-      });
 
       $scope.$on('$destroy', function() {
         usersHandle.stop();

@@ -4,15 +4,32 @@ var {SetModule, Component, View, Inject} = angular2now;
 
 SetModule('mapdiz');
 
-@Component({selector: 'login'})
+@Component({
+  selector: 'login'
+})
+
 @View({templateUrl: 'client/login/login.html'})
-@Inject(['$scope', '$meteor', '$rootScope', '$state', '$log'])
+@Inject(['$scope', '$reactive', '$meteor', '$rootScope', '$state', '$log'])
 
 class Login {
-  constructor($scope, $meteor, $rootScope, $state, $log) {
+  constructor($scope, $reactive, $meteor, $rootScope, $state, $log) {
     $log.info('LoginCtrl');
 
     var self = this;
+
+    $reactive(self).attach($scope);
+
+    self.helpers({
+      isLoggedIn() {
+        return Meteor.userId() != null;
+      },
+      currentUser() {
+        return Meteor.user();
+      },
+      avatar: () => {
+        return Avatars.findOne(self.getReactively('currentUser.avatar'));
+      }
+    });
 
     self.logout = logout;
     self.loginWithPassword = loginWithPassword;
