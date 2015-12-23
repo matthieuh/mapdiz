@@ -55,6 +55,8 @@ class Mapdiz {
 
     $reactive(self).attach($scope);
 
+    self.subscribe('avatars');
+
     $scope.$state = $state;
 
     $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
@@ -62,15 +64,15 @@ class Mapdiz {
       $rootScope.currentState = to.name;
     });
 
-    self.subscribe('avatars');
-    self.helpers({
+
+    /*self.helpers({
       isLoggedIn: () => {
         return Meteor.userId() !== null;
       },
       currentUser: () => {
         return Meteor.user();
       }
-    });
+    });*/
 
 
   }

@@ -34,27 +34,24 @@ if (Meteor.isServer) {
       gm(readStream).crop(size.width, size.height, size.x, size.y).stream().pipe(writeStream);
     }
   });
+
+  Avatars.allow({
+    insert: function (userId, doc) {
+      return (userId ? true : false);
+    },
+    update: function (userId, doc, fields, modifier) {
+      return (userId ? true : false);
+    },
+    remove: function (userId, doc) {
+      return (userId ? true : false);
+    },
+    download: function(userId, doc) {
+      return true;
+    }
+  });
 }
 
-Avatars.allow({
-  insert: function (userId, doc) {
-    console.log('update avatar', userId, doc);
-    return userId;
-  },
-  update: function (userId, doc, fields, modifier) {
-
-    return true;
-  },
-  remove: function (userId, doc) {
-    return userId;
-  },
-  download: function(userId, doc) {
-    return true;
-  }
-});
-
 Avatars.files.after.insert(function (userId, doc) {
-  //doc.user = userId;
-  console.log('Meteor.userId()', Meteor.userId(), userId, doc);
+  console.log('after.insert', doc);
   Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'avatar': doc._id }} );
 });

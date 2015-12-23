@@ -17,6 +17,7 @@ class Profile {
     $log.info('Profile');
 
     var self = this;
+    var avatarInput = $('#avatar-input');
 
     $reactive(self).attach($scope);
 
@@ -26,53 +27,21 @@ class Profile {
       },
       currentUser() {
         return Meteor.user();
-      },
-      avatar: () => {
-        return Avatars.findOne(self.getReactively('currentUser.avatar'));
       }
     });
 
-    console.log('$scope', $scope);
+    self.autorun(() => {
+      if (Meteor.user() && Meteor.user().avatar) {
+        $scope.$apply(() => {
+          self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar'));
+        })
+      }
+    });
 
     centerMapOnUserLoc();
 
-    this.openAvatarInput = openAvatarInput;
-    var avatarInput = $('#avatar-input');
+    self.openAvatarInput = openAvatarInput;
     avatarInput.bind("change", uploadAvatar);
-
-   /*function getUserInfos() {
-      self.url = url;
-      $meteor.subscribe('users').then(function(handle){
-        subscriptionHandle = handle;
-        self.user =  $meteor.object(Meteor.users, $rootScope.currentUser._id, false);
-        //Meteor.users.findOne($rootScope.currentUser._id);
-        // self.profilePic = _.find(self.profilePics, {_id: self.user.profilePicture});
-        // self.profilePic = $meteor.object(ProfilePics, self.user.profilePicture, false);
-        console.log('autorun account', self.user);
-        console.log('autorun account 2', self.profilePic);
-      });
-    };*/
-
-    // $scope.$on('$destroy', function() {
-    //   if(angular.isDefined(subscriptionHandle)){
-    //     subscriptionHandle.stop();
-    //     subscriptionHandle = undefined;
-    //   }
-    // });
-
-    // self.user = $meteor.object( Meteor.users, $rootScope.currentUser._id, true).subscribe('users');
-    // console.log('self.user ;)', self.user);
-    // self.profilePic = $meteor.object(ProfilePics, self.user.profilePicture, true).subscribe('profilePics');
-    // console.log('self.profilePic 2 ;)', self.profilePic);
-
-
-
-    /*function url() {
-      if (!self.user || !self.user.profilePicture) return null;
-      self.profilePic = _.find(self.profilePics, {_id: self.user.profilePicture});
-      if (!self.profilePic || !self.profilePic.url) return null;
-      return self.profilePic.url({store: 'profilePic-large'});
-    };*/
 
     ///////////////////
 

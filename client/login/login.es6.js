@@ -25,11 +25,18 @@ class Login {
       },
       currentUser() {
         return Meteor.user();
-      },
-      avatar: () => {
-        return Avatars.findOne(self.getReactively('currentUser.avatar'));
       }
     });
+
+    self.autorun(() => {
+      if (Meteor.user() && Meteor.user().avatar) {
+        $scope.$apply(() => {
+          self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar'));
+        })
+      }
+    });
+
+
 
     self.logout = logout;
     self.loginWithPassword = loginWithPassword;
