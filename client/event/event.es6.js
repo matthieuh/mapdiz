@@ -25,15 +25,16 @@ class Event {
   constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $log, mapSvc, $timeout, $window, $compile, Upload) {
     var self = this;
 
-    let reactiveContext = $reactive(self).attach($scope);
+    $reactive(self).attach($scope);
+
     let method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update'
 
     $('event').slimScroll({
       height: 'inherit'
     });
 
-    reactiveContext.helpers({
-      newEvent: () => {
+    self.helpers({
+      newEvent() {
         if (method === 'create') {
           return {
             name: '',
@@ -45,6 +46,9 @@ class Event {
           return Events.findOne($stateParams.eventId);
         }
       },
+      cover() {
+        return Images.findOne(self.getReactively('newEvent.cover'));
+      }
     });
 
     $scope.$watchCollection('eventDetails.newEvent.position', () => {
@@ -56,15 +60,15 @@ class Event {
       }
     });
 
-    $scope.$watch('eventDetails.newEvent.cover', () => {
+    /*$scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {
-        reactiveContext.helpers({
+        self.helpers({
           cover: () => {
             return Images.findOne(self.newEvent.cover);
           }
         })
       }
-    });
+    });*/
 
     $scope.$watchCollection('eventDetails.cover', () => {
       if (typeof self.cover == 'object') {

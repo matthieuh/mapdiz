@@ -54,14 +54,15 @@ form.form-inline.search-form.flex-column
           rz-slider-always-show-bar='true'
         )
       .range-btns.flex-auto.flex-wrap(ng-if='!vm.distanceFilter.disabled')
-        .editable.range-value.flex(
+        .editable.range-value(
           ng-class="{'disabled': vm.distanceFilter.disabled || vm.distanceFilter.infinite}",
           ng-click='vm.distanceFilter.infinite=false;vm.distanceFilter.disabled=false',
         )
           div.flex
-            input(name='distanceSort', type='text', ng-model='vm.distanceFilter.max')
-            label(for='distanceSort') Km
-        .infinite.range-value.flex(
+            | A max
+            input.flex-auto(name='distanceSort', type='text', ng-model='vm.distanceFilter.max')
+            | Km
+        .infinite.range-value(
           ng-click='vm.distanceFilter.infinite=true;vm.distanceFilter.disabled=false',
           ng-class="{'disabled': !vm.distanceFilter.infinite}"
         )

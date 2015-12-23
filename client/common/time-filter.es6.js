@@ -9,10 +9,11 @@ class timeFilter {
       if(filter.disabled) return items;
       var filtered = [];
       angular.forEach(items, function(item, index) {
+        console.log('time', items, filter);
         if(item.beginDate) {
           var minDate = moment().add(filter.min, 'days');
           var maxDate = moment().add(filter.max, 'days');
-          var eventDate = moment(item.beginDate, 'DD/MM/YYYY');
+          var eventDate = moment(item.beginDate);
           var diff;
           if (filter.disabled) {
             filtered.push(item); // tous

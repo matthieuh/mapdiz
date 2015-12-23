@@ -15,7 +15,7 @@ Images = new FS.Collection("images", {
       transformWrite: function(fileObj, readStream, writeStream) {
         console.log('thumbnail gen', fileObj);
         gm(readStream, fileObj.name())
-          .resize(350, 250)
+          .resize('200', null, true)
           .stream()
           .pipe(writeStream);
       }

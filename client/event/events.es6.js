@@ -11,10 +11,10 @@ angular.module('mapdiz');
 
 @Component({selector: 'events-list'})
 @View({templateUrl: 'client/event/events.html'})
-@Inject('$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService')
+@Inject('$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout')
 
 class EventsList {
-  constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage) {
+  constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage, $timeout) {
 
     var self = this;
     var orderBy = $filter('orderBy');
@@ -55,6 +55,10 @@ class EventsList {
     localStorage.bind($scope, 'vm.distanceFilter.max', 15);
     localStorage.bind($scope, 'vm.distanceFilter.infinite', false);
     localStorage.bind($scope, 'vm.distanceFilter.disabled', true);
+
+    $timeout(function () {
+      //$scope.$broadcast('rzSliderForceRender');
+    });
 
     $meteor.autorun($scope, autorun);
     function autorun() {

@@ -9,10 +9,10 @@ SetModule('mapdiz');
 })
 
 @View({templateUrl: 'client/login/login.html'})
-@Inject(['$scope', '$reactive', '$rootScope', '$state', '$log'])
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$log', '$timeout')
 
 class Login {
-  constructor($scope, $reactive, $rootScope, $state, $log) {
+  constructor($scope, $reactive, $rootScope, $state, $log, $timeout) {
     $log.info('LoginCtrl');
 
     var self = this;
@@ -32,9 +32,7 @@ class Login {
 
     self.autorun(() => {
       if (Meteor.user() && Meteor.user().avatar) {
-        $scope.$apply(() => {
-          self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar'));
-        })
+        $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar')));
       } else {
         delete self.avatar;
       }

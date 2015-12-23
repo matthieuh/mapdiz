@@ -9,11 +9,11 @@ SetModule('mapdiz');
 
 @Component({selector: 'profile', controllerAs: 'Profile'})
 @View({templateUrl: 'client/user/profile.html'})
-@Inject('$scope', '$reactive', 'mapSvc', '$log')
+@Inject('$scope', '$reactive', 'mapSvc', '$log', '$timeout')
 
 class Profile {
 
-  constructor($scope, $reactive, mapSvc, $log) {
+  constructor($scope, $reactive, mapSvc, $log, $timeout) {
     $log.info('Profile');
 
     var self = this;
@@ -32,9 +32,7 @@ class Profile {
 
     self.autorun(() => {
       if (Meteor.user() && Meteor.user().avatar) {
-        $scope.$apply(() => {
-          self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar'));
-        })
+        $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar')));
       } else {
         delete self.avatar;
       }
