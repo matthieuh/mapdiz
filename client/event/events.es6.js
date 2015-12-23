@@ -15,11 +15,21 @@ angular.module('mapdiz');
 
 class EventsList {
   constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage) {
-    let reactiveContext = $reactive(this).attach($scope);
 
     var self = this;
     var orderBy = $filter('orderBy');
     var subscriptionHandle;
+
+    $reactive(self).attach($scope);
+
+    /*self.helpers({
+      isLoggedIn() {
+        return Meteor.userId() != null;
+      },
+      currentUser() {
+        return Meteor.user();
+      }
+    });*/
 
     self.creator = creator;
     self.rsvp = rsvp;

@@ -1,6 +1,6 @@
 .login-menu(id='connect-btn', ng-click='vm.togglePopup()', ng-cloak)
   img.title-icon.profile-picture-mini(ng-src="{{ vm.avatar.url('avatar-small') }}", ng-show="vm.avatar")
-  i.title-icon.icon.ion-ios-person-outline(ng-show="!$root.currentUser || !vm.avatar")
+  img.title-icon.profile-picture-mini(src='assets/images/default-user.png', ng-show="$root.currentUser && !vm.avatar")
   .title(ng-if="$root.currentUser") {{ $root.currentUser | displayName }}
   .title(ng-if="!$root.currentUser") Se connecter
 

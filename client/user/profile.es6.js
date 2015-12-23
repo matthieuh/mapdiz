@@ -35,6 +35,8 @@ class Profile {
         $scope.$apply(() => {
           self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar'));
         })
+      } else {
+        delete self.avatar;
       }
     });
 

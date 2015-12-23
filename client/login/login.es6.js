@@ -9,10 +9,10 @@ SetModule('mapdiz');
 })
 
 @View({templateUrl: 'client/login/login.html'})
-@Inject(['$scope', '$reactive', '$meteor', '$rootScope', '$state', '$log'])
+@Inject(['$scope', '$reactive', '$rootScope', '$state', '$log'])
 
 class Login {
-  constructor($scope, $reactive, $meteor, $rootScope, $state, $log) {
+  constructor($scope, $reactive, $rootScope, $state, $log) {
     $log.info('LoginCtrl');
 
     var self = this;
@@ -28,15 +28,17 @@ class Login {
       }
     });
 
+    console.log('$scope', $scope, $rootScope);
+
     self.autorun(() => {
       if (Meteor.user() && Meteor.user().avatar) {
         $scope.$apply(() => {
           self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar'));
         })
+      } else {
+        delete self.avatar;
       }
     });
-
-
 
     self.logout = logout;
     self.loginWithPassword = loginWithPassword;
@@ -56,12 +58,12 @@ class Login {
     }
 
     function logout() {
-      $meteor.logout();
+      Meteor.logout();
       togglePopup(false);
     }
 
     function loginWithPassword(user, password) {
-      $meteor.loginWithPassword(user, password, displayError)
+      Meteor.loginWithPassword(user, password, displayError)
     }
 
     function createAccount(newAccount) {
@@ -70,7 +72,7 @@ class Login {
     }
 
     function changePassword(oldPassword, newPassword) {
-      $meteor.changePassword(oldPassword, newPassword, displayError);
+      Accounts.changePassword(oldPassword, newPassword, displayError);
     }
 
     function displayError(e) {

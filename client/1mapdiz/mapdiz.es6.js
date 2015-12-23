@@ -56,6 +56,7 @@ class Mapdiz {
     $reactive(self).attach($scope);
 
     self.subscribe('avatars');
+    self.subscribe('users');
 
     $scope.$state = $state;
 
