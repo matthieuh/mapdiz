@@ -22,6 +22,9 @@
         button.button.button-primary(ng-click='Home.search()') Rechercher
 
 
-div(ui-sref='app.events') WELCOME
+.container(ui-sref='app.events') WELCOME
 {{ Home.myLocation | json }}
 {{ Home.gettingGeoloc }}
+
+
+footer
