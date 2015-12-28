@@ -1,78 +1,50 @@
 form.form-inline.search-form.flex-column
-  input#search(type="text", ng-model="query", placeholder="Rechercher...")
-  .result-length {{ vm.mapSvc.filteredEvents.length }} résultat(s)
-  .active-filters(ng-click='showFilters = !showFilters', ng-init='showFilters = false', ng-attr-title="{{ showFilters ? 'Masquer Filtres' : 'Afficher Filtres' }}")
-    i.icon.ion-ios-settings
+  .search-input-wrapper
+    input#search(type="text", ng-model="query", placeholder="Rechercher...")
+    .result-length {{ vm.mapSvc.filteredEvents.length || '0' }} résultat(s)
+    .active-filters(ng-click='showFilters = !showFilters', ng-init='showFilters = false', ng-attr-title="{{ showFilters ? 'Masquer Filtres' : 'Afficher Filtres' }}")
+      i.icon.ion-ios-settings(ng-class="{'active': showFilters}")
   .filters(ng-show='showFilters').flex-wrap
     //- TIME FILTER
     .range-filter.flex-wrap
       .range-label.flex-auto(
-        ng-click='vm.timeFilter.infinite=false;vm.timeFilter.disabled=!vm.timeFilter.disabled',
-        ng-class="{'disabled': vm.timeFilter.disabled}"
+        ng-click='vm.timeFilter.infinite=false;vm.timeFilter.options.disabled=!vm.timeFilter.options.disabled',
+        ng-class="{'disabled': vm.timeFilter.options.disabled}"
       ) Quand ?
-      .range-selector.flex-auto(ng-if='!vm.timeFilter.disabled')
+      .range-selector.flex-auto(ng-class="{'disabled': vm.timeFilter.options.disabled}")
         rzslider(
-          rz-slider-floor='0',
-          rz-slider-ceil='30',
+          rz-slider-options='vm.timeFilter.options'
           rz-slider-high='vm.timeFilter.max',
-          rz-slider-model='vm.timeFilter.min',
-          rz-slider-always-show-bar='true'
+          rz-slider-model='vm.timeFilter.min'
         )
-      .range-btns.flex-auto.flex-wrap(ng-if='!vm.timeFilter.disabled')
-        .editable.range-value(
-          ng-class="{'disabled': vm.timeFilter.disabled || vm.timeFilter.infinite}",
-          ng-click='vm.timeFilter.infinite=false;vm.timeFilter.disabled=false',
-        )
-          div.flex
-            | De
-            input.flex-auto(type='text', name='timeFiltertMin', ng-model='vm.timeFilter.min')
-            | à
-            input.flex-auto(type='text', name='timeFilterMax', ng-model='vm.timeFilter.max')
-            | jours
-        .infinite.range-value(
-          ng-click='vm.timeFilter.infinite=true;vm.timeFilter.disabled=false',
-          ng-class="{'disabled': !vm.timeFilter.infinite}"
-        )
-          div.flex
-            label(for='infiniteTimeFilter') &infin;
-            input(
-              name='infiniteTimeFilter',
-              type='checkbox',
-              ng-model='vm.timeFilter.infinite'
-            )
+      .editable.range-value(ng-show='vm.timeFilter.options.disabled') peu importe quand ...
+      .editable.range-value(ng-hide='vm.timeFilter.options.disabled')
+        | de
+        input.flex-auto(type='text', name='timeFiltertMin', ng-model='vm.timeFilter.min')
+        | à
+        input.flex-auto(type='text', name='timeFilterMax', ng-model='vm.timeFilter.max')
+        ng-pluralize(
+          count='vm.timeFilter.max',
+          when="{'0': 'jour', '1': 'jour', 'other': 'jours'}")
+
     //- DISTANCE FILTER
     .range-filter.distance-range.flex-wrap
       .range-label.flex-auto(
-        ng-click='vm.distanceFilter.inifinite=false;vm.distanceFilter.disabled=!vm.distanceFilter.disabled',
-        ng-class="{'disabled': vm.distanceFilter.disabled}"
+        ng-click='vm.distanceFilter.inifinite=false;vm.distanceFilter.options.disabled=!vm.distanceFilter.options.disabled',
+        ng-class="{'disabled': vm.distanceFilter.options.disabled}"
       ) Ou ?
-      .range-selector.flex-auto(ng-if='!vm.distanceFilter.disabled')
+      .range-selector.flex-auto(ng-class="{'disabled': vm.distanceFilter.options.disabled}")
         rzslider(
-          rz-slider-floor='0',
-          rz-slider-ceil='30',
-          rz-slider-model='vm.distanceFilter.max',
-          rz-slider-always-show-bar='true'
+          rz-slider-options='vm.distanceFilter.options',
+          rz-slider-model='vm.distanceFilter.max'
         )
-      .range-btns.flex-auto.flex-wrap(ng-if='!vm.distanceFilter.disabled')
-        .editable.range-value(
-          ng-class="{'disabled': vm.distanceFilter.disabled || vm.distanceFilter.infinite}",
-          ng-click='vm.distanceFilter.infinite=false;vm.distanceFilter.disabled=false',
-        )
-          div.flex
-            | A max
-            input.flex-auto(name='distanceSort', type='text', ng-model='vm.distanceFilter.max')
-            | Km
-        .infinite.range-value(
-          ng-click='vm.distanceFilter.infinite=true;vm.distanceFilter.disabled=false',
-          ng-class="{'disabled': !vm.distanceFilter.infinite}"
-        )
-          div.flex
-            label(for='infiniteDistanceFilter') &infin;
-            input(
-              name='infiniteDistanceFilter',
-              type='checkbox',
-              ng-model='vm.distanceFilter.infinite'
-            )
+      .editable.range-value(ng-show='vm.distanceFilter.options.disabled') peu importe la distance ...
+      .editable.range-value(ng-hide='vm.distanceFilter.options.disabled')
+        | à maximum
+        input.flex-auto(name='distanceSort', type='text', ng-model='vm.distanceFilter.max')
+        ng-pluralize(
+          count='vm.distanceFilter.max',
+          when="{'0': 'kilomètre', '1': 'kilomètre', 'other': 'kilomètres'}")
     //- .sorting
     //-   label(for="sort-order") Trier par ordre
     //-   select(ng-model="vm.orderProperty", name='sort-order')
@@ -92,7 +64,7 @@ form.form-inline.search-form.flex-column
           img.event-pic(ng-src="{{ vm.url(event, 'thumbnail') }}")
         .price Gratuit
         a.delete(ng-click="vm.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
-        .content.flex-auto
+        .content.flex-auto.selectable
           .infos.flex-column
             .title.flex
               h2

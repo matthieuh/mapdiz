@@ -16,34 +16,39 @@
       position: relative
       flex-shrink: 0
 
-      input#search
-        height: 50px
-        width: 100%
-        border: 0
-        outline: none
-        margin-bottom: 0
+      .search-input-wrapper
+        display: flex
+        background-color: #fff
 
-      .result-length
-        position: absolute
-        height: 50px
-        line-height: 50px
-        right: 50px
-        top: 0
-        text-align: center
-        color: rgba(0,0,0,0.4)
+        input#search
+          flex: 1
+          height: 50px
+          border: 0
+          outline: none
+          margin-bottom: 0
 
-      .active-filters
-        position: absolute
-        height: 50px
-        line-height: 50px
-        right: 0
-        top: 0
-        .icon
-          font-size: 30px
-          padding: 10px
+        .result-length
+          height: 50px
+          width: 120px
+          line-height: 50px
+          text-align: center
+          color: rgba(0,0,0,0.4)
 
-        &:hover
+        .active-filters
+          display: flex
+          align-items: center
+          justify-content: center
+          height: 50px
+
           .icon
+            height: 100%
+            font-size: 30px
+            padding: 0 10px
+
+            &.active
+              color: brand-primary
+
+          &:hover .icon
             cursor: pointer
             color: brand-primary
 
@@ -192,16 +197,46 @@
           left: inherit !important
           right: 0
 
+      &.disabled
+        .rz-bar.rz-selection
+          background-color: #D8E0F3
+
+      &:not(.disabled)
+        .rz-pointer, .rz-bar.rz-selection
+          background-color: brand-primary
+
     .range-label
+      position: relative
       display: flex
       justify-content: space-around
       height: 30px
-      min-width: 90px
-      max-width: 90px
+      min-width: 110px
+      max-width: 110px
       line-height: 30px
       margin: 10px 5px
       background-color: #E3E3E3
       border-radius: 5px
+      color: white
+
+      &:after
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        right: 5px
+        text-decoration:none
+        font-family: 'FontAwesome'
+        font-size: 15px
+        font-weight: normal
+
+      &:not(.disabled):hover, &:not(.disabled)
+        background: green
+        &:after
+          content: '\f00c'
+
+      &.disabled:hover, &.disabled
+        background: red
+        &:after
+          content: '\f00d'
 
   .sorting
     min-height: 50px
@@ -211,12 +246,9 @@
   position: relative
   height: 30px
   justify-content: center
-  flex-direction: column
   border: 0
   padding: 5px 5px
   user-select: none
-  background: #4cbd6d
-  color: whitesmoke
   font-size: 16px
   text-align: center
 
@@ -264,7 +296,7 @@
       font-size: 15px
       font-weight: normal
 
-    &:not(.disabled):hover, &:not(.disabled)
+    /*&:not(.disabled):hover, &:not(.disabled)
       background: green
       &:after
         content: '\f00c'
@@ -272,7 +304,7 @@
     &.disabled:hover, &.disabled
       background: #AAA
       &:after
-        content: '\f00d'
+        content: '\f00d'*/
 
   &.infinite
     user-select: none

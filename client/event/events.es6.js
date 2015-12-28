@@ -42,23 +42,42 @@ class EventsList {
     self.mapSvc = mapSvc;
     self.url = url;
     self.images = $meteor.collectionFS(Images, false).subscribe('images');
+    self.timeFilter = {
+      options: {
+        floor: 0,
+        ceil: 15,
+        step: 1,
+        hideLimitLabels: true,
+        disabled: true
+      }
+    };
+    self.distanceFilter = {
+      options: {
+        floor: 0,
+        ceil: 15,
+        step: 1,
+        showSelectionBar: true,
+        hideLimitLabels: true,
+        disabled: true
+      }
+    };
 
     console.log('self.mapSvc.filteredEvents', self.mapSvc.filteredEvents);
 
     // Bind filters parameters in session storage
     localStorage.bind($scope, 'vm.timeFilter.min', 0);
     localStorage.bind($scope, 'vm.timeFilter.max', 15);
-    localStorage.bind($scope, 'vm.timeFilter.infinite', false);
-    localStorage.bind($scope, 'vm.timeFilter.disabled', true);
+    localStorage.bind($scope, 'vm.timeFilter.options.infinite', false);
+    localStorage.bind($scope, 'vm.timeFilter.options.disabled', true);
 
     localStorage.bind($scope, 'vm.distanceFilter.min', 0);
     localStorage.bind($scope, 'vm.distanceFilter.max', 15);
-    localStorage.bind($scope, 'vm.distanceFilter.infinite', false);
-    localStorage.bind($scope, 'vm.distanceFilter.disabled', true);
+    localStorage.bind($scope, 'vm.distanceFilter.options.infinite', false);
+    localStorage.bind($scope, 'vm.distanceFilter.options.disabled', true);
 
-    $timeout(function () {
-      //$scope.$broadcast('rzSliderForceRender');
-    });
+    /*$timeout(function () {
+      $scope.$broadcast('rzSliderForceRender');
+    });*/
 
     $meteor.autorun($scope, autorun);
     function autorun() {
@@ -154,6 +173,8 @@ class EventsList {
      */
     function setMapCenter() {
 
+      console.log('setMapCenter', $stateParams.latlng);
+
       if ($stateParams.latlng) {
         var splittedLatlng = $stateParams.latlng.split(',');
 
@@ -163,6 +184,8 @@ class EventsList {
             lat: splittedLatlng[0],
             lng: splittedLatlng[1]
           };
+          console.log('searchedLatlng', searchedLatlng);
+
 
           mapSvc.setMapCenter(searchedLatlng);
         } else {

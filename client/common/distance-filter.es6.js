@@ -6,26 +6,30 @@ SetModule('mapdiz');
 class distanceFilter {
   constructor() {
     return function (items, filter, userGeoloc) {
-      if( items && filter && userGeoloc ) {
-        if(filter.disabled) return items;
-        if(angular.isDefined(userGeoloc)) {
-          var filtered = [];
-          angular.forEach(items, function(item, index) {
-            var distance = 0;
-            if (item.position) {
-              var distance = getDistanceFromLatLngInKm(
-                userGeoloc.lat, userGeoloc.lng,
-                item.position.lat, item.position.lng
-              );
-            }
-
-            item.distance = distance;
-            if(filter.max >= distance && !filter.infinite) filtered.push(item);
-            if(filter.infinite) filtered.push(item);
-          });
-          var result = _.sortBy(filtered, 'distance');
-          return result;
+      if (items && filter && userGeoloc) {
+        if (filter.options && filter.options.disabled) {
+          return items;
         }
+
+        var filtered = [];
+        angular.forEach(items, function(item, index) {
+          var distance;
+
+          if (filter.options && filter.options.infinite) {
+            filtered.push(item);
+          } else if (item.position) {
+            distance = getDistanceFromLatLngInKm(
+              userGeoloc.lat, userGeoloc.lng,
+              item.position.lat, item.position.lng
+            );
+
+            if (filter.max >= distance) filtered.push(item);
+          }
+          item.distance = distance;
+
+        });
+        var result = _.sortBy(filtered, 'distance');
+        return result;
       } else {
         console.warn('All of this params are require (%s) in directive distance-filter', 'items, filter , userGeoloc');
         return items;

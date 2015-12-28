@@ -237,6 +237,7 @@ class MapService {
         return userLoc;
       } else {
         service.map.center = coords;
+        service.myLocation.position = coords;
       }
     };
 
