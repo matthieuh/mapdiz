@@ -78,9 +78,7 @@ class MapService {
      * @return {[type]}     [description]
      */
     function onMarkerDomready(map) {
-      console.log('onMarkerDomready');
       var gmIw = document.querySelector('.gm-style-iw');
-      console.log('gmIw', gmIw);
       if (gmIw) {
         gmIw.firstChild.style.display = 'flex';
         var iwPrev = gmIw.previousSibling;
@@ -91,7 +89,6 @@ class MapService {
         var iw = document.querySelector('.info-window');
 
         if (iw) {
-          console.log('iw', iw);
           iw.parentNode.style.display = 'block';
           // Arrow over infoWindow
           gmIw.parentNode.children[0].style['z-index'] = 1;
@@ -116,9 +113,7 @@ class MapService {
      * @return {[type]}    [description]
      */
     function getEvent(id) {
-      console.log('getEvent', id);
       var event = _.find(_events,{_id: id});
-      console.log('getEvent 2', event);
       return event;
     };
 
@@ -127,7 +122,6 @@ class MapService {
      * @param {[type]} newEvent [description]
      */
     function addEvent(newEvent) {
-      console.log('mapSvc.addEvent', newEvent);
       $rootScope.$broadcast('events.add', newEvent);
     };
 
@@ -157,7 +151,6 @@ class MapService {
     };
 
     function windowCloseClick(id) {
-      console.log(marker, eventName, model);
       // model.show = false;
     };
 
@@ -204,32 +197,26 @@ class MapService {
     };
 
     function updateVisibleMarkers(map) {
-      console.log('updateVisibleMarkers ...');
       if(map) setMap(map);
     };
 
     function setFilteredEvents(filteredEvents) {
       if(angular.isDefined(filteredEvents)) {
-        console.log('filteredEvents', filteredEvents, service.filteredEvents);
         service.filteredEvents = _.filter(filteredEvents, function(n) {
-          console.log('n', n);
           var result = _.find(service.events, { '_id': n._id});
           if (result)
             return true;
           else
             return false;
         });
-        console.log('service.filteredEvents', service.filteredEvents);
       }
     };
 
     function setMapCenter(coords) {
-      console.log('setMapCenter !!!', coords);
       if (coords === 'userGeoLoc'){
         var self = this;
         var userLoc = this.getUserLoc();
         userLoc.then(function(userGeoLoc){
-          console.log('HTML5 geolocation', userGeoLoc);
           service.myLocation.position = userGeoLoc.center;
           self.map.center = userGeoLoc.center;
           self.map.zoom = 12;
@@ -243,15 +230,12 @@ class MapService {
 
     function getUserLoc() {
       var deferred = $q.defer();
-      console.log('getting user geolocation ...')
 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition( (position, error) => {
-          console.log('eolocation.getCurrentPosition', position, error);
           if (error) {
             return deferred.reject(error);
           }
-          console.log('position', position);
           var userGeoLoc = {
             center: {
               lat: position.coords.latitude,
@@ -261,7 +245,6 @@ class MapService {
           };
           deferred.resolve(userGeoLoc);
         }, (error) => {
-          console.log('error', error);
           var errors = {
             1: "Authorization fails", // permission denied
             2: "Can\'t detect your location", //position unavailable
@@ -282,7 +265,6 @@ class MapService {
     }
 
     function mapZoomChange(map) {
-      console.log($state);
       // setNewPosition(map.center, map.zoom);
       updateVisibleMarkers(map);
       if (!service.draggableMarker.position || !service.draggableMarker.position.lat) {

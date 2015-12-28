@@ -50,6 +50,10 @@ Schema.Event = new SimpleSchema({
     type: String,
     optional: true
   },
+  "owner": {
+    type: Schema.User,
+    optional: true
+  },
   "public": {
     label: "Publique",
     type: Boolean,
@@ -201,11 +205,14 @@ var contactEmail = function(user) {
 
 Events.before.insert(function(userId, doc) {
   console.log('Events.before.insert', userId, doc);
-  doc.added = Date.now();
-  doc.owner = userId;
-  doc.url = convertToSlug(doc.name);
-  doc.name = capitalizeFirstLetter(doc.name);
+  if (Events.find().count() > 7) {
+    doc.added = Date.now();
+    doc.owner = userId;
+    doc.url = convertToSlug(doc.name);
+    doc.name = capitalizeFirstLetter(doc.name);
+  }
 });
+
 
 Events.before.update(function(userId, doc) {
   doc.updated = Date.now();

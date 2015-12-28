@@ -24,8 +24,6 @@ class Geoloc {
     var self = this;
     self.openSetGeolocModal = openSetGeolocModal;
 
-    console.log('location', self.location);
-
     /////////////////
 
     function openSetGeolocModal() {
@@ -42,7 +40,6 @@ class Geoloc {
           location: self.location
         }
       }).then(function(location) {
-        console.log('then openSetGeolocModal', $scope.placesObj);
         if (location) {
           self.location = location;
         }
@@ -55,7 +52,6 @@ class Geoloc {
 
       // Scope vars & fns
       $scope.location = location;
-      console.log('init $scope.location', $scope.location);
       $scope.placesObj = null;
       $scope.geolocChoiceType = 'address';
       $scope.answer = answer;
@@ -85,7 +81,6 @@ class Geoloc {
       }
 
       function latLngChanged() {
-        console.log('latLngChanged', $scope.location);
         if (!blockLatLngBinding && $scope.location && $scope.location.lat && $scope.location.lng) {
           mapSvc.draggableMarker.position = {
             lat: $scope.location.lat,
@@ -135,7 +130,6 @@ class Geoloc {
 
         if (Object.keys(latLng).length && $scope.geolocChoiceType == 'coordinates') {
           blockLatLngBinding = true;
-          console.log('draggableMarkerChanged', $scope.location);
           $scope.location = latLng;
         }
       }

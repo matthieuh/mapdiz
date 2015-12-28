@@ -45,12 +45,10 @@ class map {
       $meteor.subscribe('events').then(function(handle){
         self.mapSvc.events = self.mapSvc.filteredEvents = $meteor.collection(Events);
         mapSvc.updateVisibleMarkers();
-        console.log('self.events', mapSvc.filteredEvents, self.mapSvc.filteredEvents);
       });
     };
 
     $scope.$on('marker.openWindow', function(event, eventId) {
-      console.log('marker.openWindow');
       var event = _.find(self.mapSvc.filteredEvents, {_id: eventId});
       event.show = true;
     });

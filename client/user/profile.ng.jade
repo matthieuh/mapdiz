@@ -1,7 +1,7 @@
 header.flex.p2
   .avatar-container
-    //- img.profile-picture(src='http://geoadrs.com/image/default-user.png', ng-if='!vm.profilePic.url')
-    img.avatar(ng-src='{{ Profile.avatar.url("avatar-large") }}')
+    img.avatar(src='assets/images/default-user.png', ng-show="$root.currentUser && !Profile.avatar")
+    img.avatar(ng-src='{{ Profile.avatar.url("avatar-large") }}', ng-show="Profile.avatar")
     input#avatar-input(
       type="file",
       ng-show='false'

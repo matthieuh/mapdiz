@@ -141,7 +141,6 @@ class Event {
       mapSvc.draggableMarker.visible = true;
     } else {
       mapSvc.map.zoom = 15;
-      console.log('mapSvc.filteredEvents', mapSvc.filteredEvents);
     }
     // !!self.newEvent.position.lat;
 
@@ -185,14 +184,11 @@ class Event {
 
     function save() {
       if (method == 'create') { // Create
-        console.log('saving event');
         Events.insert(self.newEvent, (error, savedEventId) => {
           if (error) {
-            console.log('Oops, unable to save the event...', error);
             self.errorMsg = error.message;
           }
           else {
-            console.log('Save done!', savedEventId);
 
             if (typeof self.cover !== 'object') {
               uploadPictures(savedEventId);
@@ -202,7 +198,6 @@ class Event {
           }
         });
       } else { // Update
-        console.log('updating event');
         Events.update({_id: $stateParams.eventId}, {
           $set: {
             name: self.newEvent.name,
@@ -212,12 +207,9 @@ class Event {
           }
         }, (error) => {
           if (error) {
-            console.log('Oops, unable to update the event...', error);
             self.errorMsg = error.message;
           } else {
-            console.log('Update done!');
             if (typeof self.cover !== 'object') {
-              console.log('launch uploadPictures...');
               uploadPictures(self.newEvent._id);
             }
           }
@@ -226,25 +218,20 @@ class Event {
     };
 
     function uploadPictures(savedEventId) {
-      console.log('uploadPictures', self.newEvent.cover);
       if (self.newEvent.cover) { // Update
         Images.update({_id: self.newEvent.cover}, {
           $set: self.cover
         }, (error) => {
           if (error) {
-            console.log('Oops, unable to update the image...', error);
           } else {
-            console.log('Save image done!', savedEventId);
             $state.go('app.events');
           }
         });
       } else { // Create
         Images.insert(self.cover, (error, image) => {
           if (error) {
-            console.log('Oops, unable to save the event...', error);
             self.errorMsg = error.message;
           } else {
-            console.log('Save done!', savedEventId, image._id);
             Events.update({_id: savedEventId}, {
               $set: {cover: image._id}
             });

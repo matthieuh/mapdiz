@@ -62,8 +62,6 @@ class EventsList {
       }
     };
 
-    console.log('self.mapSvc.filteredEvents', self.mapSvc.filteredEvents);
-
     // Bind filters parameters in session storage
     localStorage.bind($scope, 'vm.timeFilter.min', 0);
     localStorage.bind($scope, 'vm.timeFilter.max', 15);
@@ -146,7 +144,7 @@ class EventsList {
         return;
       var owner = self.getUserById(event.owner);
       if (!owner)
-        return "nobody";
+        return "Mapdiz";
 
       if ($rootScope.currentUser)
         if ($rootScope.currentUser._id)
@@ -163,17 +161,13 @@ class EventsList {
      * @return {[type]}         [description]
      */
     function rsvp(eventId, rsvp) {
-      Meteor.call('rsvp', eventId, rsvp, (err, result) => {
-        console.log('responding', err, result);
-      });
+      Meteor.call('rsvp', eventId, rsvp);
     }
 
     /**
      * [setMapCenter Set map center]
      */
     function setMapCenter() {
-
-      console.log('setMapCenter', $stateParams.latlng);
 
       if ($stateParams.latlng) {
         var splittedLatlng = $stateParams.latlng.split(',');
@@ -184,8 +178,6 @@ class EventsList {
             lat: splittedLatlng[0],
             lng: splittedLatlng[1]
           };
-          console.log('searchedLatlng', searchedLatlng);
-
 
           mapSvc.setMapCenter(searchedLatlng);
         } else {

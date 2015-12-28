@@ -28,8 +28,6 @@ class Login {
       }
     });
 
-    console.log('$scope', $scope, $rootScope);
-
     self.autorun(() => {
       if (Meteor.user() && Meteor.user().avatar) {
         $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar')));
@@ -65,7 +63,6 @@ class Login {
     }
 
     function createAccount(newAccount) {
-      console.log('newAccount', newAccount);
       Accounts.createUser(newAccount, displayError);
     }
 
