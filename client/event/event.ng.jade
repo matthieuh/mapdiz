@@ -79,8 +79,6 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
     article
       textarea#description.block.col-12.field(ng-model="eventDetails.newEvent.description", placeholder='Description de l\'évenement')
 
-  p {{ eventDetails.newEvent | json }} {{ eventDetails.cover }}
-
-  //- invitation(ng-model='eventDetails.newEvent')
+  invitation(ng-model='eventDetails.newEvent')
 
   button.btn.btn-primary(ng-click="eventDetails.save()") {{ eventDetails.validFormBtn }}
