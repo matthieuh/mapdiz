@@ -122,7 +122,7 @@ Meteor.startup(function () {
         "cover" : "FwmxPN2LPX9NXd8G4"
       }
     ];
-    for (var i = 0; i < events.length; i++)
-      Events.insert( events[i] );
+    /*for (var i = 0; i < events.length; i++)
+      Events.insert( events[i] );*/
   }
 });

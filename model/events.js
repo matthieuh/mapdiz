@@ -13,32 +13,38 @@ Schema.Event = new SimpleSchema({
     type: String,
     label: "Description",
     min: 20,
-    max: 1000
+    max: 1000,
+    optional: true
   },
   "beginDate": {
     type: Date,
-    label: "Date de début"
+    label: "Date de début",
+    optional: true
   },
   "beginTime": {
     type: Date,
-    label: "Heure de début"
+    label: "Heure de début",
+    optional: true
   },
   "endDate": {
     type: Date,
-    label: "Date de fin"
+    label: "Date de fin",
+    optional: true
   },
   "endTime": {
     type: Date,
-    label: "Heure de fin"
+    label: "Heure de fin",
+    optional: true
   },
   "position": {
     type: Object,
-    label: "Emplacement"
+    label: "Emplacement",
+    optional: true
   },
   "position.lat": {
     type: Number,
     label: "Latitude",
-    decimal: true
+    decimal: true,
   },
   "position.lng": {
     type: Number,
@@ -82,8 +88,7 @@ Events.attachSchema(Schema.Event);
 Events.allow({
   insert: function (userId, event) {
     console.log('insert event', userId, event);
-    //return userId && event.owner === userId;
-    return true;
+    return userId && event.owner === userId;
   },
   update: function (userId, event, fields, modifier) {
     if (userId !== event.owner)
@@ -204,18 +209,17 @@ var contactEmail = function(user) {
 };
 
 Events.before.insert(function(userId, doc) {
+  console.log('Events.before.insert', doc);
+  doc.added = Date.now();
+  doc.owner = userId;
+  doc.url = convertToSlug(doc.name);
+  doc.name = capitalizeFirstLetter(doc.name);
   console.log('Events.before.insert', userId, doc);
-  if (Events.find().count() > 7) {
-    doc.added = Date.now();
-    doc.owner = userId;
-    doc.url = convertToSlug(doc.name);
-    doc.name = capitalizeFirstLetter(doc.name);
-  }
 });
 
 
-Events.before.update(function(userId, doc) {
-  doc.updated = Date.now();
+Events.before.update(function(userId, doc, fieldNames, modifier, options) {
+  modifier.$set.updated = Date.now();
 });
 
 function convertToSlug(Text) {

@@ -115,6 +115,10 @@
               opacity: 0.8
               background: #aaa
               overflow: hidden
+              background-size: cover
+              background-position: center center
+              background-repeat:no-repeat
+
               img.event-pic
                 max-width: inherit
                 height: 100%
@@ -174,8 +178,11 @@
   min-height: 50px
   max-height: 300px
   align-content: stretch
+
   .range-filter
     display: flex
+    align-items: baseline
+
     &:hover
       cursor: pointer
 
@@ -189,10 +196,13 @@
       display: flex
       min-width: 200px
       max-width: 200px
+
       rzslider
         width: 90%
         margin-right: auto
         margin-left: auto
+        margin-bottom: 0
+
         .rz-limit-ceil
           left: inherit !important
           right: 0

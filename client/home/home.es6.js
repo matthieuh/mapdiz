@@ -11,7 +11,11 @@ SetModule('mapdiz');
   defaultRoute: true
 })
 
-@Component({selector: 'home', controllerAs: 'Home'})
+@Component({
+  selector: 'home',
+  controllerAs: 'Home',
+  replace: false
+})
 @View({templateUrl: 'client/home/home.html'})
 @Inject('$scope', '$rootScope', '$state', '$meteor', '$log', 'mapSvc')
 

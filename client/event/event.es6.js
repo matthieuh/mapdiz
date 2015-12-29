@@ -47,7 +47,8 @@ class Event {
         }
       },
       cover() {
-        return Images.findOne(self.getReactively('newEvent.cover'));
+        console.log('helper self.cover', self.cover, self.newEvent);
+        if (self.newEvent.cover) return Images.findOne(self.getReactively('newEvent.cover'));
       }
     });
 
@@ -71,6 +72,7 @@ class Event {
     });*/
 
     $scope.$watchCollection('eventDetails.cover', () => {
+      console.log('self.cover', self.cover);
       if (typeof self.cover == 'object') {
         self.cover = self.cover.url();
       }
@@ -183,14 +185,17 @@ class Event {
     };
 
     function save() {
+      console.log('save', self.newEvent, method);
+      delete self.errorMsg;
+
       if (method == 'create') { // Create
         Events.insert(self.newEvent, (error, savedEventId) => {
+          console.log('Events.insert', error, savedEventId, self.cover);
           if (error) {
             self.errorMsg = error.message;
           }
           else {
-
-            if (typeof self.cover !== 'object') {
+            if (self.cover) {
               uploadPictures(savedEventId);
             } else {
               $state.go('app.events');
@@ -206,10 +211,11 @@ class Event {
             position: self.newEvent.position
           }
         }, (error) => {
+          console.log('Events.update', error);
           if (error) {
             self.errorMsg = error.message;
           } else {
-            if (typeof self.cover !== 'object') {
+            if (self.cover) {
               uploadPictures(self.newEvent._id);
             }
           }
@@ -218,27 +224,34 @@ class Event {
     };
 
     function uploadPictures(savedEventId) {
-      if (self.newEvent.cover) { // Update
-        Images.update({_id: self.newEvent.cover}, {
-          $set: self.cover
-        }, (error) => {
-          if (error) {
-          } else {
-            $state.go('app.events');
+      console.log('uploadPictures', savedEventId);
+      // Create
+      Images.insert(self.cover, (error, image) => {
+
+        console.log('Images.insert', error, image);
+
+        if (error) {
+          self.errorMsg = error.message;
+        } else {
+
+          if (self.newEvent.cover) { // Update
+            Images.remove(self.newEvent.cover);
           }
-        });
-      } else { // Create
-        Images.insert(self.cover, (error, image) => {
-          if (error) {
-            self.errorMsg = error.message;
-          } else {
-            Events.update({_id: savedEventId}, {
-              $set: {cover: image._id}
-            });
-            $state.go('app.events');
-          }
-        });
-      }
+
+          Events.update({_id: savedEventId}, {
+            $set: {cover: image._id}
+          }, (err) => {
+
+            if (error) {
+              self.errorMsg = err.message;
+            } else {
+              $state.go('app.events');
+            }
+          });
+
+
+        }
+      });
     }
 	}
 }

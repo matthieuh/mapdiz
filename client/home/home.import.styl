@@ -25,77 +25,101 @@
           background-color: transparent
           color: brand-primary
 
-    .title, .icon
-      color: white
+        .title, .icon
+          color: white
 
-    .icon:hover
-      color: brand-primary
+         .icon:hover
+            color: brand-primary
+
+          .title:hover
+            text-decoration: underline
 
   .nav-bar .top-menu .title-icon .icon
     text-shadow: none
 
-  home
-    .homepage-layer
-      padding: 255px 0 55px 0
-      background-color: #59748F
-      background-image: url('http://www.so-events.at/SYSTEM/image_background/standard/background_02.jpg')
-      background-position: center center
-      background-size: cover
-      background-repeat: no-repeat
+  .app
+    min-height: 100%
 
-      h1
-        font-family: "Lato", sans-serif
-        font-weight: 400
-        color: white
-        background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%;
-        box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16);
+    home
+      height: 900px //temp
 
-      .homepage-search-box
-        display: flex
-        justify-content: center
-        align-items: center
-        margin-top: 50px
+      .homepage-layer
+        padding: 200px 0 55px 0
+        background-color: #59748F
+        background-image: url('http://www.so-events.at/SYSTEM/image_background/standard/background_02.jpg')
+        background-position: center center
+        background-size: cover
+        background-repeat: no-repeat
 
-        .grouped-form
+        h1
+          font-family: "Lato", sans-serif
+          font-weight: 400
+          color: white
+          background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%;
+          box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16);
+
+        .homepage-search-box
           display: flex
           justify-content: center
           align-items: center
+          margin-top: 50px
 
-          .item
-            flex: 1
-            margin: 0
+          .grouped-form
+            display: flex
+            justify-content: center
+            align-items: center
 
-            &(:last-child)
-              border-right: 0px none
+            .item
+              flex: 1
+              margin: 0
 
-          .button
-            display: block
-            border-radius: 0px
-            font-size: 15px
-            margin: 0px
+              &(:last-child)
+                border-right: 0px none
 
-          .input-with-icon
-            .input-icon
-              color: brand-primary
+            .button
+              display: block
+              border-radius: 0px
+              font-size: 15px
+              margin: 0px
 
-        #location
-          width: 450px
+            .input-with-icon
+              .input-icon
+                color: brand-primary
 
-    .event-locations
-      display: flex
-      flex-wrap: wrap
-      justify-content: space-between
-      align-content: space-between
+          #location
+            width: 450px
 
-      .event-location
+      .container
         display: flex
         flex-direction: column
-        flex: 1
-        max-height: 200px
-        img
-          flex: 1
-          max-width: 300px
+        margin: 50px auto
+        padding-left: 15px
+        padding-right: 15px
+        box-sizing: border-box
 
-        p
-          flex: 1
+
+        .event-locations
+          display: flex
+          flex-wrap: wrap
+          justify-content: space-between
+          align-content: space-between
+
+          .event-location
+            display: flex
+            justify-content: center
+            align-items: center
+            flex: 1 2 0%
+            height: 200px
+            min-width: 300px
+            margin: 12.5px
+
+            background-color: brand-primary
+            background-size: cover
+            background-position: center center
+            background-repeat:no-repeat
+
+            h2
+              color: #fff
+              background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%
+              box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16)
 

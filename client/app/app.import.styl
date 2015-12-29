@@ -1,4 +1,17 @@
 [root-state^='app']
+  height: 100vh
+  display: flex
+  flex-direction: column
+
+  .app
+    display: flex
+    flex-direction: column
+    flex: 1
+
+    app
+      display: flex
+      flex: 1
+
   main
     display: flex
 
@@ -22,6 +35,11 @@
     display: flex
     background-color brand-primary
     color: #fff
+
+    .top-menu-link
+      &:hover, &.active
+        background-color: brand-secondary
+        cursor: pointer
 
 .gm-style-iw
   color: black

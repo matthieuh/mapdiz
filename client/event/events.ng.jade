@@ -60,8 +60,10 @@ form.form-inline.search-form.flex-column
       id='event-{{event._id}}'
     )
       .content-wrapper.flex
-        .event-pic-overlay.flex-auto(ui-sref="app.event({eventId: event._id, eventSlug: event.url})")
-          img.event-pic(ng-src="{{ vm.url(event, 'thumbnail') }}")
+        .event-pic-overlay.flex-auto(
+          ui-sref="app.event({eventId: event._id, eventSlug: event.url})",
+          ng-style="{'background-image': 'url(' + vm.url(event, 'thumbnail') +')'}"
+        )
         .price Gratuit
         a.delete(ng-click="vm.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
         .content.flex-auto.selectable
