@@ -40,16 +40,21 @@ class Event {
             name: '',
             description: '',
             position: {},
-            'public': true
+            public: true
           };
         } else {
           return Events.findOne($stateParams.eventId);
         }
-      },
+      }/*,
       cover() {
-        console.log('helper self.cover', self.cover, self.newEvent);
-        if (self.newEvent.cover) return Images.findOne(self.getReactively('newEvent.cover'));
-      }
+        console.log('helper self.cover', self.cover);
+        if (!self.cover) {
+          console.log('helper2 self.cover', self.cover, self.newEvent);
+          return Images.findOne(self.getReactively('newEvent.cover', true));
+        } else {
+          return self.cover;
+        }
+      }*/
     });
 
     $scope.$watchCollection('eventDetails.newEvent.position', () => {
@@ -61,7 +66,7 @@ class Event {
       }
     });
 
-    /*$scope.$watch('eventDetails.newEvent.cover', () => {
+    $scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {
         self.helpers({
           cover: () => {
@@ -69,10 +74,10 @@ class Event {
           }
         })
       }
-    });*/
+    });
 
-    $scope.$watchCollection('eventDetails.cover', () => {
-      console.log('self.cover', self.cover);
+    $scope.$watch('eventDetails.cover', () => {
+      console.log('watch self.cover', self.cover);
       if (typeof self.cover == 'object') {
         self.cover = self.cover.url();
       }
@@ -86,7 +91,7 @@ class Event {
     self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder'
 
     $scope.addTimeToDatetime = addTimeToDatetime;
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', () => {
       mapSvc.draggableMarker.visible = false;
     });
 
@@ -96,10 +101,10 @@ class Event {
       format: 'DD/MM/YYYY',
       firstDay: 1,
       i18n: i18n_FR,
-      onSelect: function() {
+      onSelect: () => {
         var beginDateValue = this.getMoment().toDate();
         self.newEvent.beginDate = beginDateValue;
-        $scope.$apply();
+        if (!$scope.$$phase) $scope.$apply();
       }
     });
 
@@ -109,10 +114,10 @@ class Event {
       format: 'DD/MM/YYYY',
       firstDay: 1,
       i18n: i18n_FR,
-      onSelect: function() {
+      onSelect: () => {
         var endDateValue = this.getMoment().toDate();;
         self.newEvent.endDate = endDateValue;
-        $scope.$apply();
+        if (!$scope.$$phase) $scope.$apply();
       }
     });
 

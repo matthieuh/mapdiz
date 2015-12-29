@@ -41,6 +41,7 @@ class Profile {
     centerMapOnUserLoc();
 
     self.openAvatarInput = openAvatarInput;
+    self.deleteAvatar = deleteAvatar;
     avatarInput.bind("change", uploadAvatar);
 
     ///////////////////
@@ -77,6 +78,12 @@ class Profile {
           console.log('success');
         }
       });
+    }
+
+    function deleteAvatar() {
+      console.log('deleteAvatar', self.currentUser);
+      if (self.currentUser && self.currentUser.avatar)
+        Avatars.remove(self.currentUser.avatar);
     }
   }
 }

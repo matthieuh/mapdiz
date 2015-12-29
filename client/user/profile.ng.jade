@@ -1,4 +1,4 @@
-header.flex.p2
+header.p2
   .avatar-container
     img.avatar(src='assets/images/default-user.png', ng-show="$root.currentUser && !Profile.avatar")
     img.avatar(ng-src='{{ Profile.avatar.url("avatar-large") }}', ng-show="Profile.avatar")
@@ -7,6 +7,7 @@ header.flex.p2
       ng-show='false'
     )
     .edit-avatar-btn(ng-click='Profile.openAvatarInput()') Changer
+    a(ng-click='Profile.deleteAvatar()') Supprimer ma photo
   infos.ml2.flex-auto
     h1 Mon Compte
     hr
