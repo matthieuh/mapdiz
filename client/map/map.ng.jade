@@ -1,12 +1,13 @@
 .map-wrapper.flex-column.flex-auto
+  //- p {{ Map.infoWindowContent }}
   .angular-google-map-container
     .loader-container
       .loader
     gm-map(
       center="Map.mapSvc.map.center",
       zoom="Map.mapSvc.map.zoom",
-      on-tilesloaded='Map.mapSvc.updateVisibleMarkers(map); $root.gmapLoaded(map)',
-      on-dragend='Map.mapSvc.dragEnd(map);',
+      on-tilesloaded='Map.mapSvc.updateVisibleMarkers(map)',
+      on-dragend='Map.mapSvc.dragEnd(map)',
       on-zoom-changed='Map.mapSvc.mapZoomChange(map)',
     )
       gm-circle.my-position-marker(
@@ -30,7 +31,7 @@
         )
 
       gm-marker.event-marker(
-        ng-repeat='filteredEvent in Map.mapSvc.filteredEvents',
+        ng-repeat='filteredEvent in $parent.$parent.App.filteredEvents',
         position='filteredEvent.position',
         on-click='filteredEvent.showInfo=!filteredEvent.showInfo',
         on-mouseover='Map.mapSvc.markerMouseOver(filteredEvent);',
@@ -38,8 +39,21 @@
         gm-then="Map.onMarkerDomready(map)"
       )
         gm-infowindow(
-          ng-show='filteredEvent.showInfo',
-          options="{content: Map.getInfoWindowContent($index)}",
+          ng-show='$root.openedWindow == filteredEvent._id',
+          options="{content: '\
+          <div class=\"info-window\">\
+            <div class=\"iw-container\">\
+              <img class=\"cover\" ng-src=\"{{ filteredEvent.cover }}\">\
+              <div class=\"info-window-content\">\
+                <h4>{{filteredEvent.name}}<h4>\
+                <div class=\"description mxn1\" ng-show=\"filteredEvent.description\">\
+                  <strong>Description :</strong> {{ filteredEvent.description }}\
+                  <div class=\"iw-bottom-gradient\"></div>\
+                </div>\
+              </div>\
+            </div>\
+          </div>'\
+          }",
           on-domready='Map.mapSvc.draggableMarker.onDomready(map)')
 
 

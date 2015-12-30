@@ -61,7 +61,6 @@ class MapService {
       setMapZoom: setMapZoom,
       updateMap: updateMap,
       updateVisibleMarkers: updateVisibleMarkers,
-      setFilteredEvents: setFilteredEvents,
       getUserLoc: getUserLoc,
       mapZoomChange: mapZoomChange,
       dragEnd: dragEnd,
@@ -198,18 +197,6 @@ class MapService {
 
     function updateVisibleMarkers(map) {
       if(map) setMap(map);
-    };
-
-    function setFilteredEvents(filteredEvents) {
-      if(angular.isDefined(filteredEvents)) {
-        service.filteredEvents = _.filter(filteredEvents, function(n) {
-          var result = _.find(service.events, { '_id': n._id});
-          if (result)
-            return true;
-          else
-            return false;
-        });
-      }
     };
 
     function setMapCenter(coords) {

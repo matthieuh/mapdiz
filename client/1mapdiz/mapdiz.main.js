@@ -53,6 +53,8 @@ class Mapdiz {
   constructor($scope, $reactive, $rootScope, $state, $meteor) {
     var self = this;
 
+    self.toto = 'toto';
+
     $reactive(self).attach($scope);
 
     self.subscribe('avatars');

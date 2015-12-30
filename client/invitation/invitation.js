@@ -24,11 +24,7 @@ class Invitation {
 
     var self = this;
 
-    console.log('ngModel', self.ngModel);
-
     let reactiveContext = $reactive(self).attach($scope);
-
-    console.log('ngModel', self.ngModel);
 
     reactiveContext.helpers({
       users: () => {

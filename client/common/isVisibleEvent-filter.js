@@ -9,15 +9,15 @@ class isVisibleEvent {
   constructor(mapSvc) {
     return function (items) {
       var map = mapSvc.getMap();
-      if(angular.isDefined(map) && angular.isFunction(map.getBounds) && angular.isDefined(map.getBounds())){
+      if (angular.isDefined(map) && angular.isFunction(map.getBounds) && angular.isDefined(map.getBounds())) {
         var filtered = [];
         angular.forEach(items, function(item, index) {
-          if(item.position && 
+          if (item.position &&
             map.getBounds().contains({
-              lat: function(){return item.position.lat},
-              lng: function(){return item.position.lng}
+              lat: function() { return item.position.lat },
+              lng: function() { return item.position.lng }
             })
-          ){
+          ) {
             filtered.push(item);
           }
         });

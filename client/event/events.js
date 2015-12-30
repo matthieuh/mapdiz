@@ -11,25 +11,17 @@ angular.module('mapdiz');
 
 @Component({selector: 'events-list'})
 @View({templateUrl: 'client/event/events.html'})
-@Inject('$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout')
+@Inject('$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout', '@Mapdiz')
 
 class EventsList {
-  constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage, $timeout) {
+  constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage, $timeout, Mapdiz) {
+    $log.info('EventsList', $scope.$parent);
 
     var self = this;
     var orderBy = $filter('orderBy');
     var subscriptionHandle;
 
     $reactive(self).attach($scope);
-
-    /*self.helpers({
-      isLoggedIn() {
-        return Meteor.userId() != null;
-      },
-      currentUser() {
-        return Meteor.user();
-      }
-    });*/
 
     self.creator = creator;
     self.rsvp = rsvp;
@@ -72,10 +64,6 @@ class EventsList {
     localStorage.bind($scope, 'vm.distanceFilter.max', 15);
     localStorage.bind($scope, 'vm.distanceFilter.options.infinite', false);
     localStorage.bind($scope, 'vm.distanceFilter.options.disabled', true);
-
-    /*$timeout(function () {
-      $scope.$broadcast('rzSliderForceRender');
-    });*/
 
     $meteor.autorun($scope, autorun);
     function autorun() {

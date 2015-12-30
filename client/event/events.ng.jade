@@ -1,7 +1,7 @@
 form.form-inline.search-form.flex-column
   .search-input-wrapper
     input#search(type="text", ng-model="query", placeholder="Rechercher...")
-    .result-length {{ vm.mapSvc.filteredEvents.length || '0' }} résultat(s)
+    .result-length {{ $parent.App.filteredEvents.length || '0' }} résultat(s)
     .active-filters(ng-click='showFilters = !showFilters', ng-init='showFilters = false', ng-attr-title="{{ showFilters ? 'Masquer Filtres' : 'Afficher Filtres' }}")
       i.icon.ion-ios-settings(ng-class="{'active': showFilters}")
   .filters(ng-show='showFilters').flex-wrap
@@ -51,12 +51,13 @@ form.form-inline.search-form.flex-column
     //-     option(value="1") Croissant
     //-     option(value="-1") Décroissant
 .events-list-wrapper
-  ul.events-list(ng-if='vm.mapSvc.events.length > 0')
+  p events {{ $parent.$parent.App.events.length }} - {{ $parent.App.filteredEvents.length }}
+  ul.events-list
     li.flex-column(
-      ng-repeat="event in vm.mapSvc.filteredEvents = (vm.mapSvc.events | filter:query | distance:vm.distanceFilter:vm.mapSvc.myLocation.position | isVisibleEvent | time:vm.timeFilter)",
-      ng-class="{'overflown': vm.isOverflown(event._id)}",
-      ng-mouseover='vm.mapSvc.openWindow(event._id); displayPresence = true',
-      ng-mouseleave='vm.mapSvc.closeWindow(event._id); displayPresence = false',
+      ng-repeat="event in $parent.App.filteredEvents = ($parent.App.allEvents | filter:query | distance:vm.distanceFilter:vm.mapSvc.myLocation.position | isVisibleEvent | time:vm.timeFilter)",
+      ng-class="{'overflown': $root.openedWindow == event._id}",
+      ng-mouseover='$root.openedWindow = event._id; displayPresence = true',
+      ng-mouseleave='$root.openedWindow = false; displayPresence = false',
       id='event-{{event._id}}'
     )
       .content-wrapper.flex

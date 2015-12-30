@@ -45,24 +45,6 @@ class Event {
         } else {
           return Events.findOne($stateParams.eventId);
         }
-      }/*,
-      cover() {
-        console.log('helper self.cover', self.cover);
-        if (!self.cover) {
-          console.log('helper2 self.cover', self.cover, self.newEvent);
-          return Images.findOne(self.getReactively('newEvent.cover', true));
-        } else {
-          return self.cover;
-        }
-      }*/
-    });
-
-    $scope.$watchCollection('eventDetails.newEvent.position', () => {
-      if (self.newEvent && self.newEvent.position && self.newEvent.position.lat) {
-        mapSvc.map.center = {
-          lat: self.newEvent.position.lat,
-          lng: self.newEvent.position.lng
-        };
       }
     });
 
@@ -77,7 +59,6 @@ class Event {
     });
 
     $scope.$watch('eventDetails.cover', () => {
-      console.log('watch self.cover', self.cover);
       if (typeof self.cover == 'object') {
         self.cover = self.cover.url();
       }
@@ -144,11 +125,22 @@ class Event {
         mapSvc.draggableMarker.position = userGeoLoc.center;
       });
       mapSvc.draggableMarker.content = compiled[0];
-      mapSvc.draggableMarker.visible = false;
-      mapSvc.draggableMarker.visible = true;
     } else {
-      mapSvc.map.zoom = 15;
+      $scope.$watchCollection('eventDetails.newEvent.position', () => {
+        if (self.newEvent && self.newEvent.position && self.newEvent.position.lat) {
+          mapSvc.map.center = {
+            lat: self.newEvent.position.lat,
+            lng: self.newEvent.position.lng
+          };
+          mapSvc.draggableMarker.content = compiled[0];
+          mapSvc.map.zoom = 15;
+        }
+      });
     }
+
+    //mapSvc.draggableMarker.visible = false;
+    mapSvc.draggableMarker.visible = true;
+
     // !!self.newEvent.position.lat;
 
     /*if (self.newEvent.cover) {

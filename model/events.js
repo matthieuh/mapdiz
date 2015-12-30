@@ -209,7 +209,6 @@ var contactEmail = function(user) {
 };
 
 Events.before.insert(function(userId, doc) {
-  console.log('Events.before.insert', doc);
   doc.added = Date.now();
   doc.owner = userId;
   doc.url = convertToSlug(doc.name);
@@ -219,6 +218,8 @@ Events.before.insert(function(userId, doc) {
 
 
 Events.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if (fieldNames.indexOf('showInfo') != -1) return false;
+  modifier.$set = modifier.$set || {};
   modifier.$set.updated = Date.now();
 });
 

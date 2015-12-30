@@ -1,7 +1,5 @@
-"use strict";
-
-var {SetModule, Component, View, Inject, State} = angular2now;
-var google; // Used for google place autocomplete
+let {SetModule, Component, View, Inject, State} = angular2now;
+let google; // Used for google place autocomplete
 
 SetModule('mapdiz');
 
@@ -10,7 +8,7 @@ SetModule('mapdiz');
   abstract: true
 })
 
-@Component({selector: 'app', controllerAs: 'app'})
+@Component({selector: 'app', controllerAs: 'App'})
 @View({templateUrl: 'client/app/app.html'})
 @Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor', '$log', '$compile')
 
@@ -21,10 +19,14 @@ class App {
 
     var self = this;
 
-    let reactiveContext = $reactive(self).attach($scope);
+    $reactive(self).attach($scope);
 
-    reactiveContext.subscribe('events');
-    reactiveContext.subscribe('images');
+    self.helpers({
+      events: eventsCollection
+    });
+
+    self.subscribe('events', eventsSubscription);
+    self.subscribe('images');
 
     google = $scope.google;
 
@@ -66,6 +68,17 @@ class App {
         usersHandle.stop();
       });
     });
+
+    function eventsCollection() {
+      console.log('eventsCollection', self.events);
+      return Events.find();
+    }
+
+    function eventsSubscription() {
+      console.log('eventsSubscription', self.events);
+      self.allEvents = self.filteredEvents = self.events;
+      return [];
+    }
 
   }
 }
