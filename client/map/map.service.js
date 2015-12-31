@@ -52,8 +52,6 @@ class MapService {
       getMap: getMap,
       markerClick: markerClick,
       windowCloseClick: windowCloseClick,
-      markerMouseOver: markerMouseOver,
-      markerMouseOut: markerMouseOut,
       getOverflownMarkerId: getOverflownMarkerId,
       openWindow: openWindow,
       closeWindow: closeWindow,
@@ -153,18 +151,6 @@ class MapService {
       // model.show = false;
     };
 
-    function markerMouseOver(event) {
-      _overflownMarkerId = event._id;
-      var containers = document.getElementsByClassName('events-list');
-      if (containers) var container = angular.element(containers[0]);
-      var someElement = angular.element(document.getElementById('event-' + event._id));
-      if (container && someElement && !_.isEmpty(someElement)) container.scrollToElement(someElement, 0, 500);
-    };
-
-    function markerMouseOut(event) {
-      _overflownMarkerId = undefined;
-    };
-
     function getOverflownMarkerId() {
       return _overflownMarkerId;
     };
@@ -200,63 +186,106 @@ class MapService {
     };
 
     function setMapCenter(coords) {
-      if (coords === 'userGeoLoc'){
+      var deferred = $q.defer();
+      if (coords === 'userGeoLoc') {
         var self = this;
-        var userLoc = this.getUserLoc();
-        userLoc.then(function(userGeoLoc){
-          service.myLocation.position = userGeoLoc.center;
-          self.map.center = userGeoLoc.center;
-          self.map.zoom = 12;
-        });
-        return userLoc;
+
+        let sessionGeoLoc = Session.get('userGeoLoc');
+        console.log('sessionGeoLoc', sessionGeoLoc);
+
+        if (sessionGeoLoc && sessionGeoLoc.center) {
+          service.map.center = sessionGeoLoc.center;
+          deferred.resolve();
+        } else {
+
+          this.getUserLoc().then(
+            (userGeoLoc) => {
+              Session.set('userGeoLoc', userGeoLoc);
+              //service.myLocation.position = userGeoLoc.center;
+              self.map.center = userGeoLoc;
+              //deferred.resolve();
+            },
+            (error) => {
+              console.log('error 22', error);
+              self.map.center = {
+                lat: 45.764043,
+                lng: 4.835659
+              };
+              self.map.zoom = 12;
+              deferred.resolve();
+              /*Meteor.call('geoip', function (error, geoInfos) {
+                console.log('geoip', error, geoInfos);
+                if (error) {
+                  self.map.center = {
+                    lat: 50,
+                    lng: 50
+                  };
+                } else {
+                  self.map.center = {
+                    lat: geoInfos.ll[0],
+                    lng: geoInfos.ll[1]
+                  };
+                }
+                self.map.zoom = 12;
+                deferred.resolve();
+              });*/
+            }
+          );
+
+        }
+
       } else {
         service.map.center = coords;
         service.myLocation.position = coords;
+        deferred.resolve();
       }
+      return deferred.promise;
     };
 
     function getUserLoc() {
       var deferred = $q.defer();
-
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition( (position, error) => {
-          if (error) {
-            return deferred.reject(error);
-          }
-          var userGeoLoc = {
-            center: {
+        navigator.geolocation.getCurrentPosition(
+          (position, error) => {
+            if (error) {
+              return deferred.reject(error);
+            }
+            var userGeoLoc = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
-            },
-            zoom: 12
-          };
-          deferred.resolve(userGeoLoc);
-        }, (error) => {
-          var errors = {
-            1: "Authorization fails", // permission denied
-            2: "Can\'t detect your location", //position unavailable
-            3: "Connection timeout"
-          };
-          deferred.reject(errors[error]);
-        }, { enableHighAccuracy: true });
+            };
+            deferred.resolve(userGeoLoc);
+          },
+          (error) => {
+            console.log('error 1', error);
+            var errors = {
+              1: "Authorization fails", // permission denied
+              2: "Can\'t detect your location", //position unavailable
+              3: "Connection timeout"
+            };
+            deferred.reject(errors[error.code]);
+          },
+          { enableHighAccuracy: true }
+        );
 
       } else {
-          deferred.reject("Your browser is out of fashion, there\'s no geolocation!");
+        deferred.reject("Your browser is out of fashion, there\'s no geolocation!");
       }
       return deferred.promise;
     };
 
     function dragEnd(map) {
+      console.log('dragEnd');
       setNewPosition(map.center, map.zoom);
       updateVisibleMarkers(map);
     }
 
     function mapZoomChange(map) {
-      // setNewPosition(map.center, map.zoom);
-      updateVisibleMarkers(map);
+       setNewPosition(map.center, map.zoom);
+      /*updateVisibleMarkers(map);
       if (!service.draggableMarker.position || !service.draggableMarker.position.lat) {
         service.draggableMarker.position = map.center;
-      }
+      }*/
     }
 
     function getNewPosition() {
@@ -264,7 +293,7 @@ class MapService {
     }
 
     function setNewPosition(center, zoom) {
-      if($state.current.name === 'events') {
+      if($state.current.name === 'app.events') {
         _newPosition = {
           center: center,
           zoom: zoom

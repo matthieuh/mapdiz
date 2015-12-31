@@ -98,6 +98,8 @@ matthieuh:angular-local-storage@0.2.2
 mdg:validation-error@0.2.0
 meteor@1.1.10
 meteor-base@1.0.1
+meteorhacks:async@1.0.0
+meteorhacks:npm@1.5.0
 meteortoys:toykit@2.2.1
 minifiers@1.1.7
 minimongo@1.0.10
@@ -112,6 +114,7 @@ mquandalle:jade-compiler@0.4.5
 mquandalle:stylus@1.1.1
 msavin:mongol@1.6.2
 npm-bcrypt@0.7.8_2
+npm-container@1.2.0
 npm-mongo@1.4.39_1
 oauth@1.1.6
 oauth1@1.1.5

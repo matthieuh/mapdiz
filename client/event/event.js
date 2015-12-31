@@ -27,7 +27,8 @@ class Event {
 
     $reactive(self).attach($scope);
 
-    let method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update'
+    let method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update';
+    mapSvc.updateVisibleMarkers();
 
     $('event').slimScroll({
       height: 'inherit'
@@ -48,6 +49,10 @@ class Event {
       }
     });
 
+    self.autorun(initMap);
+
+    //setMapCenter();
+
     $scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {
         self.helpers({
@@ -66,7 +71,6 @@ class Event {
 
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
-    self.mapSvc = mapSvc;
     self.save = save;
     self.deleteCover = deleteCover;
     self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder'
@@ -96,7 +100,7 @@ class Event {
       firstDay: 1,
       i18n: i18n_FR,
       onSelect: () => {
-        var endDateValue = this.getMoment().toDate();;
+        var endDateValue = this.getMoment().toDate();
         self.newEvent.endDate = endDateValue;
         if (!$scope.$$phase) $scope.$apply();
       }
@@ -119,37 +123,58 @@ class Event {
 
     var compiled = $compile(content)($scope);
 
-    if (method === 'create') {
-      mapSvc.getUserLoc().then(function(userGeoLoc) {
-        mapSvc.map.center = userGeoLoc.center;
-        mapSvc.draggableMarker.position = userGeoLoc.center;
-      });
-      mapSvc.draggableMarker.content = compiled[0];
-    } else {
-      $scope.$watchCollection('eventDetails.newEvent.position', () => {
-        if (self.newEvent && self.newEvent.position && self.newEvent.position.lat) {
-          mapSvc.map.center = {
-            lat: self.newEvent.position.lat,
-            lng: self.newEvent.position.lng
-          };
-          mapSvc.draggableMarker.content = compiled[0];
-          mapSvc.map.zoom = 15;
-        }
-      });
-    }
 
     //mapSvc.draggableMarker.visible = false;
-    mapSvc.draggableMarker.visible = true;
-
-    // !!self.newEvent.position.lat;
-
-    /*if (self.newEvent.cover) {
-      self.cover = self.newEvent.cover.url({store: 'original'});
-      delete self.newEvent.cover;
-    }*/
+    //mapSvc.draggableMarker.visible = true;
 
     /////////////////////
 
+    function initMap() {
+      console.log('method', method);
+
+      if (method === 'create') {
+
+        /*mapSvc.getUserLoc().then((userGeoLoc) => {
+          mapSvc.map.center = userGeoLoc;
+          mapSvc.draggableMarker.position = userGeoLoc;
+        });
+
+        mapSvc.draggableMarker.content = compiled[0];*/
+
+      } else {
+        /*mapSvc.map.zoom = 14;
+
+          console.log('eventDetails.newEvent.position', newValue, oldValue);
+          if (self.newEvent && self.newEvent.position && self.newEvent.position.lat) {
+            mapSvc.map.center = {
+              lat: self.newEvent.position.lat,
+              lng: self.newEvent.position.lng
+            };
+            //mapSvc.draggableMarker.content = compiled[0];
+          }
+        });*/
+
+        console.log('self.newEvent.position', self.newEvent);
+
+
+        // Open window
+
+        let position = self.getReactively('newEvent.position');
+        // Set zomm and center
+
+        if (position) {
+          mapSvc.updateMap({
+            zoom: 15,
+            center: {
+              lat: position.lat,
+              lng: position.lng
+            }
+          });
+
+          $rootScope.openedWindow = self.newEvent._id;
+        }
+      }
+    }
 
     function addTimeToDatetime(time, datimeScopeName) {
       var momentDate = moment(self.newEvent[datimeScopeName]);
@@ -214,6 +239,8 @@ class Event {
           } else {
             if (self.cover) {
               uploadPictures(self.newEvent._id);
+            } else {
+              $state.go('app.events');
             }
           }
         });

@@ -79,3 +79,7 @@ matthieuh:angular-local-storage
 msavin:mongol
 rochal:slimscroll
 jparker:gravatar
+
+# NPM HACK
+meteorhacks:npm
+npm-container

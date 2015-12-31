@@ -42,12 +42,12 @@ class Home {
       mapSvc.getUserLoc().then((userGeoLoc) => {
 
         var geocoder = new google.maps.Geocoder;
-        geocoder.geocode({'location': userGeoLoc.center}, (results, status) => {
+        geocoder.geocode({'location': userGeoLoc}, (results, status) => {
           if (status == 'OK') {
             $scope.$apply( () => {
               self.gettingGeoloc = false;
               self.myLocation.address = results[0].formatted_address;
-              self.myLocation.latLng = userGeoLoc.center;
+              self.myLocation.latLng = userGeoLoc;
             });
           } else {
             self.gettingGeoloc = false;

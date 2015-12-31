@@ -11,10 +11,10 @@ angular.module('mapdiz');
 
 @Component({selector: 'events-list'})
 @View({templateUrl: 'client/event/events.html'})
-@Inject('$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout', '@Mapdiz')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout', '@Mapdiz')
 
 class EventsList {
-  constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage, $timeout, Mapdiz) {
+  constructor($scope, $reactive, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage, $timeout, Mapdiz) {
     $log.info('EventsList', $scope.$parent);
 
     var self = this;
@@ -33,7 +33,7 @@ class EventsList {
     self.isOverflown = isOverflown;
     self.mapSvc = mapSvc;
     self.url = url;
-    self.images = $meteor.collectionFS(Images, false).subscribe('images');
+    //self.images = $meteor.collectionFS(Images, false).subscribe('images');
     self.timeFilter = {
       options: {
         floor: 0,
@@ -65,15 +65,18 @@ class EventsList {
     localStorage.bind($scope, 'vm.distanceFilter.options.infinite', false);
     localStorage.bind($scope, 'vm.distanceFilter.options.disabled', true);
 
-    $meteor.autorun($scope, autorun);
+    /*$meteor.autorun($scope, autorun);
     function autorun() {
-      mapSvc.updateVisibleMarkers();
+
       $meteor.subscribe('users').then(function(handle){
         subscriptionHandle = handle;
         self.users = $meteor.collection(Meteor.users, false);
       });
-      setMapCenter();
-    };
+
+    };*/
+
+    //mapSvc.updateVisibleMarkers();
+    setMapCenter();
 
     $scope.$on('$destroy', function() {
       if(angular.isDefined(subscriptionHandle)){
@@ -185,6 +188,7 @@ class EventsList {
 
       if (_.isEmpty(newPosition)){
         mapSvc.setMapCenter('userGeoLoc');
+        mapSvc.setMapZoom(12);
       } else {
         mapSvc.setMapCenter(newPosition.center);
         mapSvc.setMapZoom(newPosition.zoom);
