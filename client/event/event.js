@@ -219,7 +219,7 @@ class Event {
             if (self.cover) {
               uploadPictures(savedEventId);
             } else {
-              $state.go('app.events');
+              $state.go('app.events', {eventId: savedEventId, eventSlug: convertToSlug(self.newEvent.name)});
             }
           }
         });
@@ -239,7 +239,7 @@ class Event {
             if (self.cover) {
               uploadPictures(self.newEvent._id);
             } else {
-              $state.go('app.events');
+              $state.go('app.events', {eventId: savedEventId, eventSlug: self.newEvent.url || convertToSlug(self.newEvent.name)});
             }
           }
         });
@@ -276,5 +276,13 @@ class Event {
         }
       });
     }
+
+    function convertToSlug(Text) {
+      return Text
+        .toLowerCase()
+        .replace(/[^\w ]+/g,'')
+        .replace(/ +/g,'-');
+    };
+
 	}
 }

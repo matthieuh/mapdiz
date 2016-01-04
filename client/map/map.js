@@ -92,7 +92,7 @@ class Map {
         var imageObject = $filter('filter')($scope.$parent.App.images, {_id: image})[0].url();
         var url;
 
-        if (imageObject.url) {
+        if (imageObject && imageObject.url) {
           url = imageObject.url();
         }
 

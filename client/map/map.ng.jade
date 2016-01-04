@@ -1,5 +1,4 @@
 .map-wrapper.flex-column.flex-auto
-  p {{ $root.openedWindow == filteredEvent._id || $root.clickedWindow == filteredEvent._id }}
   .angular-google-map-container
     .loader-container
       .loader
@@ -50,7 +49,7 @@
             <div class=\"iw-container\">\
               <img class=\"cover\" ng-src=\"{{ Map.getImage(filteredEvent.cover, true) }}\">\
               <div class=\"info-window-content\">\
-                <h4>{{ filteredEvent.name }}<h4>\
+                <h4>{{ filteredEvent.name }}</h4>\
                 <div class=\"description mxn1\" ng-show=\"filteredEvent.description\">\
                   <strong>Description :</strong> {{ filteredEvent.description }}\
                   <div class=\"iw-bottom-gradient\"></div>\

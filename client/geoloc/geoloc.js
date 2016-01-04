@@ -24,8 +24,6 @@ class Geoloc {
     var self = this;
     self.openSetGeolocModal = openSetGeolocModal;
 
-
-
     /////////////////
 
     function openSetGeolocModal() {
@@ -175,6 +173,7 @@ class Geoloc {
         if (location) {
           $mdDialog.hide(location);
         } else {
+          mapSvc.draggableMarker.visible = false;
           $scope.location = {};
           $mdDialog.hide();
         }
