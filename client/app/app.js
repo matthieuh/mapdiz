@@ -10,11 +10,11 @@ SetModule('mapdiz');
 
 @Component({selector: 'app', controllerAs: 'App'})
 @View({templateUrl: 'client/app/app.html'})
-@Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor', '$log', '$compile')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor', '$log', '$compile', '$filter')
 
 class App {
 
-  constructor($scope, $reactive, $rootScope, $state, $meteor, $log, $compile) {
+  constructor($scope, $reactive, $rootScope, $state, $meteor, $log, $compile, $filter) {
     $log.info('App');
 
     var self = this;
@@ -22,10 +22,14 @@ class App {
     $reactive(self).attach($scope);
 
     self.helpers({
-      events: eventsCollection
+      events: _eventsCollection,
+      images: _imagesCollection
     });
 
-    self.subscribe('events', eventsSubscription);
+    self.getImage = getImage;
+    self.toto = 'toto';
+
+    self.subscribe('events', _eventsSubscription);
     self.subscribe('images');
 
     google = $scope.google;
@@ -33,7 +37,6 @@ class App {
     $scope.$state = $state;
 
 
-    //////////////////////////
 
     $rootScope.$on("$stateChangeError",
       function (event, toState, toParams, fromState, fromParams, error) {
@@ -69,15 +72,37 @@ class App {
       });
     });
 
-    function eventsCollection() {
+    //////////////////////////////
+
+    function _eventsCollection() {
       console.log('eventsCollection', self.events);
       return Events.find();
     }
 
-    function eventsSubscription() {
+    function _eventsSubscription() {
       console.log('eventsSubscription', self.events);
       self.allEvents = self.filteredEvents = self.events;
       return [];
+    }
+
+    function _imagesCollection() {
+      return Images.find({});
+    }
+
+    function getImage(image, onlyUrl) {
+      
+      if (image) {
+        var url = $filter('filter')(self.images, {_id: image})[0].url();
+
+        if (onlyUrl) {
+          console.log('getImage', url);
+          return url;
+        }
+
+        return {
+          'background-image': 'url("' + url + '")'
+        }
+      }
     }
 
   }

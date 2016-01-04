@@ -6,15 +6,17 @@ SetModule('mapdiz');
 
 @Component({selector: 'map', controllerAs: 'Map'})
 @View({templateUrl: 'client/map/map.html'})
-@Inject('$scope', '$reactive', '$rootScope', '$state', '$log', 'mapSvc', '$timeout', '$compile')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$log', 'mapSvc', '$timeout', '$compile', '$filter')
 
 class Map {
-  constructor($scope, $reactive, $rootScope, $state, $log, mapSvc, $timeout, $compile) {
+  constructor($scope, $reactive, $rootScope, $state, $log, mapSvc, $timeout, $compile, $filter) {
     $log.info('MapCtrl', $scope.$parent);
 
     var self = this;
 
     $reactive(self).attach($scope);
+
+    //self.autorun(_setFilteredEventContent);
 
     self.mapSvc = mapSvc;
     self.mapControl = {};
@@ -22,6 +24,7 @@ class Map {
     self.draggableMarkerChanged = draggableMarkerChanged;
     self.markerMouseOver = markerMouseOver;
     self.markerMouseOut = markerMouseOut;
+    self.getImage = getImage;
 
     $scope.$on('marker.openWindow', function(event, eventId) {
       var event = _.find(self.filteredEvents, {_id: eventId});
@@ -32,7 +35,6 @@ class Map {
       var event = _.find(self.filteredEvents, {_id: eventId});
       event.show = false;
     });
-
 
     /////////////////////////////
 
@@ -58,5 +60,51 @@ class Map {
     function markerMouseOut() {
       $rootScope.openedWindow = false;
     };
+
+    self.getFilteredEventContent = _setFilteredEventContent;
+
+    function _setFilteredEventContent() {
+      $scope.toto = 'toto';
+
+      var content = `
+          <div class="info-window">
+            <div class="iw-container">
+              <div class="info-window-content">
+                <h4>{{ toto }} {{ filteredEvent.name }}<h4>
+                <div class="description mxn1" ng-show="filteredEvent.description">
+                  <strong>Description :</strong> {{ filteredEvent.description }}
+                  <div class="iw-bottom-gradient"></div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+
+      var compiled = $compile(content)($scope);
+
+      console.log('content', content, compiled[0].outerHTML);
+      self.filteredEventContent = content;
+      return compiled[0].outerHTML;
+    }
+
+    function getImage(image, onlyUrl) {
+      console.log('MAPPPP getImage', url);
+      if (image) {
+        var imageObject = $filter('filter')($scope.$parent.App.images, {_id: image})[0].url();
+        var url;
+
+        if (imageObject.url) {
+          url = imageObject.url();
+        }
+
+        if (onlyUrl) {
+          
+          return url;
+        }
+
+        return {
+          'background-image': 'url("' + url + '")'
+        }
+      }
+    }
   }
 }

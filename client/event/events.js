@@ -11,10 +11,10 @@ angular.module('mapdiz');
 
 @Component({selector: 'events-list'})
 @View({templateUrl: 'client/event/events.html'})
-@Inject('$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout', '@Mapdiz')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout')
 
 class EventsList {
-  constructor($scope, $reactive, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage, $timeout, Mapdiz) {
+  constructor($scope, $reactive, $rootScope, $state, $stateParams, $filter, $log, mapSvc, localStorage, $timeout) {
     $log.info('EventsList', $scope.$parent);
 
     var self = this;
@@ -65,17 +65,7 @@ class EventsList {
     localStorage.bind($scope, 'vm.distanceFilter.options.infinite', false);
     localStorage.bind($scope, 'vm.distanceFilter.options.disabled', true);
 
-    /*$meteor.autorun($scope, autorun);
-    function autorun() {
-
-      $meteor.subscribe('users').then(function(handle){
-        subscriptionHandle = handle;
-        self.users = $meteor.collection(Meteor.users, false);
-      });
-
-    };*/
-
-    //mapSvc.updateVisibleMarkers();
+    
     setMapCenter();
 
     $scope.$on('$destroy', function() {
