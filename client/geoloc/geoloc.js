@@ -16,17 +16,23 @@ angular.module('mapdiz');
   transclude: true
 })
 
-@Inject('$scope', '$meteor', '$rootScope', '$state', '$log', '$mdDialog')
+@Inject('$scope', '$meteor', '$rootScope', '$state', '$log', '$mdDialog', 'mapSvc')
 
 class Geoloc {
-  constructor($scope, $meteor, $rootScope, $state, $log, $mdDialog) {
+  constructor($scope, $meteor, $rootScope, $state, $log, $mdDialog, mapSvc) {
 
     var self = this;
     self.openSetGeolocModal = openSetGeolocModal;
 
+
+
     /////////////////
 
     function openSetGeolocModal() {
+
+      console.log('mapSvc.map.center', mapSvc.map.center)
+      mapSvc.draggableMarker.position = mapSvc.map.center;
+      mapSvc.draggableMarker.visible = true;
 
       var parentEl = angular.element(document.querySelector('.main-section'))[0];
 
