@@ -7,9 +7,9 @@ var {SetModule, Service, Inject} = angular2now;
 SetModule('mapdiz');
 
 @Service({ name: 'mapSvc' })
-@Inject(['$rootScope', '$q', '$log', '$meteor', '$timeout', '$document', '$state'])
+@Inject('$rootScope', '$q', '$log', '$meteor', '$timeout', '$document', '$state', '$location')
 class MapService {
-  constructor($rootScope, $q, $log, $meteor, $timeout, $document, $state) {
+  constructor($rootScope, $q, $log, $meteor, $timeout, $document, $state, $location) {
   	var _events = [];
     var _visibleEvents = [];
     var _currentBounds = {};
@@ -39,8 +39,8 @@ class MapService {
         content: "Déplace-moi sur le lieu de l'évenement",
         onDomready: onMarkerDomready
       },
-      eventMarker: {
-        content: "ttttest"
+      filteredEventOptions: {
+        icon: getEventIcon('birthay')
       },
       events: [],
       visibleEvents: [],
@@ -185,7 +185,7 @@ class MapService {
       if(map) setMap(map);
     };
 
-    function setMapCenter(coords) {
+    function setMapCenter(coords, isUserLocation) {
       var deferred = $q.defer();
       if (coords === 'userGeoLoc') {
         var self = this;
@@ -193,8 +193,9 @@ class MapService {
         let sessionGeoLoc = Session.get('userGeoLoc');
         console.log('sessionGeoLoc', sessionGeoLoc);
 
-        if (sessionGeoLoc && sessionGeoLoc.center) {
-          service.map.center = sessionGeoLoc.center;
+        if (sessionGeoLoc) {
+          service.map.center = sessionGeoLoc;
+          if (isUserLocation) service.myLocation.position = sessionGeoLoc;
           deferred.resolve();
         } else {
 
@@ -203,6 +204,7 @@ class MapService {
               Session.set('userGeoLoc', userGeoLoc);
               //service.myLocation.position = userGeoLoc.center;
               self.map.center = userGeoLoc;
+              if (isUserLocation) service.myLocation.position = userGeoLoc;
               //deferred.resolve();
             },
             (error) => {
@@ -236,7 +238,7 @@ class MapService {
 
       } else {
         service.map.center = coords;
-        service.myLocation.position = coords;
+        if (isUserLocation) service.myLocation.position = coords;
         deferred.resolve();
       }
       return deferred.promise;
@@ -293,12 +295,30 @@ class MapService {
     }
 
     function setNewPosition(center, zoom) {
-      if($state.current.name === 'app.events') {
+      if ($state.current.name === 'app.events') {
         _newPosition = {
           center: center,
           zoom: zoom
         };
       }
     }
+
+    function getEventIcon(categoryId) {
+      let iconBase = 'assets/images/markers/';
+
+      let icons = {
+        birthday: 'parking_lot_maps.png',
+        party: 'library_maps.png',
+        meeting: 'info-i_maps.png'
+      };
+
+      let protocol = $location.protocol();
+      let host = $location.host();
+      let port = $location.port();
+      let url = `${ protocol }:\/\/${ host }:${ port }/${ iconBase }${ icons[categoryId] || 'default.png' } `;
+      console.log('url', url);
+      return url;
+    }
+
   }
 }

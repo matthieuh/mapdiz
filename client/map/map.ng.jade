@@ -31,6 +31,7 @@
 
       gm-marker.event-marker(
         ng-repeat='filteredEvent in $parent.$parent.App.filteredEvents',
+        options='{icon: Map.mapSvc.filteredEventOptions.icon}',
         position='filteredEvent.position',
         on-click='filteredEvent.showInfo=!filteredEvent.showInfo',
         on-mouseover='Map.markerMouseOver(filteredEvent._id);',

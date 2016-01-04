@@ -87,6 +87,7 @@ class Event {
       firstDay: 1,
       i18n: i18n_FR,
       onSelect: () => {
+        console.log('onSelect', this);
         var beginDateValue = this.getMoment().toDate();
         self.newEvent.beginDate = beginDateValue;
         if (!$scope.$$phase) $scope.$apply();
@@ -99,7 +100,8 @@ class Event {
       format: 'DD/MM/YYYY',
       firstDay: 1,
       i18n: i18n_FR,
-      onSelect: () => {
+      onSelect: (e) => {
+        console.log('onSelect', this, e);
         var endDateValue = this.getMoment().toDate();
         self.newEvent.endDate = endDateValue;
         if (!$scope.$$phase) $scope.$apply();
@@ -134,12 +136,9 @@ class Event {
 
       if (method === 'create') {
 
-        /*mapSvc.getUserLoc().then((userGeoLoc) => {
-          mapSvc.map.center = userGeoLoc;
-          mapSvc.draggableMarker.position = userGeoLoc;
-        });
+        mapSvc.setMapCenter('userGeoLoc', true);
 
-        mapSvc.draggableMarker.content = compiled[0];*/
+        //mapSvc.draggableMarker.content = compiled[0];
 
       } else {
         /*mapSvc.map.zoom = 14;

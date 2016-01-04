@@ -187,7 +187,7 @@ class EventsList {
       var newPosition = mapSvc.getNewPosition();
 
       if (_.isEmpty(newPosition)){
-        mapSvc.setMapCenter('userGeoLoc');
+        mapSvc.setMapCenter('userGeoLoc', true);
         mapSvc.setMapZoom(12);
       } else {
         mapSvc.setMapCenter(newPosition.center);

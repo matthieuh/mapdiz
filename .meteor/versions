@@ -95,6 +95,7 @@ matthieuh:angular-google-maps-native@2.0.0
 matthieuh:angular-google-places-autocomplete@0.2.7
 matthieuh:angular-img-cropper@1.1.0
 matthieuh:angular-local-storage@0.2.2
+matthieuh:pure-angular-date-range-picker@0.2.0
 mdg:validation-error@0.2.0
 meteor@1.1.10
 meteor-base@1.0.1
