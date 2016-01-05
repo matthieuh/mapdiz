@@ -1,0 +1,10 @@
+.date-range
+  a(href='#', ng-click='DateRange.openDateRangeModal()', ng-transclude)
+  .dialog.date-range-dialog(ng-show='DateRange.showDialog')
+    mighty-datepicker(
+      ng-model="DateRange.momentDate",
+      options="DateRange.options",
+      before="DateRange.mmDateBefore",
+      after="DateRange.mmDateAfter"
+    )
+    button(ng-click='DateRange.answer()') OK

@@ -25,7 +25,7 @@ SetModule('mapdiz', [
   'rzModule',
   'LocalStorageModule',
   'angular-click-outside',
-  'obDateRangePicker'
+  'mightyDatepicker'
 ]);
 
 @Inject('gmLibraryProvider', '$windowProvider', 'localStorageServiceProvider')

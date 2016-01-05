@@ -64,7 +64,6 @@ class Map {
     self.getFilteredEventContent = _setFilteredEventContent;
 
     function _setFilteredEventContent() {
-      $scope.toto = 'toto';
 
       var content = `
           <div class="info-window">
@@ -87,9 +86,8 @@ class Map {
     }
 
     function getImage(image, onlyUrl) {
-      console.log('MAPPPP getImage', url);
       if (image) {
-        var imageObject = $filter('filter')($scope.$parent.App.images, {_id: image})[0].url();
+        var imageObject = $filter('filter')($scope.$parent.App.images, {_id: image})[0];
         var url;
 
         if (imageObject && imageObject.url) {
@@ -97,7 +95,7 @@ class Map {
         }
 
         if (onlyUrl) {
-          
+
           return url;
         }
 

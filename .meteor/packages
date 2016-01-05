@@ -74,6 +74,7 @@ matthieuh:angular-img-cropper
 matthieuh:angular-google-places-autocomplete
 matthieuh:angucomplete-alt
 matthieuh:angular-local-storage
+matthieuh:angular-mighty-datepicker
 
 # DEV ONLY
 msavin:mongol
@@ -83,4 +84,5 @@ jparker:gravatar
 # NPM HACK
 meteorhacks:npm
 npm-container
-matthieuh:pure-angular-date-range-picker
+
+matthieuh:angular-bindonce

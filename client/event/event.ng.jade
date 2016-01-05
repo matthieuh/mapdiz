@@ -34,9 +34,12 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       span.between :
       input#beginDate(
         name='beginDate',
-        style="display: none"
+        style='display: none'
       )
-      a.date-field.editable#edit-beginDate
+      date-range.date-field.editable#edit-beginDate(
+        ng-model='eventDetails.newEvent.beginDate',
+        date-before='eventDetails.newEvent.endDate'
+      )
         | {{ eventDetails.newEvent.beginDate ? ( eventDetails.newEvent.beginDate | date:'dd/MM/yyyy' ) : 'Date de début' }}
       span.between à
       time-picker(ng-model='eventDetails.newEvent.beginTime')
@@ -50,7 +53,10 @@ header(ng-show="$root.currentUser || $root.loggingIn")
         name='endDate',
         style="display: none"
       )
-      a.date-field.editable#edit-endDate  {{ eventDetails.newEvent.endDate ? ( eventDetails.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
+      date-range.date-field.editable#edit-endDate(
+        ng-model='eventDetails.newEvent.endDate',
+        date-after='eventDetails.newEvent.beginDate'
+      )  {{ eventDetails.newEvent.endDate ? ( eventDetails.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
       span.between à
       time-picker(ng-model='eventDetails.newEvent.endTime')  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 

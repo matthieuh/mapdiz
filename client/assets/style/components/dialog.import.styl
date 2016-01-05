@@ -1,0 +1,57 @@
+.dialog
+  position: relative
+  display: flex
+  flex-direction: column
+  //height: 300px
+  background-color: #fff
+  color: black
+  border-color: #CCC #CCC #BBB
+
+  .mighty-picker__month
+    display: flex
+    flex-direction: column
+
+    .mighty-picker__month-name
+      text-align: center
+      padding-top: 5px
+      padding-bottom: 5px
+
+  .mighty-picker__prev-month
+    @extends .button
+    @extends .button.button-small
+    position: absolute
+    top: 5px
+    left: 5px
+    margin: 0
+
+  .mighty-picker__next-month
+    @extends .button
+    @extends .button.button-small
+    position: absolute
+    top: 5px
+    right: 5px
+    margin: 0
+
+  button
+    @extends .button
+    @extends .button.button-small
+    @extends .button.button-primary
+    display: flex
+
+
+/*
+.dialog-btn
+  @extends .button
+  @extends .button.button-small
+  @extends .button.button-primary
+  position: absolute
+  top: 5
+
+.mighty-picker__prev-month
+  @extends .dialog-btn
+  left: 5
+
+.mighty-picker__next-month
+  @extends .dialog-btn
+  right: 5px
+*/
