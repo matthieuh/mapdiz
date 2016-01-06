@@ -40,6 +40,8 @@ class Invitation {
 
     self.invite = invite;
     self.canInvite = canInvite;
+    self.friendsCollection = FacebookCollections.getFriends("me",["id","name"],100);
+    self.getFBFriends = _getFBFriends;
 
     ////////////
 
@@ -61,5 +63,9 @@ class Invitation {
       return !self.ngModel.public && self.ngModel.owner === Meteor.userId();
     }
 
+    function _getFBFriends() {
+      console.log('self.friendsCollection.find()', self.friendsCollection.find(), self.friendsCollection.find().fetch())
+      self.friends = self.friendsCollection.find().fetch();
+    }
   }
 }

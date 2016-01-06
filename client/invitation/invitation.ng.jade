@@ -1,6 +1,8 @@
 div Invitations
 
 {{ Invitation.ngModel | json }}
+a(ng-click='Invitation.getFBFriends()') get FB friends
+pre {{ Invitation.friends | json}}
 
 md-list(ng-show='Invitation.canInvite()')
   md-subheader.md-no-sticky Users to invite:

@@ -26,6 +26,7 @@
         | Remember me
       .error-message(ng-show='vm.errors') {{ vm.errors }}
       button.btn.btn-center.btn-primary(type='submit') Se connecter
+      button.btn.btn-center.btn-primary(ng-click='vm.loginWithFacebook()') Se connecter avec Facebook
       //- button.btn.btn-primary.black.bg-gray(type='reset', ng-if="!$root.currentUser") Cancel
 
   .create-account.p2(ng-if='vm.displayCreateAccount')

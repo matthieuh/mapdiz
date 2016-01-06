@@ -5,6 +5,7 @@ Schema.User = new SimpleSchema({
   },
   username: {
     type: String,
+    optional: true,
     regEx: /^[a-z0-9A-Z_]{3,20}$/,
     custom: function () {
       console.log(this);

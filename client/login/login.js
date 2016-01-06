@@ -45,6 +45,7 @@ class Login {
     self.connectedDisplay = 'classic';
     self.togglePopup = togglePopup;
     self.goTo = goTo;
+    self.loginWithFacebook = _loginWithFacebook
 
     //////////////////////
 
@@ -60,6 +61,12 @@ class Login {
 
     function loginWithPassword(user, password) {
       Meteor.loginWithPassword(user, password, displayError)
+    }
+
+    function _loginWithFacebook() {
+      Meteor.loginWithFacebook({
+        requestPermissions: ['user_friends']
+      }, displayError);
     }
 
     function createAccount(newAccount) {
