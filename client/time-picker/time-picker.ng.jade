@@ -1,18 +1,25 @@
 .time-picker(ng-init='showDialog = false')
   a(href='#', ng-click='showDialog = true', ng-transclude)
   .dialog.time-picker-dialog(ng-show='showDialog')
-    .hours
-      label Heure :
-      select(
-        name='hour',
-        ng-options='hour for hour in vm.hours',
-        ng-model='vm.timeHour'
-      )
-    .minutes
-      label Minute :
-      select(
-        name='min',
-        ng-options='minute for minute in vm.minutes',
-        ng-model='vm.timeMinute'
-      )
-    button(ng-click='vm.answer()') OK
+    .time-wrapper
+      .hours
+        label Heure :
+        .select
+          select(
+            name='hour',
+            ng-options='hour for hour in vm.hours',
+            ng-model='vm.timeHour'
+          )
+          i.fa.fa-angle-down.fa-2
+      .minutes
+        label Minute :
+        .select
+          select(
+            name='min',
+            ng-options='minute for minute in vm.minutes',
+            ng-model='vm.timeMinute'
+          )
+          i.fa.fa-angle-down.fa-2
+    .buttons
+      button(ng-click='vm.answer(true)') Annuler
+      button(ng-click='vm.answer()') OK

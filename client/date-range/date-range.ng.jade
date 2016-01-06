@@ -4,7 +4,9 @@
     mighty-datepicker(
       ng-model="DateRange.momentDate",
       options="DateRange.options",
-      before="DateRange.mmDateBefore",
-      after="DateRange.mmDateAfter"
+      ng-attr-before="DateRange.mmDateBefore",
+      ng-attr-after="DateRange.mmDateAfter"
     )
-    button(ng-click='DateRange.answer()') OK
+    .buttons
+      button(ng-click='DateRange.answer(true)') Annuler
+      button(ng-click='DateRange.answer()') OK

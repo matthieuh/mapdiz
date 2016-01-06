@@ -80,34 +80,6 @@ class Event {
       mapSvc.draggableMarker.visible = false;
     });
 
-    var beginDatePicker = new Pikaday({
-      field: document.getElementById('beginDate'),
-      trigger: document.getElementById('edit-beginDate'),
-      format: 'DD/MM/YYYY',
-      firstDay: 1,
-      i18n: i18n_FR,
-      onSelect: () => {
-        console.log('onSelect', this);
-        var beginDateValue = this.getMoment().toDate();
-        self.newEvent.beginDate = beginDateValue;
-        if (!$scope.$$phase) $scope.$apply();
-      }
-    });
-
-    var endDatePicker = new Pikaday({
-      field: document.getElementById('endDate'),
-      trigger: document.getElementById('edit-endDate'),
-      format: 'DD/MM/YYYY',
-      firstDay: 1,
-      i18n: i18n_FR,
-      onSelect: (e) => {
-        console.log('onSelect', this, e);
-        var endDateValue = this.getMoment().toDate();
-        self.newEvent.endDate = endDateValue;
-        if (!$scope.$$phase) $scope.$apply();
-      }
-    });
-
     var content = `
       <div class='info-window'>
         <div class='iw-container'>

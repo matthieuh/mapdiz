@@ -1,47 +1,37 @@
-.date-range-modal
-  width: 60%
-  color: #000
+.date-range-dialog
 
-  h3
-    text-align: center
+  .mighty-picker__holder
+    position: relative
 
-  md-dialog-content
-    height: 100%
+    .mighty-picker__month
+      display: flex
+      flex-direction: column
 
+      .mighty-picker__month-name
+        text-align: center
+        padding-top: 5px
+        padding-bottom: 5px
 
-  .drop-box
-    background: #F8F8F8
-    border: 5px dashed #DDD
-    width: 300px
-    height: 65px
-    text-align: center
-    padding: 50px
-    margin: auto
+      .mighty-picker-calendar
 
-    &:hover
-      cursor: pointer
+        .mighty-picker-calendar__day
+          border: 1px solid #E4E7E7
+          text-align: center
 
-    &.dragover
-    border: 5px dashed blue
+    .mighty-picker__prev-month
+      @extends .button
+      @extends .button.button-small
+      position: absolute
+      top: 5px
+      left: 5px
+      margin: 0
+      border: none
 
-    &.dragover-err
-      border: 5px dashed red
-
-    .preview
-      img
-        width: 100%
-        max-width: 522px
-
-
-.uploaded-image
-  max-width: 300px
-
-.crop-container
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-
-
-.images-container-title
-  width: 100%;
+    .mighty-picker__next-month
+      @extends .button
+      @extends .button.button-small
+      position: absolute
+      top: 5px
+      right: 5px
+      margin: 0
+      border: none

@@ -10,8 +10,8 @@ header(ng-show="$root.currentUser || $root.loggingIn")
     a.delete-cover(href='#', ng-show='eventDetails.cover', ng-click="eventDetails.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  .cover
-    img(ng-src="{{ eventDetails.cover }}")
+  .cover(ng-style="$parent.$parent.App.getImage(event.cover)")
+    //-img(ng-src="{{ eventDetails.cover }}")
   .over-cover
     .title
       h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
@@ -26,7 +26,7 @@ header(ng-show="$root.currentUser || $root.loggingIn")
         span(ng-show='eventDetails.newEvent.position.address.display')
           | {{ eventDetails.newEvent.position.address.display }}
         span(ng-show='!eventDetails.newEvent.position.address.display && eventDetails.newEvent.position.lat')
-          | Lat : {{ eventDetails.newEvent.position.lat }} - Lng : {{ eventDetails.newEvent.position.lng }}
+          | Lat : {{ eventDetails.newEvent.position.lat | number }} - Lng : {{ eventDetails.newEvent.position.lng | number }}
         span(ng-hide='eventDetails.newEvent.position.lat || eventDetails.newEvent.position.address.display') Choisir l'emplacement
     .date
       i.icon.ion-ios-calendar-outline

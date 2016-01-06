@@ -26,7 +26,8 @@ class TimePicker {
 
     self.hours = [];
     self.minutes = [];
-    self.answer = answer;
+    self.answer = _answer;
+    self.clear = _clear;
 
     for(var i = 0; i < 24 ; i++) {
       var h = ("0" + i).slice(-2);
@@ -40,10 +41,20 @@ class TimePicker {
 
     ////////////
 
-    function answer() {
+    function _answer(cancel) {
+
+      if (!cancel) {
+        self.ngModel = moment().hour(self.timeHour).minutes(self.timeMinute).toDate();
+      }
+
       $scope.showDialog = false;
-      self.ngModel = moment().hour(self.timeHour).minutes(self.timeMinute).toDate();
     }
+
+    function _clear() {
+      self.ngModel = undefined;
+      $scope.showDialog = false;
+    }
+
 
   }
 }
