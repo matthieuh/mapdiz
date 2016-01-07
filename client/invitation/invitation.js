@@ -13,7 +13,8 @@ angular.module('mapdiz');
 })
 
 @View({
-  templateUrl: 'client/invitation/invitation.html'
+  templateUrl: 'client/invitation/invitation.html',
+  transclude: true
 })
 
 @Inject('$scope', '$reactive', '$rootScope', '$state', '$log', '$mdDialog')
@@ -38,34 +39,117 @@ class Invitation {
       }
     });
 
-    self.invite = invite;
-    self.canInvite = canInvite;
-    self.friendsCollection = FacebookCollections.getFriends("me",["id","name"],100);
-    self.getFBFriends = _getFBFriends;
+    self.canInvite = _canInvite;
+    self.openModal = _openModal;
 
     ////////////
 
-    function invite(user) {
-      Meteor.call('invite', self.ngModel._id, user._id, (error) => {
-        if (error) {
-          console.log('Oops, unable to invite!');
+    function _canInvite() {
+      if (!self.ngModel)
+        return false;
+
+      return self.ngModel._id && !self.ngModel.public && self.ngModel.owner === Meteor.userId();
+    }
+
+
+
+    function _openModal() {
+      var parentEl = angular.element(document.querySelector('.main-content'))[0];
+
+      $mdDialog.show({
+        parent: parentEl,
+        controller: ['$scope', '$rootScope', '$reactive', '$state', '$mdDialog', 'newOrder', _invitationModalCtrl],
+        controllerAs: 'InvitationModal',
+        templateUrl: 'client/invitation/invitation-modal.html',
+        bindToController: true,
+        locals: {
+          newOrder: 0
         }
-        else {
-          console.log('Invited!');
+      }).then(function(image) {
+        if (image) {
+          console.log('new image', image);
+          self.picture = image;
         }
       });
     }
 
-    function canInvite() {
-      if (!self.ngModel)
-        return false;
+    function _invitationModalCtrl($scope, $rootScope, $reactive, $state, $mdDialog, newOrder) {
 
-      return !self.ngModel.public && self.ngModel.owner === Meteor.userId();
-    }
+      var mdSelf = this;
 
-    function _getFBFriends() {
-      console.log('self.friendsCollection.find()', self.friendsCollection.find(), self.friendsCollection.find().fetch())
-      self.friends = self.friendsCollection.find().fetch();
+      $reactive(mdSelf).attach($scope);
+
+      mdSelf.helpers({
+        users: _usersCollection,
+      });
+
+      mdSelf.perPage = 3;
+      mdSelf.page = 1;
+      mdSelf.sort = {
+        name: 1
+      };
+      mdSelf.orderProperty = '1';
+      mdSelf.searchText = '';
+      mdSelf.close = _close;
+      mdSelf.invite = _invite;
+      mdSelf.invites = _invites;
+      mdSelf.subscribe('users', _usersSubscription);
+
+      if (Meteor.user()) {
+        mdSelf.friendsCollection = FacebookCollections.getFriends("me",["id","name"],100);
+      }
+
+      ////////////
+
+      function _usersSubscription() {
+        /*return [
+          {
+            limit: parseInt(mdSelf.perPage),
+            skip: parseInt((mdSelf.getReactively('page') - 1) * mdSelf.perPage),
+            sort: mdSelf.getReactively('sort')
+          },
+          mdSelf.getReactively('searchText')
+        ];*/
+      }
+
+      function _usersCollection() {
+        return Meteor.users.find();
+      }
+
+      function _close() {
+        $mdDialog.hide();
+      }
+
+      function _invite(user) {
+        Meteor.call('invite', self.ngModel._id, user._id, (error) => {
+          if (error) {
+            console.log('Oops, unable to invite!');
+          }
+          else {
+            console.log('Invited!');
+          }
+        });
+      }
+
+      function _invites(users) {
+        Meteor.call('invite', self.ngModel._id, users, (error) => {
+          if (error) {
+            console.log('Oops, unable to invite users!');
+          }
+          else {
+            console.log('Users Invited!');
+          }
+        });
+      }
+
+      function _getFBFriends() {
+        if (self.friendsCollection) {
+          console.log('self.friendsCollection.find()', self.friendsCollection.find(), self.friendsCollection.find().fetch())
+          self.friends = self.friendsCollection.find().fetch();
+        }
+      }
+
+
     }
   }
 }

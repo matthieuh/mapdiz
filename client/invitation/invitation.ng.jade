@@ -1,13 +1,2 @@
-div Invitations
-
-{{ Invitation.ngModel | json }}
-a(ng-click='Invitation.getFBFriends()') get FB friends
-pre {{ Invitation.friends | json}}
-
-md-list(ng-show='Invitation.canInvite()')
-  md-subheader.md-no-sticky Users to invite:
-  md-list-item(ng-repeat='user in Invitation.users | uninvited:Invitation.ngModel')
-    div {{ user | displayName }}
-    md-button(ng-click='Invitation.invite(user)') Invite
-  md-list-item(ng-if='(Invitation.users | uninvited:Invitation.ngModel).length <= 0')
-    | Everyone are already invited.
+.invitation(ng-if='Invitation.canInvite()')
+  a(href='#', ng-click='Invitation.openModal()', ng-transclude)

@@ -1,0 +1,26 @@
+.tabs
+  border-top: 1px solid border-color
+  margin-bottom: 30px
+  text-align: center
+  .tab
+    bottom: 1px
+    color: text-grey
+    display: inline-block
+    line-height: 50px
+    margin: 0
+    margin-right: 30px
+    min-width: 70px
+    position: relative
+    &:hover
+      color: brand-primary
+      text-decoration: none
+    &.active
+      border-top: 3px solid brand-primary
+      color: brand-primary
+      &.alone
+        border-top: 0
+        cursor: default
+.tab-content
+  display: none
+  &.selected
+    display: block

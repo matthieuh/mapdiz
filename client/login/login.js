@@ -65,7 +65,7 @@ class Login {
 
     function _loginWithFacebook() {
       Meteor.loginWithFacebook({
-        requestPermissions: ['user_friends']
+        requestPermissions: ['public_profile', 'user_friends', 'user_events', 'user_location']
       }, displayError);
     }
 

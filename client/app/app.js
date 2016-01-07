@@ -90,7 +90,7 @@ class App {
     }
 
     function getImage(image, onlyUrl) {
-      
+
       if (image) {
         var url = $filter('filter')(self.images, {_id: image})[0].url();
 

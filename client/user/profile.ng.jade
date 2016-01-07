@@ -8,7 +8,7 @@ header.p2
     )
     .edit-avatar-btn(ng-click='Profile.openAvatarInput()') Changer
     a(ng-click='Profile.deleteAvatar()') Supprimer ma photo
-  infos.ml2.flex-auto
+  infos.ml2.flex-auto.selectable
     h1 Mon Compte
     hr
     p Membre depuis le {{ Profile.currentUser.createdAt | date: 'dd/M/yyyy' }}

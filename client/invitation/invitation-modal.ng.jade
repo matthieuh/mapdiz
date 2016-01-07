@@ -1,0 +1,28 @@
+md-dialog.add-picture-modal
+  form
+    md-toolbar
+      .md-toolbar-tools
+        h2 Invitations
+    md-dialog-content.p2
+      .input.input-with-icon(style='width: 100%')
+        input
+        i.input-icon.fa.fa-search.fa-2
+
+      md-list
+        md-subheader.md-no-sticky Users to invite:
+        //- | uninvited:Invitation.ngModel
+        md-list-item(ng-repeat='user in InvitationModal.users')
+          div {{ user | displayName }}
+          md-button(ng-click='InvitationModal.invite(user)') Inviter
+
+        //-{{ Invitation.ngModel | json }}
+        //-a(ng-click='InvitationModal.getFBFriends()') get FB friends
+        //-pre {{ Invitation.friends | json}}
+
+
+    .md-actions(layout='row')
+      span(flex='')
+      md-button.md-primary(ng-click='InvitationModal.invites()', ng-disabled='!cropper.sourceImage')
+        | Inviter
+      md-button.md-warn(ng-click='InvitationModal.close()')
+        | Fermer
