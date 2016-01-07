@@ -49,9 +49,8 @@ class Event {
       }
     });
 
-    self.autorun(initMap);
-
-    //setMapCenter();
+    self.autorun(_initMap);
+    self.accessRight = method == 'create' ? 'right' : 'read';
 
     $scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {
@@ -74,8 +73,13 @@ class Event {
     self.save = save;
     self.deleteCover = deleteCover;
     self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder'
+    self.categories = [
+      { label: 'Sport'},
+      { label: 'Soirée'},
+      { label: 'Politique'}
+    ];
 
-    $scope.addTimeToDatetime = addTimeToDatetime;
+    $scope.addTimeToDatetime = _addTimeToDatetime;
     $scope.$on('$destroy', () => {
       mapSvc.draggableMarker.visible = false;
     });
@@ -98,14 +102,10 @@ class Event {
     var compiled = $compile(content)($scope);
 
 
-    //mapSvc.draggableMarker.visible = false;
-    //mapSvc.draggableMarker.visible = true;
-
     /////////////////////
 
-    function initMap() {
+    function _initMap() {
       console.log('method', method);
-
       if (method === 'create') {
 
         mapSvc.setMapCenter('userGeoLoc', true);
@@ -113,6 +113,10 @@ class Event {
         //mapSvc.draggableMarker.content = compiled[0];
 
       } else {
+
+        if (Meteor.userId() && self.getReactively('newEvent.owner') && self.newEvent.owner == Meteor.userId()) {
+          self.accessRight = 'right';
+        }
         /*mapSvc.map.zoom = 14;
 
           console.log('eventDetails.newEvent.position', newValue, oldValue);
@@ -147,7 +151,7 @@ class Event {
       }
     }
 
-    function addTimeToDatetime(time, datimeScopeName) {
+    function _addTimeToDatetime(time, datimeScopeName) {
       var momentDate = moment(self.newEvent[datimeScopeName]);
 
       momentDate.set('hour', time.value.get('hour'));

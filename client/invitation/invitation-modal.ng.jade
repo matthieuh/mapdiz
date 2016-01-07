@@ -5,11 +5,10 @@ md-dialog.add-picture-modal
         h2 Invitations
     md-dialog-content.p2
       .input.input-with-icon(style='width: 100%')
-        input
+        input(ng-model='InvitationModal.searchText')
         i.input-icon.fa.fa-search.fa-2
 
       md-list
-        md-subheader.md-no-sticky Users to invite:
         //- | uninvited:Invitation.ngModel
         md-list-item(ng-repeat='user in InvitationModal.users')
           div {{ user | displayName }}

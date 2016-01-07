@@ -73,6 +73,7 @@ class AddPicture {
           self.picture = image;
         }
       })
-    };
+    }
+
   }
 }

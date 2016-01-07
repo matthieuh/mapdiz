@@ -1,4 +1,8 @@
-Meteor.publish("users", function (options, searchString) {
+Meteor.publish("users", function() {
+  return Meteor.users.find();
+});
+
+Meteor.publish("usersData", function (options, searchString) {
   if (!searchString || searchString == null) {
     searchString = '';
   }

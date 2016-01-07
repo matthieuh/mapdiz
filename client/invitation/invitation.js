@@ -93,23 +93,23 @@ class Invitation {
       mdSelf.close = _close;
       mdSelf.invite = _invite;
       mdSelf.invites = _invites;
-      mdSelf.subscribe('users', _usersSubscription);
+      mdSelf.subscribe('usersData', _usersSubscription);
 
-      if (Meteor.user()) {
+      if (Meteor.user() && Meteor.user().services && Meteor.user().services.facebook) {
         mdSelf.friendsCollection = FacebookCollections.getFriends("me",["id","name"],100);
       }
 
       ////////////
 
       function _usersSubscription() {
-        /*return [
+        return [
           {
             limit: parseInt(mdSelf.perPage),
             skip: parseInt((mdSelf.getReactively('page') - 1) * mdSelf.perPage),
             sort: mdSelf.getReactively('sort')
           },
           mdSelf.getReactively('searchText')
-        ];*/
+        ];
       }
 
       function _usersCollection() {

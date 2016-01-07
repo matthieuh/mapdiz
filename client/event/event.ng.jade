@@ -2,7 +2,7 @@
   | Connectez-vous pour créer un évenement
 
 header(ng-show="$root.currentUser || $root.loggingIn")
-  .cover-manager
+  .cover-manager(ng-if='eventDetails.accessRight == "right"')
     add-picture.edit-cover(picture='eventDetails.cover')
       i.icon.ion-image
       span(ng-hide='eventDetails.cover')  Ajouter une couverture
@@ -10,15 +10,27 @@ header(ng-show="$root.currentUser || $root.loggingIn")
     a.delete-cover(href='#', ng-show='eventDetails.cover', ng-click="eventDetails.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  .cover(ng-style="$parent.$parent.App.getImage(event.cover)")
-    //-img(ng-src="{{ eventDetails.cover }}")
+  .cover(ng-style="$parent.$parent.App.getImage(event.cover)", ng-show='event.cover && !eventDetails.cover')
+  img.cover(ng-src="{{eventDetails.cover}}", ng-show='eventDetails.cover')
   .over-cover
     .title
-      h1.editable.editable-text(ng-click='editName=true', ng-show='!editName') {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
-      input(type="text", ng-model="eventDetails.newEvent.name", placeholder='Nom de l\'évenement', ng-show='editName')
+      h1(ng-if='eventDetails.accessRight == "read"') {{ eventDetails.newEvent.name }}
+      h1.editable.editable-text(
+        ng-click='eventDetails.editName=true',
+        ng-hide='eventDetails.editName',
+        ng-if='eventDetails.accessRight == "right"'
+      ) {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
+      .input.input-with-icon(
+        ng-if='eventDetails.accessRight == "right" && eventDetails.editName',
+        ng-show='eventDetails.editName'
+      )
+        input(
+          type="text",
+          ng-model="eventDetails.newEvent.name",
+          placeholder='Nom de l\'évenement'
+        )
+        button.input-icon.fa.fa-check.fa-lg(ng-click='eventDetails.editName=false')
       =' '
-      button.validate.btn.btn-primary(ng-click='editName=false', ng-show='editName')
-        i.icon.ion-checkmark
     .geoloc(position='eventDetails.newEvent.position')
       i.icon.ion-android-locate
       span.prefix Emplacement :
@@ -62,14 +74,14 @@ header(ng-show="$root.currentUser || $root.loggingIn")
 
 main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
-  .alert.alert-danger(ng-show='eventDetails.errorMsg')
+  .message-bar.background-error(ng-show='eventDetails.errorMsg')
     .title Oups !
     .alert-content
      p Les informations pour créer l'évenement sont incorrects :
      ul
       li {{ eventDetails.errorMsg }}
 
-  section
+  section(ng-if='eventDetails.accessRight == "right"')
     //- label.block.col-12(for="public") Public
       input#public(type="checkbox", ng-model="eventDetails.newEvent.public")
 
@@ -78,13 +90,22 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
       label(for='public') Publique
 
   //- Description
-  section
+  section(ng-hide='!eventDetails.newEvent.description && eventDetails.accessRight == "read"')
     h3
       i.icon.ion-ios-compose-outline
       |  Description
     article
-      textarea#description.block.col-12.field(ng-model="eventDetails.newEvent.description", placeholder='Description de l\'évenement')
+      textarea#description.block.col-12.field(
+        ng-model="eventDetails.newEvent.description",
+        placeholder='Description de l\'évenement',
+        ng-if='eventDetails.accessRight == "right"',
+        mentio,
+        mentio-typed-text="typedTerm",
+        mentio-trigger-char="'#'",
+        mentio-items='eventDetails.categories | filter:label:typedTerm'
+      )
+      p(ng-if='eventDetails.accessRight == "read"') {{ eventDetails.newEvent.description }}
 
-  invitation(ng-model='eventDetails.newEvent') Lancer des invitations
+  invitation(ng-model='eventDetails.newEvent', ng-if='eventDetails.accessRight == "right"') Lancer des invitations
 
-  button.btn.btn-primary(ng-click="eventDetails.save()") {{ eventDetails.validFormBtn }}
+  button.btn.btn-primary(ng-click="eventDetails.save()", ng-if='eventDetails.accessRight == "right"') {{ eventDetails.validFormBtn }}

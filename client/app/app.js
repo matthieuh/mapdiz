@@ -26,8 +26,7 @@ class App {
       images: _imagesCollection
     });
 
-    self.getImage = getImage;
-    self.toto = 'toto';
+    self.getImage = _getImage;
 
     self.subscribe('events', _eventsSubscription);
     self.subscribe('images');
@@ -89,7 +88,7 @@ class App {
       return Images.find({});
     }
 
-    function getImage(image, onlyUrl) {
+    function _getImage(image, onlyUrl) {
 
       if (image) {
         var url = $filter('filter')(self.images, {_id: image})[0].url();
