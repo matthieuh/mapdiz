@@ -88,7 +88,20 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
     .checkbox
       input#public(name='public', ng-model='eventDetails.newEvent["public"]', type='checkbox')
       label(for='public') Publique
-
+  //- Catégorie
+  section#category
+    h3
+      i.icon.ion-ios-pricetag-outline
+      |  Catégorie
+    article
+      .select
+        select(
+          name='category',
+          ng-options='category._id as category.label for category in eventDetails.categories',
+          ng-model='eventDetails.newEvent.category'
+        )
+          option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
+        i.fa.fa-angle-down.fa-2
   //- Description
   section(ng-hide='!eventDetails.newEvent.description && eventDetails.accessRight == "read"')
     h3
@@ -102,10 +115,13 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
         mentio,
         mentio-typed-text="typedTerm",
         mentio-trigger-char="'#'",
-        mentio-items='eventDetails.categories | filter:label:typedTerm'
+        mentio-items='eventDetails.tags | filter:label:typedTerm'
       )
       p(ng-if='eventDetails.accessRight == "read"') {{ eventDetails.newEvent.description }}
 
   invitation(ng-model='eventDetails.newEvent', ng-if='eventDetails.accessRight == "right"') Lancer des invitations
 
   button.btn.btn-primary(ng-click="eventDetails.save()", ng-if='eventDetails.accessRight == "right"') {{ eventDetails.validFormBtn }}
+
+  pre categories: {{ eventDetails.categories | json }}
+  pre tags: {{ eventDetails.tags | json }}

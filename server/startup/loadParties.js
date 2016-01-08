@@ -1,5 +1,4 @@
 Meteor.startup(function () {
-
   if (Events.find().count() === 0) {
     var events = [
       {

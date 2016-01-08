@@ -1,82 +1,53 @@
 Tags = new Mongo.Collection("tags");
 
-Schema.Tags = new SimpleSchema({
-  "name": {
+Schema.Tag = new SimpleSchema({
+  "symbol": {
     type: String,
-    label: "Name",
-    min: 4,
-    max: 200
+    label: "Symbol"
   },
-  "description": {
+  "label": {
     type: String,
-    label: "Description",
-    min: 20,
-    max: 1000,
-    optional: true
+    label: "Label"
   },
-  "beginDate": {
-    type: Date,
-    label: "Date de début",
-    optional: true
-  },
-  "beginTime": {
-    type: Date,
-    label: "Heure de début",
-    optional: true
-  },
-  "endDate": {
-    type: Date,
-    label: "Date de fin",
-    optional: true
-  },
-  "endTime": {
-    type: Date,
-    label: "Heure de fin",
-    optional: true
-  },
-  "position": {
-    type: Object,
-    label: "Emplacement",
-    optional: true
-  },
-  "position.lat": {
-    type: Number,
-    label: "Latitude",
-    decimal: true,
-  },
-  "position.lng": {
-    type: Number,
-    label: "Longitude",
-    decimal: true
-  },
-  "cover": {
-    label: "Image de couverture",
-    type: String,
-    optional: true
-  },
-  "owner": {
-    type: Schema.User,
-    optional: true
-  },
-  "public": {
-    label: "Publique",
+  "advisable": {
     type: Boolean,
-    defaultValue: false
-  },
-  "rsvps": {
-    label: "Participants",
-    type: [Object],
+    label: "Conseillé",
     optional: true
   },
-  "rsvps.$.user": {
-    type: Schema.User
+  createdAt: {
+    type: Date,
+    autoValue: function() {
+      if (this.isInsert) {
+        return new Date();
+      } else if (this.isUpsert) {
+        return {$setOnInsert: new Date()};
+      } else {
+        this.unset();  // Prevent user from supplying their own value
+      }
+    }
   },
-  "rsvps.$.rsvp": {
-    type: String
-  },
-  "invited": {
-    label: "Invités",
-    type: [String],
+  updatedAt: {
+    type: Date,
+    autoValue: function() {
+      if (this.isUpdate) {
+        return new Date();
+      }
+    },
+    denyInsert: true,
     optional: true
+  }
+});
+
+Tags.attachSchema(Schema.Tag);
+
+Tags.allow({
+  insert: function (userId, tag) {
+    return true;
+  },
+  update: function (userId, tag, fields, modifier) {
+    return true;
+  },
+  remove: function (userId, tag) {
+    return true;
   }
 });

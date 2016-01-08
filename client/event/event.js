@@ -34,6 +34,9 @@ class Event {
       height: 'inherit'
     });
 
+    self.subscribe('categories');
+    self.subscribe('tags');
+
     self.helpers({
       newEvent() {
         if (method === 'create') {
@@ -41,12 +44,15 @@ class Event {
             name: '',
             description: '',
             position: {},
-            public: true
+            public: true,
+            tags: []
           };
         } else {
           return Events.findOne($stateParams.eventId);
         }
-      }
+      },
+      categories: _categoriesCollection,
+      tags: _tagsCollection
     });
 
     self.autorun(_initMap);
@@ -73,11 +79,11 @@ class Event {
     self.save = save;
     self.deleteCover = deleteCover;
     self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder'
-    self.categories = [
+    /*self.categories = [
       { label: 'Sport'},
       { label: 'Soirée'},
       { label: 'Politique'}
-    ];
+    ];*/
 
     $scope.addTimeToDatetime = _addTimeToDatetime;
     $scope.$on('$destroy', () => {
@@ -101,8 +107,17 @@ class Event {
 
     var compiled = $compile(content)($scope);
 
-
     /////////////////////
+
+    function _categoriesCollection() {
+      return Tags.find({
+        advisable: true,
+      });
+    }
+
+    function _tagsCollection() {
+      return Tags.find();
+    }
 
     function _initMap() {
       console.log('method', method);

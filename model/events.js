@@ -80,7 +80,17 @@ Schema.Event = new SimpleSchema({
     label: "Invités",
     type: [String],
     optional: true
-  }
+  },
+  "category": {
+    label: "Tags",
+    type: Schema.Tag,
+    optional: true
+  },
+  "tags": {
+    label: "Tags",
+    type: [Schema.Tag],
+    optional: true
+  },
 });
 
 Events.attachSchema(Schema.Event);
@@ -209,10 +219,12 @@ var contactEmail = function(user) {
 };
 
 Events.before.insert(function(userId, doc) {
-  doc.added = Date.now();
   doc.owner = userId;
-  doc.url = convertToSlug(doc.name);
-  doc.name = capitalizeFirstLetter(doc.name);
+  if (doc.name) {
+    doc.url = convertToSlug(doc.name);
+    doc.name = capitalizeFirstLetter(doc.name);
+  }
+
   console.log('Events.before.insert', userId, doc);
 });
 
