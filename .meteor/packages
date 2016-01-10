@@ -20,11 +20,13 @@ softwarerero:accounts-t9n
 
 # THIRD PARTIES
 service-configuration
+maxkferg:facebook-collections
 
 # FS
 cfs:gridfs
 cfs:standard-packages
 cfs:graphicsmagick
+cfs:filesystem
 
 # EMAILS
 email
@@ -60,6 +62,7 @@ aldeed:geocoder
 
 # ANGULAR
 angular
+angular-meteor-auth
 angular:angular-sanitize
 angular:angular-material
 angularui:angular-ui-router
@@ -69,12 +72,15 @@ jasonaibrahim:angular-moment
 firebait:angular-click-outside
 danialfarid:ng-file-upload
 johnar:angular-scroll
+netanelgilad:ment.io
 matthieuh:angular-google-maps-native
 matthieuh:angular-img-cropper
 matthieuh:angular-google-places-autocomplete
 matthieuh:angucomplete-alt
 matthieuh:angular-local-storage
 matthieuh:angular-mighty-datepicker
+matthieuh:angular-bindonce
+
 
 # DEV ONLY
 msavin:mongol
@@ -85,7 +91,5 @@ jparker:gravatar
 meteorhacks:npm
 npm-container
 
-matthieuh:angular-bindonce
-maxkferg:facebook-collections
-angular-meteor-auth
-netanelgilad:ment.io
+
+

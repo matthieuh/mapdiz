@@ -83,3 +83,9 @@ Schema.User = new SimpleSchema({
 });
 
 Meteor.users.attachSchema(Schema.User);
+
+Meteor.users.deny({
+  update: function() {
+    return true;
+  }
+});

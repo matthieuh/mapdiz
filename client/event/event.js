@@ -219,8 +219,14 @@ class Event {
           $set: {
             name: self.newEvent.name,
             description: self.newEvent.description,
+            beginDate: self.newEvent.beginDate,
+            beginTime: self.newEvent.beginTime,
+            endDate: self.newEvent.endDate,
+            endTime: self.newEvent.endTime,
+            position: self.newEvent.position,
             'public': self.newEvent.public,
-            position: self.newEvent.position
+            position: self.newEvent.position,
+            category: self.newEvent.category
           }
         }, (error) => {
           console.log('Events.update', error);

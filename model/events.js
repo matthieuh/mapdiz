@@ -83,14 +83,47 @@ Schema.Event = new SimpleSchema({
   },
   "category": {
     label: "Tags",
-    type: Schema.Tag,
+    type: String,
     optional: true
   },
   "tags": {
     label: "Tags",
-    type: [Schema.Tag],
-    optional: true
+    type: [Object],
+    optional: true,
+    autoValue: function() {
+      var tags = [];
+      var description = this.field("description");
+      if (description.isSet) {
+        console.log('description', description.value)
+        var hastags = _getHashTags(description.value);
+        console.log('hastags', hastags)
+        hastags.forEach(function(hastag) {
+          console.log('hastag', hastag);
+          var tag = Tags.findOne({ 
+            label: {
+              $regex: new RegExp(hastag, "i")
+            }
+          });
+
+          if (tag) {
+            tags.push({label: tag.label, _id: tag._id});
+          }
+
+          console.log('tag', tag);
+
+        });
+        return tags;
+      }/* else {
+        this.unset();
+      }*/
+    }
   },
+  "tags.$.label": {
+    type: String
+  },
+  "tags.$._id": {
+    type: String
+  }
 });
 
 Events.attachSchema(Schema.Event);
@@ -221,7 +254,7 @@ var contactEmail = function(user) {
 Events.before.insert(function(userId, doc) {
   doc.owner = userId;
   if (doc.name) {
-    doc.url = convertToSlug(doc.name);
+    doc.url = _convertToSlug(doc.name);
     doc.name = capitalizeFirstLetter(doc.name);
   }
 
@@ -229,13 +262,14 @@ Events.before.insert(function(userId, doc) {
 });
 
 
-Events.before.update(function(userId, doc, fieldNames, modifier, options) {
+/*Events.before.update(function(userId, doc, fieldNames, modifier, options) {
+  console.log(fieldNames);
   if (fieldNames.indexOf('showInfo') != -1) return false;
   modifier.$set = modifier.$set || {};
   modifier.$set.updated = Date.now();
-});
+});*/
 
-function convertToSlug(Text) {
+function _convertToSlug(Text) {
   return Text
     .toLowerCase()
     .replace(/[^\w ]+/g,'')
@@ -244,4 +278,18 @@ function convertToSlug(Text) {
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+/* Extract hashtags text from string as an array */
+function _getHashTags(inputText) {  
+    var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
+    var matches = [];
+    var match;
+
+    while ((match = regex.exec(inputText))) {
+        matches.push(match[1]);
+    }
+
+    return matches;
 }

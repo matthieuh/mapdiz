@@ -119,9 +119,17 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
       )
       p(ng-if='eventDetails.accessRight == "read"') {{ eventDetails.newEvent.description }}
 
+    article
+      ul.tags
+        li(ng-if='!eventDetails.newEvent._id && eventDetails.newEvent.category')
+          a.tag(href='#') {{ eventDetails.newEvent.category }}
+        li(ng-repeat='tag in eventDetails.newEvent.tags')
+          a.tag(href='#') {{ tag.label }}
+
   invitation(ng-model='eventDetails.newEvent', ng-if='eventDetails.accessRight == "right"') Lancer des invitations
 
   button.btn.btn-primary(ng-click="eventDetails.save()", ng-if='eventDetails.accessRight == "right"') {{ eventDetails.validFormBtn }}
 
   pre categories: {{ eventDetails.categories | json }}
   pre tags: {{ eventDetails.tags | json }}
+    pre tags: {{ eventDetails.newEvent | json }}
