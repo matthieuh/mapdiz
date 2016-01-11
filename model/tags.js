@@ -14,6 +14,17 @@ Schema.Tag = new SimpleSchema({
     label: "Conseillé",
     optional: true
   },
+  "events": {
+    label: "Evenements",
+    type: [Object],
+    optional: true
+  },
+  "events.$._id": {
+    type: String
+  },
+  "events.$.name": {
+    type: String
+  },
   createdAt: {
     type: Date,
     autoValue: function() {

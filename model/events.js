@@ -89,17 +89,25 @@ Schema.Event = new SimpleSchema({
   "tags": {
     label: "Tags",
     type: [Object],
+    max: 5,
     optional: true,
     autoValue: function() {
       var tags = [];
       var description = this.field("description");
+      var category = this.field("category");
+
+      if (category.isSet) {
+        var tag = Tags.findOne(category.value);
+        if (tag) {
+          tags.push({label: tag.label, _id: tag._id});
+        }
+      }
+
       if (description.isSet) {
-        console.log('description', description.value)
         var hastags = _getHashTags(description.value);
-        console.log('hastags', hastags)
         hastags.forEach(function(hastag) {
-          console.log('hastag', hastag);
-          var tag = Tags.findOne({ 
+
+          var tag = Tags.findOne({
             label: {
               $regex: new RegExp(hastag, "i")
             }
@@ -107,15 +115,23 @@ Schema.Event = new SimpleSchema({
 
           if (tag) {
             tags.push({label: tag.label, _id: tag._id});
+          } else {
+            var newTag = Tags.insert({
+              label: _convertToSlug(hastag),
+              advisable: false,
+              symbol: '#'
+            });
+            tags.push({label: newTag.label, _id: newTag._id});
           }
 
-          console.log('tag', tag);
-
         });
-        return tags;
-      }/* else {
-        this.unset();
-      }*/
+      }
+
+      tags = _.uniq(tags, function(e) {
+        return e._id;
+      });
+
+      return tags;
     }
   },
   "tags.$.label": {
@@ -262,12 +278,22 @@ Events.before.insert(function(userId, doc) {
 });
 
 
-/*Events.before.update(function(userId, doc, fieldNames, modifier, options) {
+Events.before.update(function(userId, doc, fieldNames, modifier, options) {
   console.log(fieldNames);
-  if (fieldNames.indexOf('showInfo') != -1) return false;
   modifier.$set = modifier.$set || {};
   modifier.$set.updated = Date.now();
-});*/
+  console.log('doc.tags', doc.tags);
+  if (doc.tags) {
+    doc.tags.forEach(function(tag) {
+      Tags.update({_id: tag._id}, {
+        $addToSet: {
+          events: {name: doc.name, _id: doc._id}
+        }
+      });
+    });
+  }
+
+});
 
 function _convertToSlug(Text) {
   return Text
@@ -282,8 +308,8 @@ function capitalizeFirstLetter(string) {
 
 
 /* Extract hashtags text from string as an array */
-function _getHashTags(inputText) {  
-    var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
+function _getHashTags(inputText) {
+    var regex = /(?:^|\s)(?:#)([a-zA-Z\dêéàûùµ]+)/gm;
     var matches = [];
     var match;
 
