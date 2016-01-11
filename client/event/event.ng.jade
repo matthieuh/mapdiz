@@ -2,7 +2,7 @@
   | Connectez-vous pour créer un évenement
 
 header(ng-show="$root.currentUser || $root.loggingIn")
-  .cover-manager(ng-if='eventDetails.accessRight == "right"')
+  .cover-manager(ng-if='eventDetails.editing')
     add-picture.edit-cover(picture='eventDetails.cover')
       i.icon.ion-image
       span(ng-hide='eventDetails.cover')  Ajouter une couverture
@@ -14,14 +14,13 @@ header(ng-show="$root.currentUser || $root.loggingIn")
   img.cover(ng-src="{{eventDetails.cover}}", ng-show='eventDetails.cover')
   .over-cover
     .title
-      h1(ng-if='eventDetails.accessRight == "read"') {{ eventDetails.newEvent.name }}
+      h1(ng-hide='eventDetails.editing') {{ eventDetails.newEvent.name }}
       h1.editable.editable-text(
         ng-click='eventDetails.editName=true',
-        ng-hide='eventDetails.editName',
-        ng-if='eventDetails.accessRight == "right"'
+        ng-show='eventDetails.editing && !eventDetails.editName'
       ) {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
       .input.input-with-icon(
-        ng-if='eventDetails.accessRight == "right" && eventDetails.editName',
+        ng-if='eventDetails.editing && eventDetails.editName',
         ng-show='eventDetails.editName'
       )
         input(
@@ -34,7 +33,7 @@ header(ng-show="$root.currentUser || $root.loggingIn")
     .geoloc(position='eventDetails.newEvent.position')
       i.icon.ion-android-locate
       span.prefix Emplacement :
-      geoloc(location='eventDetails.newEvent.position')
+      geoloc(location='eventDetails.newEvent.position', edition='eventDetails.editing')
         span(ng-show='eventDetails.newEvent.position.address.display')
           | {{ eventDetails.newEvent.position.address.display }}
         span(ng-show='!eventDetails.newEvent.position.address.display && eventDetails.newEvent.position.lat')
@@ -50,11 +49,15 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       )
       date-range.date-field.editable#edit-beginDate(
         ng-model='eventDetails.newEvent.beginDate',
-        date-before='eventDetails.newEvent.endDate'
+        date-before='eventDetails.newEvent.endDate',
+        edition='eventDetails.editing'
       )
         | {{ eventDetails.newEvent.beginDate ? ( eventDetails.newEvent.beginDate | date:'dd/MM/yyyy' ) : 'Date de début' }}
       span.between à
-      time-picker(ng-model='eventDetails.newEvent.beginTime')
+      time-picker(
+        ng-model='eventDetails.newEvent.beginTime',
+        edition='eventDetails.editing'
+      )
         | {{ eventDetails.newEvent.beginTime ? ( eventDetails.newEvent.beginTime | date:'H:mm' ) : 'heure de début' }}
 
     .date
@@ -67,10 +70,14 @@ header(ng-show="$root.currentUser || $root.loggingIn")
       )
       date-range.date-field.editable#edit-endDate(
         ng-model='eventDetails.newEvent.endDate',
-        date-after='eventDetails.newEvent.beginDate'
+        date-after='eventDetails.newEvent.beginDate',
+        edition='eventDetails.editing'
       )  {{ eventDetails.newEvent.endDate ? ( eventDetails.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
       span.between à
-      time-picker(ng-model='eventDetails.newEvent.endTime')  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
+      time-picker(
+        ng-model='eventDetails.newEvent.endTime',
+        edition='eventDetails.editing'
+      )  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 
 main.p2(ng-show="$root.currentUser || $root.loggingIn")
 
@@ -81,7 +88,14 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
      ul
       li {{ eventDetails.errorMsg }}
 
-  section(ng-if='eventDetails.accessRight == "right"')
+  button.button.button-small.edit-btn.button-primary.enable-edit-btn(
+    ng-hide='eventDetails.editing',
+    ng-click='eventDetails.editing = true',
+    ng-if="eventDetails.accessRight == 'right'"
+  ) Editer
+  button.button.button-small.edit-btn.disable-edit-btn(ng-show='eventDetails.editing', ng-click='eventDetails.editing = false') Annuler édition
+
+  section(ng-if='eventDetails.editing')
     //- label.block.col-12(for="public") Public
       input#public(type="checkbox", ng-model="eventDetails.newEvent.public")
 
@@ -89,7 +103,7 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
       input#public(name='public', ng-model='eventDetails.newEvent["public"]', type='checkbox')
       label(for='public') Publique
   //- Catégorie
-  section#category
+  section#category(ng-show='eventDetails.editing')
     h3
       i.icon.ion-ios-pricetag-outline
       |  Catégorie
@@ -103,7 +117,7 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
           option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
         i.fa.fa-angle-down.fa-2
   //- Description
-  section(ng-hide='!eventDetails.newEvent.description && eventDetails.accessRight == "read"')
+  section(ng-hide='!eventDetails.newEvent.description && !eventDetails.editing')
     h3
       i.icon.ion-ios-compose-outline
       |  Description
@@ -111,13 +125,17 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
       textarea#description.block.col-12.field(
         ng-model="eventDetails.newEvent.description",
         placeholder='Description de l\'évenement',
-        ng-if='eventDetails.accessRight == "right"',
+        ng-if='eventDetails.editing',
         mentio,
         mentio-typed-text="typedTerm",
         mentio-trigger-char="'#'",
         mentio-items='eventDetails.tags | filter:label:typedTerm'
       )
-      p(ng-if='eventDetails.accessRight == "read"') {{ eventDetails.newEvent.description }}
+      p.description(
+        ng-if='!eventDetails.editing',
+        hashtagify,
+        term-click='eventDetails.tagTermClick($event)'
+      ) {{ eventDetails.newEvent.description }}
 
     article
       ul.tags
@@ -126,6 +144,6 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
         li(ng-repeat='tag in eventDetails.newEvent.tags')
           a.tag(href='#') {{ tag.label }}
 
-  invitation(ng-model='eventDetails.newEvent', ng-if='eventDetails.accessRight == "right"') Lancer des invitations
+  invitation(ng-model='eventDetails.newEvent', ng-if='eventDetails.editing') Lancer des invitations
 
-  button.btn.btn-primary(ng-click="eventDetails.save()", ng-if='eventDetails.accessRight == "right"') {{ eventDetails.validFormBtn }}
+  button.button.button-primary(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}

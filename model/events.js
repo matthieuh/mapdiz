@@ -282,7 +282,7 @@ Events.before.update(function(userId, doc, fieldNames, modifier, options) {
   console.log(fieldNames);
   modifier.$set = modifier.$set || {};
   modifier.$set.updated = Date.now();
-  console.log('doc.tags', doc.tags);
+
   if (doc.tags) {
     doc.tags.forEach(function(tag) {
       Tags.update({_id: tag._id}, {

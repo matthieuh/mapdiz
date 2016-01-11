@@ -57,6 +57,13 @@ class Event {
 
     self.autorun(_initMap);
     self.accessRight = method == 'create' ? 'right' : 'read';
+    self.editing = false;
+    self.beginTimeSelected = beginTimeSelected;
+    self.endTimeSelected = endTimeSelected;
+    self.save = save;
+    self.deleteCover = deleteCover;
+    self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder';
+    self.tagTermClick = _tagTermClick;
 
     $scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {
@@ -73,17 +80,6 @@ class Event {
         self.cover = self.cover.url();
       }
     });
-
-    self.beginTimeSelected = beginTimeSelected;
-    self.endTimeSelected = endTimeSelected;
-    self.save = save;
-    self.deleteCover = deleteCover;
-    self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder'
-    /*self.categories = [
-      { label: 'Sport'},
-      { label: 'Soirée'},
-      { label: 'Politique'}
-    ];*/
 
     $scope.addTimeToDatetime = _addTimeToDatetime;
     $scope.$on('$destroy', () => {
@@ -166,6 +162,11 @@ class Event {
       }
     }
 
+    function _tagTermClick(e) {
+      var tagText = e.target.innerHTML;
+      console.log('tagTermClick, tagText:', e, tagText);
+    }
+
     function _addTimeToDatetime(time, datimeScopeName) {
       var momentDate = moment(self.newEvent[datimeScopeName]);
 
@@ -198,6 +199,7 @@ class Event {
 
     function save() {
       console.log('save', self.newEvent, method);
+      self.editing = false
       delete self.errorMsg;
 
       if (method == 'create') { // Create

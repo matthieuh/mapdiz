@@ -9,7 +9,8 @@ angular.module('mapdiz');
   bind: {
     ngModel: '=',
     dateAfter: '=',
-    dateBefore: '='
+    dateBefore: '=',
+    edition: '='
   },
   controllerAs: 'DateRange'
 })
@@ -40,26 +41,33 @@ class DateRange {
 
     function _openDateRangeModal() {
 
-      if (self.dateBefore && !self.dateAfter) {
-        self.mmDateAfter = now;
-        self.mmDateBefore = moment(self.dateBefore).add('days', 1);
+      console.log('_openDateRangeModal', self.edition, !self.edition && self.ngModel);
+
+      if (self.edition || !self.edition && self.ngModel) {
+
+        if (self.ngModel) self.momentDate = moment(self.ngModel);
+
+        if (self.dateBefore && !self.dateAfter) {
+          self.mmDateAfter = now;
+          self.mmDateBefore = moment(self.dateBefore).add('days', 1);
+        }
+
+        if (self.dateAfter && !self.dateBefore) {
+          self.mmDateBefore = undefined;
+
+          self.mmDateAfter = moment(self.dateAfter).subtract(1, 'days');
+          self.momentDate = moment(self.dateAfter);
+        } else {
+          self.momentDate = moment(now).add('days', 1);
+        }
+
+        self.showDialog = true;
       }
-
-      if (self.dateAfter && !self.dateBefore) {
-        self.mmDateBefore = undefined;
-
-        self.mmDateAfter = moment(self.dateAfter).subtract(1, 'days');
-        self.momentDate = moment(self.dateAfter);
-      } else {
-        self.momentDate = moment(now).add('days', 1);
-      }
-
-      self.showDialog = true;
     };
 
     function _answer(cancel) {
 
-      if (!cancel) {
+      if (self.edition && !cancel) {
         self.ngModel = self.momentDate.toDate();
       }
 

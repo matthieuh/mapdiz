@@ -26,7 +26,8 @@ SetModule('mapdiz', [
   'LocalStorageModule',
   'angular-click-outside',
   'mightyDatepicker',
-  'mentio'
+  'mentio',
+  'hashtagify'
 ]);
 
 @Inject('gmLibraryProvider', '$windowProvider', 'localStorageServiceProvider')

@@ -7,7 +7,8 @@ angular.module('mapdiz');
 @Component({
   selector: 'geoloc',
   bind: {
-    location: '='
+    location: '=',
+    edition: '='
   }
 })
 
@@ -28,26 +29,31 @@ class Geoloc {
 
     function openSetGeolocModal() {
 
-      console.log('mapSvc.map.center', mapSvc.map.center)
-      mapSvc.draggableMarker.position = mapSvc.map.center;
-      mapSvc.draggableMarker.visible = true;
+      if (self.edition)  {
 
-      var parentEl = angular.element(document.querySelector('.main-section'))[0];
+        console.log('mapSvc.map.center', mapSvc.map.center)
+        mapSvc.draggableMarker.position = mapSvc.map.center;
+        mapSvc.draggableMarker.visible = true;
 
-      $mdDialog.show({
-        clickOutsideToClose: true,
-        parent: parentEl,
-        controller: setGeolocModalController,
-        templateUrl: 'client/geoloc/set-geoloc-modal.html',
-        scope: $scope.$new(),
-        locals: {
-          location: self.location
-        }
-      }).then(function(location) {
-        if (location) {
-          self.location = location;
-        }
-      })
+        var parentEl = angular.element(document.querySelector('.main-section'))[0];
+
+        $mdDialog.show({
+          clickOutsideToClose: true,
+          parent: parentEl,
+          controller: setGeolocModalController,
+          templateUrl: 'client/geoloc/set-geoloc-modal.html',
+          scope: $scope.$new(),
+          locals: {
+            location: self.location
+          }
+        }).then(function(location) {
+          if (location) {
+            self.location = location;
+          }
+        })
+      } else if (self.location) {
+        mapSvc.map.center = self.location;
+      }
     };
 
     function setGeolocModalController($scope, $rootScope, $state, $mdDialog, location, mapSvc) {

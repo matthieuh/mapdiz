@@ -7,7 +7,8 @@ angular.module('mapdiz');
 @Component({
   selector: 'time-picker',
   bind: {
-    ngModel: '='
+    ngModel: '=',
+    edition: '='
   }
 })
 
@@ -28,6 +29,8 @@ class TimePicker {
     self.minutes = [];
     self.answer = _answer;
     self.clear = _clear;
+    self.openDialog = _openDialog;
+    self.showDialog = false;
 
     for(var i = 0; i < 24 ; i++) {
       var h = ("0" + i).slice(-2);
@@ -41,18 +44,24 @@ class TimePicker {
 
     ////////////
 
+    function _openDialog() {
+      if (self.edition) {
+        self.showDialog = true;
+      }
+    }
+
     function _answer(cancel) {
 
       if (!cancel) {
         self.ngModel = moment().hour(self.timeHour).minutes(self.timeMinute).toDate();
       }
 
-      $scope.showDialog = false;
+      self.showDialog = false;
     }
 
     function _clear() {
       self.ngModel = undefined;
-      $scope.showDialog = false;
+      self.showDialog = false;
     }
 
 

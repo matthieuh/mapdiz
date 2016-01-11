@@ -1,6 +1,6 @@
-.time-picker(ng-init='showDialog = false')
-  a(href='#', ng-click='showDialog = true', ng-transclude)
-  .dialog.time-picker-dialog(ng-show='showDialog')
+.time-picker
+  a(href='#', ng-click='vm.openDialog()', ng-transclude)
+  .dialog.time-picker-dialog(ng-show='vm.showDialog')
     .time-wrapper
       .hours
         label Heure :
