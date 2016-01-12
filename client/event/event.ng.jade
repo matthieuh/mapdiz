@@ -93,8 +93,11 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
     ng-click='eventDetails.editing = true',
     ng-if="eventDetails.accessRight == 'right'"
   ) Editer
-  button.button.button-small.edit-btn.disable-edit-btn(ng-show='eventDetails.editing', ng-click='eventDetails.editing = false') Annuler édition
-
+  button.button.button-small.edit-btn.disable-edit-btn(
+    ng-show='eventDetails.editing',
+    ng-click='eventDetails.editing = false',
+    ng-if="eventDetails.method == 'update'"
+  ) Annuler édition
   section(ng-if='eventDetails.editing')
     //- label.block.col-12(for="public") Public
       input#public(type="checkbox", ng-model="eventDetails.newEvent.public")

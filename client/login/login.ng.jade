@@ -1,6 +1,7 @@
 .login-menu(id='connect-btn', ng-click='vm.togglePopup()', ng-cloak)
   img.title-icon.profile-picture-mini(ng-src="{{ vm.avatar.url('avatar-small') }}", ng-show="vm.avatar")
-  img.title-icon.profile-picture-mini(src='assets/images/default-user.png', ng-show="$root.currentUser && !vm.avatar")
+  img.title-icon.profile-picture-mini(ng-src='http://graph.facebook.com/{{ vm.currentUser.services.facebook.id }}/picture/?type=small', ng-show="$root.currentUser && && !vm.avatar && $vm.currentUser.services.facebook")
+  img.title-icon.profile-picture-mini(src='assets/images/default-user.png', ng-show="$root.currentUser && !vm.avatar && !vm.currentUser.services.facebook")
   .title(ng-if="$root.currentUser") {{ $root.currentUser | displayName }}
   .title(ng-if="!$root.currentUser") Se connecter
 
@@ -15,35 +16,41 @@
     h2 Connectez-vous
     .or
       | Ou
-      a#create-account(ng-click='vm.displayCreateAccount=true') créez un compte
+      a#create-account(ng-click='vm.displayCreateAccount=true')  créez un compte
     form(ng-submit='vm.loginWithPassword(vm.login, vm.password)')
-      label E-mail / Identifiant
-      input.block.col-12.field(type='text', ng-model='vm.login')
-      label(for='password') Mot de passe
-      input#password.block.col-12.field(type='password', name='password', ng-model='vm.password')
-      label.remember-me
-        input(type='checkbox', checked='')
-        | Remember me
+      label.label E-mail / Identifiant
+      .input.full-width
+        input(type='text', ng-model='vm.login')
+      label.label(for='password') Mot de passe
+      .input.full-width
+        input#password(type='password', name='password', ng-model='vm.password')
       .error-message(ng-show='vm.errors') {{ vm.errors }}
-      button.btn.btn-center.btn-primary(type='submit') Se connecter
-      button.btn.btn-center.btn-primary(ng-click='vm.loginWithFacebook()') Se connecter avec Facebook
-      //- button.btn.btn-primary.black.bg-gray(type='reset', ng-if="!$root.currentUser") Cancel
+
+      .login-actions
+        button.button.button-primary(type='submit') Se connecter
+        button.button.button-fb(ng-click='vm.loginWithFacebook()') Connexion avec Facebook
 
   .create-account.p2(ng-if='vm.displayCreateAccount')
     h2 Créez un compte
     .or
       | Ou
-      a(ng-click='vm.displayCreateAccount = !vm.displayCreateAccount') connectez-vous
+      a(ng-click='vm.displayCreateAccount = !vm.displayCreateAccount')  connectez-vous
 
     form(ng-submit='vm.createAccount(vm.newAccount)')
-      label Identifiant
-      input.block.col-12.field(type='text', ng-model='vm.newAccount.username', name='username')
-      label E-mail
-      input.block.col-12.field(type='text', ng-model='vm.newAccount.email', name='email')
+      label.label Identifiant
+      .input.full-width
+        input.block(type='text', ng-model='vm.newAccount.username', name='username')
+      label.label E-mail
+      .input.full-width
+        input(type='text', ng-model='vm.newAccount.email', name='email')
       label(for='password') Mot de passe
-      input#password.block.col-12.field(type='password', name='password', ng-model='vm.newAccount.password')
+      .input.full-width
+        input#password(type='password', name='password', ng-model='vm.newAccount.password')
       .error-message(ng-show='vm.errors') {{ vm.errors }}
-      button.btn.btn-center.btn-primary(type='submit') Créer votre compte
+
+      .login-actions
+        button.button.button-primary(type='submit') Créer votre compte
+        button.button.button-fb(ng-click='vm.loginWithFacebook()') Inscription avec Facebook
 
 #login-popup1.login-popup.absolute.bg-white.border.rounded(ng-show='vm.showPopup', click-outside='vm.togglePopup()', outside-if-not='connect-btn, login-popup2', ng-if="$root.currentUser")
   .classic(ng-show="vm.connectedDisplay == 'classic'")

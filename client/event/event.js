@@ -27,7 +27,7 @@ class Event {
 
     $reactive(self).attach($scope);
 
-    let method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update';
+    self.method = isNaN($stateParams.eventId) && $stateParams.eventId === 'add' ? 'create' : 'update';
     mapSvc.updateVisibleMarkers();
 
     $('event').slimScroll({
@@ -39,7 +39,7 @@ class Event {
 
     self.helpers({
       newEvent() {
-        if (method === 'create') {
+        if (self.method === 'create') {
           return {
             name: '',
             description: '',
@@ -56,13 +56,13 @@ class Event {
     });
 
     self.autorun(_initMap);
-    self.accessRight = method == 'create' ? 'right' : 'read';
-    self.editing = false;
+    self.accessRight = self.method == 'create' ? 'right' : 'read';
+    self.editing = self.method == 'create';
     self.beginTimeSelected = beginTimeSelected;
     self.endTimeSelected = endTimeSelected;
     self.save = save;
     self.deleteCover = deleteCover;
-    self.validFormBtn = method === 'create' ? 'Ajouter' : 'Sauvergarder';
+    self.validFormBtn = self.method === 'create' ? 'Ajouter' : 'Sauvegarder';
     self.tagTermClick = _tagTermClick;
 
     $scope.$watch('eventDetails.newEvent.cover', () => {
@@ -116,8 +116,8 @@ class Event {
     }
 
     function _initMap() {
-      console.log('method', method);
-      if (method === 'create') {
+      console.log('method', self.method);
+      if (self.method === 'create') {
 
         mapSvc.setMapCenter('userGeoLoc', true);
 
@@ -198,11 +198,11 @@ class Event {
     };
 
     function save() {
-      console.log('save', self.newEvent, method);
+      console.log('save', self.newEvent, self.method);
       self.editing = false
       delete self.errorMsg;
 
-      if (method == 'create') { // Create
+      if (self.method == 'create') { // Create
         Events.insert(self.newEvent, (error, savedEventId) => {
           console.log('Events.insert', error, savedEventId, self.cover);
           if (error) {

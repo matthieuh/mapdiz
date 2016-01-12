@@ -65,6 +65,8 @@ class Mapdiz {
 
     $scope.$state = $state;
 
+    console.log('$scope.$state', $scope.$state);
+
     $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
       $rootScope.previousState = from.name;
       $rootScope.currentState = to.name;
