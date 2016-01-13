@@ -22,22 +22,38 @@
             )
           button.button.button-primary(ng-click='Home.search()') Rechercher
 
+  .homepage-content
+    .container
 
-  .container
+      section
 
-    .event-locations
+        h2 Villes
 
-      .event-location(style="background-image:url('http://be.france.fr/sites/default/files/pariscphovoir.jpg')")
-        h2 Paris
+        .event-locations.grid-pictures
 
-      .event-location(style="background-image:url('http://www.justaletter.com/wp-content/uploads/2015/06/vue-lyon-eglise-saint-georges-basilique-fourviere-matin.jpg')")
-        h2 Lyon
+          article.grid-picture(style="background-image:url('http://be.france.fr/sites/default/files/pariscphovoir.jpg')")
+            h3 Paris
 
-      .event-location(style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Seilbahn-Grenoble.JPG/220px-Seilbahn-Grenoble.JPG')")
-        h2 Grenoble
+          article.grid-picture(style="background-image:url('http://www.justaletter.com/wp-content/uploads/2015/06/vue-lyon-eglise-saint-georges-basilique-fourviere-matin.jpg')")
+            h3 Lyon
 
-      .event-location(style="background-image:url('https://lh6.googleusercontent.com/-osfKGwyNlrg/VZZH5UZNg2I/AAAAAAAAALU/bFjCmIq0drU/w506-h750/Bordeaux%2BM%25C3%25A9tropole.jpg')")
-        h2 Bordeaux
+          article.grid-picture(style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Seilbahn-Grenoble.JPG/220px-Seilbahn-Grenoble.JPG')")
+            h3 Grenoble
 
-      .event-location(style="background-image:url('http://be.france.fr/sites/default/files/pariscphovoir.jpg')")
-        h2 Paris
+          article.grid-picture(style="background-image:url('https://lh6.googleusercontent.com/-osfKGwyNlrg/VZZH5UZNg2I/AAAAAAAAALU/bFjCmIq0drU/w506-h750/Bordeaux%2BM%25C3%25A9tropole.jpg')")
+            h3 Bordeaux
+
+          article.grid-picture(style="background-image:url('http://be.france.fr/sites/default/files/pariscphovoir.jpg')")
+            h3 Paris
+
+      section
+
+        h2 Tags
+
+        .event-categories.grid-pictures
+
+          article.grid-picture(
+            ng-repeat='category in Home.categories | orderBy:"-events"',
+            style="background-image:url('http://lorempixel.com/640/480/city/{{ $index }}')"
+          )
+            h3 {{ category.symbol + category.label }} ({{ category.events.length }})

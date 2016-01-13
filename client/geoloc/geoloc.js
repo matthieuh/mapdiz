@@ -40,7 +40,7 @@ class Geoloc {
         $mdDialog.show({
           clickOutsideToClose: true,
           parent: parentEl,
-          controller: setGeolocModalController,
+          controller: ['$scope', '$rootScope', '$state', '$mdDialog', 'location', 'mapSvc', _setGeolocModalController],
           templateUrl: 'client/geoloc/set-geoloc-modal.html',
           scope: $scope.$new(),
           locals: {
@@ -56,7 +56,7 @@ class Geoloc {
       }
     };
 
-    function setGeolocModalController($scope, $rootScope, $state, $mdDialog, location, mapSvc) {
+    function _setGeolocModalController($scope, $rootScope, $state, $mdDialog, location, mapSvc) {
 
       var blockLatLngBinding = false;
 

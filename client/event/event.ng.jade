@@ -114,7 +114,7 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
       .select
         select(
           name='category',
-          ng-options='category._id as category.label for category in eventDetails.categories',
+          ng-options='category._id as category.label for category in eventDetails.categories | orderBy:"label"',
           ng-model='eventDetails.newEvent.category'
         )
           option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie

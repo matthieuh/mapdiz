@@ -244,9 +244,46 @@ class MapService {
       return deferred.promise;
     };
 
+    function _watchLocation(successCallback, errorCallback) {
+      successCallback = successCallback || function(){};
+      errorCallback = errorCallback || function(){};
+
+      // Try HTML5-spec geolocation.
+      var geolocation = navigator.geolocation;
+
+      if (geolocation) {
+        // We have a real geolocation service.
+        try {
+          function handleSuccess(position) {
+            successCallback(position.coords);
+          }
+
+          geolocation.watchPosition(handleSuccess, errorCallback, {
+            enableHighAccuracy: true,
+            maximumAge: 5000 // 5 sec.
+          });
+        } catch (err) {
+          errorCallback();
+        }
+      } else {
+        errorCallback();
+      }
+    }
+
+
     function getUserLoc() {
       var deferred = $q.defer();
-      if (navigator.geolocation) {
+      _watchLocation(function(coords) {
+        console.log('coords', coords);
+        deferred.resolve({
+          lat: coords.latitude,
+          lng: coords.longitude
+        });
+      }, function() {
+        console.log('error getUserLoc');
+        deferred.reject();
+      });
+      /*if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position, error) => {
             if (error) {
@@ -272,7 +309,7 @@ class MapService {
 
       } else {
         deferred.reject("Your browser is out of fashion, there\'s no geolocation!");
-      }
+      }*/
       return deferred.promise;
     };
 

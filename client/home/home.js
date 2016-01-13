@@ -17,27 +17,43 @@ SetModule('mapdiz');
   replace: false
 })
 @View({templateUrl: 'client/home/home.html'})
-@Inject('$scope', '$rootScope', '$state', '$meteor', '$log', 'mapSvc')
+@Inject('$scope', '$rootScope', '$reactive', '$state', '$meteor', '$log', 'mapSvc')
 
 class Home {
 
-  constructor($scope, $rootScope, $state, $meteor, $log, mapSvc) {
+  constructor($scope, $rootScope, $reactive, $state, $meteor, $log, mapSvc) {
     $log.info('Home');
 
     var self = this;
-    self.myLocation = {};
-    self.setMyLocation = setMyLocation;
-    self.gettingGeoloc = false;
-    self.search = search;
 
-    $scope.$watchCollection('Home.myLocation', updateMyLocation);
+    $reactive(self).attach($scope);
+
+    self.myLocation = {};
+    self.gettingGeoloc = false;
+    self.setMyLocation = _setMyLocation;
+    self.search = _search;
+
+    self.subscribe('categories');
+    self.helpers({
+      categories: _categoriesCollection
+    });
+
+    $scope.$watchCollection('Home.myLocation', _updateMyLocation);
 
     ////////////////////
+
+    function _categoriesCollection() {
+      return Tags.find({
+        advisable: true,
+      }, {
+        sort: { events: -1 }
+      });
+    }
 
     /**
      * [setMyLocation description]
      */
-    function setMyLocation() {
+    function _setMyLocation() {
       self.gettingGeoloc = true;
       mapSvc.getUserLoc().then((userGeoLoc) => {
 
@@ -62,7 +78,7 @@ class Home {
      * [updateMyLocation description]
      * @return {[type]} [description]
      */
-    function updateMyLocation() {
+    function _updateMyLocation() {
       if (!self.myLocation.address || self.myLocation.address == '') {
         self.myLocation = {};
       }
@@ -78,7 +94,7 @@ class Home {
       }
     }
 
-    function search() {
+    function _search() {
       var latLng = self.myLocation.latLng;
       if (latLng) {
         var latLngParam = `${ latLng.lat },${ latLng.lng }`;

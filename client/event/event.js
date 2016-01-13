@@ -19,10 +19,10 @@ SetModule('mapdiz');
 
 @Component({selector: 'event', controllerAs: 'eventDetails'})
 @View({templateUrl: 'client/event/event.html'})
-@Inject(['$scope', '$reactive', '$meteor', '$rootScope', '$state', '$stateParams', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload'])
+@Inject(['$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload'])
 
 class Event {
-  constructor($scope, $reactive, $meteor, $rootScope, $state, $stateParams, $log, mapSvc, $timeout, $window, $compile, Upload) {
+  constructor($scope, $reactive, $rootScope, $state, $stateParams, $log, mapSvc, $timeout, $window, $compile, Upload) {
     var self = this;
 
     $reactive(self).attach($scope);
@@ -199,7 +199,6 @@ class Event {
 
     function save() {
       console.log('save', self.newEvent, self.method);
-      self.editing = false
       delete self.errorMsg;
 
       if (self.method == 'create') { // Create
@@ -211,7 +210,8 @@ class Event {
           else {
             if (self.cover) {
               uploadPictures(savedEventId);
-            } else {
+            } else { // SUCCESS
+              self.editing = false;
               $state.go('app.events', {eventId: savedEventId, eventSlug: convertToSlug(self.newEvent.name)});
             }
           }
@@ -237,7 +237,8 @@ class Event {
           } else {
             if (self.cover) {
               uploadPictures(self.newEvent._id);
-            } else {
+            } else { // SUCCESS
+              self.editing = false;
               $state.go('app.events', {eventId: savedEventId, eventSlug: self.newEvent.url || convertToSlug(self.newEvent.name)});
             }
           }
@@ -266,7 +267,8 @@ class Event {
 
             if (error) {
               self.errorMsg = err.message;
-            } else {
+            } else { // SUCCESS
+              self.editing = false;
               $state.go('app.events');
             }
           });

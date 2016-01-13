@@ -9,5 +9,5 @@ Meteor.publish("categories", function (options, searchString) {
     advisable: true,
   };
 
-  return Tags.find(selector);
+  return Tags.find(selector, { sort: { events: -1 } });
 });

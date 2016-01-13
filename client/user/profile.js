@@ -39,11 +39,11 @@ class Profile {
       }
     });
 
-    centerMapOnUserLoc();
+    _centerMapOnUserLoc();
 
-    self.openAvatarInput = openAvatarInput;
-    self.deleteAvatar = deleteAvatar;
-    avatarInput.bind("change", uploadAvatar);
+    self.openAvatarInput = _openAvatarInput;
+    self.deleteAvatar = _deleteAvatar;
+    avatarInput.bind("change", _uploadAvatar);
 
     ///////////////////
 
@@ -51,7 +51,7 @@ class Profile {
      * [centerOnUserGeoloc description]
      * @return {[type]} [description]
      */
-    function centerMapOnUserLoc() {
+    function _centerMapOnUserLoc() {
       var newPosition = mapSvc.getNewPosition();
 
       if (_.isEmpty(newPosition)){
@@ -66,11 +66,11 @@ class Profile {
      * [uploadImage description]
      * @return {[type]} [description]
      */
-    function openAvatarInput() {
+    function _openAvatarInput() {
       avatarInput.click();
     };
 
-    function uploadAvatar(event) {
+    function _uploadAvatar(event) {
       console.log('uploadImage', event.target.files[0]);
       Avatars.insert(event.target.files[0], function (err, fileObj) {
         if (err) {
@@ -81,10 +81,13 @@ class Profile {
       });
     }
 
-    function deleteAvatar() {
+    function _deleteAvatar() {
       console.log('deleteAvatar', self.currentUser);
-      if (self.currentUser && self.currentUser.avatar)
+      if (self.currentUser && self.currentUser.avatar) {
         Avatars.remove(self.currentUser.avatar);
+        console.log('Meteor.user()._id', Meteor.user()._id);
+        Meteor.users.update({_id: Meteor.user()._id}, {$set: { 'avatar': '' }});
+      }
     }
   }
 }

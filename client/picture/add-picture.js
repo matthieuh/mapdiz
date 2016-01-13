@@ -32,7 +32,7 @@ class AddPicture {
       console.log('parentEl', parentEl);
       $mdDialog.show({
         parent: parentEl,
-        controller: function addImageModal($scope, $rootScope, $state, $mdDialog, newOrder) {
+        controller: ['$scope', '$rootScope', '$state', '$mdDialog', 'newOrder', function addImageModal($scope, $rootScope, $state, $mdDialog, newOrder) {
           $scope.myAreaCoords = {};
           $scope.cropper = {};
           $scope.cropper.sourceImage = null;
@@ -61,7 +61,7 @@ class AddPicture {
               $mdDialog.hide();
             }
           }
-        },
+        }],
         templateUrl: 'client/picture/add-picture-modal.html',
         bindToController: true,
         locals: {

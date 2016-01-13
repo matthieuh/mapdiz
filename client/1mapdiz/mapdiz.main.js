@@ -48,7 +48,11 @@ class config {
 }
 
 
-@Component({selector: 'mapdiz', controllerAs: 'Mapdiz'})
+@Component({
+  selector: 'mapdiz',
+  controllerAs: 'Mapdiz'
+})
+
 @View({ templateUrl: 'client/1mapdiz/mapdiz.html' })
 @Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor')
 
