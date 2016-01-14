@@ -1,4 +1,7 @@
 //- p avatar : {{ Avatar.user._id }} /
-img.profile-picture-mini(ng-src="{{ Avatar.avatar.url('avatar-small') }}", ng-show="Avatar.user && Avatar.avatar")
-img.profile-picture-mini(ng-src='http://graph.facebook.com/{{ Avatar.user.services.facebook.id }}/picture/?type=small', ng-if='Avatar.user && !Avatar.avatar && Avatar.user.services.facebook')
-img.profile-picture-mini(src='assets/images/default-user.png', ng-show="Avatar.user && !Avatar.user.avatar && !Avatar.user.services.facebook")
+//-.avatar
+  img.avatar-pic(ng-src="{{ Avatar.avatar.url('avatar-small') }}", ng-show="Avatar.user && Avatar.avatar")
+  img.avatar-pic(ng-src='http://graph.facebook.com/{{ Avatar.user.services.facebook.id }}/picture/?type=small', ng-if='Avatar.user && !Avatar.avatar && Avatar.user.services.facebook')
+  img.avatar-pic(src='assets/images/default-user.png', ng-show="Avatar.user && !Avatar.user.avatar && !Avatar.user.services.facebook")
+
+img.avatar-pic(src='assets/images/default-user.png')

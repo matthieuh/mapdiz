@@ -9,23 +9,23 @@ angular.module('mapdiz');
   bind: {
     user: '='
   },
-  controllerAs: 'Avatar'
+  controllerAs: 'Avatar',
+  replace: true
 })
 
 @View({
-  templateUrl: 'client/avatar/avatar.html',
-  transclude: true
+  templateUrl: 'client/avatar/avatar.html'
 })
 
 @Inject('$scope', '$rootScope', '$state', '$log')
 
-class DateRange {
+class Avatar {
   constructor($scope, $rootScope, $state, $log) {
-    $log.info('Avatar');
+    $log.info('Avatar', $scope);
 
     var self = this;
 
-    $scope.$watch('Avatar.user', function(oldValue, newValue) {
+    /*$scope.$watch('Avatar.user', function(oldValue, newValue) {
       $log.debug('Avatar', oldValue, newValue, self.user);
       if (self.user && self.user.avatar) {
         console.log('self.user.avatar', self.user.avatar);
@@ -34,7 +34,7 @@ class DateRange {
       } else {
         delete self.avatar;
       }
-    })
+    })*/
 
   }
 }

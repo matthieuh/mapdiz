@@ -1,7 +1,7 @@
 form.form-inline.search-form.flex-column
   .search-input-wrapper
     input#search(type="text", ng-model="query", placeholder="Rechercher...")
-    .result-length 
+    .result-length
       ng-pluralize(
         count='$parent.App.filteredEvents.length',
         when="{'0': 'aucun résultat', '1': '1 résultat', 'other': '{} résultats'}"
@@ -68,6 +68,7 @@ form.form-inline.search-form.flex-column
           ui-sref="app.event({eventId: event._id, eventSlug: event.url})",
           ng-style="$parent.$parent.App.getImage(event.cover)"
         )
+          avatar.avatar(user='vm.getUserById(event.owner)')
         .price Gratuit
         a.delete(ng-click="vm.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
         .content.flex-auto.selectable
