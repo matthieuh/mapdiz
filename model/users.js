@@ -89,3 +89,23 @@ Meteor.users.deny({
     return true;
   }
 });
+
+/*Meteor.users.upsert(function(userId, doc, fieldNames, modifier, options) {
+  console.log('fieldNames', fieldNames);
+
+  if ()
+  modifier.$set = modifier.$set || {};
+  modifier.$set.updated = Date.now();
+
+  if (doc.tags) {
+    doc.tags.forEach(function(tag) {
+      Tags.update({_id: tag._id}, {
+        $addToSet: {
+          events: {name: doc.name, _id: doc._id}
+        }
+      });
+    });
+  }
+
+});
+*/

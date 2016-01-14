@@ -26,14 +26,24 @@ class DateRange {
     var self = this;
 
     $scope.$watch('Avatar.user', function(oldValue, newValue) {
-      $log.debug('Avatar', oldValue, newValue, self.user);
-      if (self.user && self.user.avatar) {
-        console.log('self.user.avatar', self.user.avatar);
-        self.avatar = Avatars.findOne(self.user.avatar);
+      $log.debug('Avatar', oldValue, newValue, !Number.isNaN(self.user));
+
+      if ( !Number.isNaN(self.user) ) {
+        self.localUser = Meteor.users.findOne(self.user);
+        console.log('self.localUser', self.localUser);
+      } else if (typeof self.user === 'object') {
+        self.localUser = self.user;
+      }
+
+
+      if (self.localUser && self.localUser.avatar) {
+        console.log('self.user.avatar', self.localUser.avatar);
+        self.avatar = Avatars.findOne(self.localUser.avatar);
         console.log('self.avatar', self.avatar);
       } else {
         delete self.avatar;
       }
+
     })
 
   }
