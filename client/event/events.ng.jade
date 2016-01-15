@@ -68,8 +68,12 @@ form.form-inline.search-form.flex-column
           ui-sref="app.event({eventId: event._id, eventSlug: event.url})",
           ng-style="$parent.$parent.App.getImage(event.cover)"
         )
-        .price Gratuit
-        avatar(user='event.owner')
+          .round(title='{{ vm.creator(event) | displayName }}')
+            avatar(user='event.owner')
+        .stickers
+          .sticker Gratuit
+          .sticker(ng-class='event.public ? "public" : "private"', ng-if="!event.public") Privé
+
         a.delete(ng-click="vm.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
         .content.flex-auto.selectable
           .infos.flex-column
@@ -102,7 +106,7 @@ form.form-inline.search-form.flex-column
             //-   | Users who haven't responded ({{ outstandingInvitations(event).length }}):
             //-   li(ng-repeat="invitedUser in outstandingInvitations(event)")
             //-     | {{ invitedUser | displayName }}
-            p.creator
+            //- p.creator
               small Ajouté par {{ vm.creator(event) | displayName }}
               //- small(am-time-ago='event.added')
             .presence(ng-if='($root.openedWindow == event._id || vm.isOverflown(event._id)) && $root.currentUser')

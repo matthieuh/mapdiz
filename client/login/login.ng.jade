@@ -1,8 +1,5 @@
 .login-menu(id='connect-btn', ng-click='vm.togglePopup()', ng-cloak)
   avatar(user='vm.currentUser')
-  img.title-icon.profile-picture-mini(ng-src="{{ vm.avatar.url('avatar-small') }}", ng-show="vm.avatar")
-  img.title-icon.profile-picture-mini(ng-src='http://graph.facebook.com/{{ vm.currentUser.services.facebook.id }}/picture/?type=small', ng-if='vm.currentUser && !vm.currentUser.avatar')
-  img.title-icon.profile-picture-mini(src='assets/images/default-user.png', ng-show="vm.currentUser && !vm.currentUser.avatar && !vm.currentUser.services.facebook")
   .title(ng-if="$root.currentUser") {{ $root.currentUser | displayName }}
   .title(ng-if="!$root.currentUser") Se connecter
 

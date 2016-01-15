@@ -25,26 +25,36 @@ class DateRange {
 
     var self = this;
 
-    $scope.$watch('Avatar.user', function(oldValue, newValue) {
-      $log.debug('Avatar', oldValue, newValue, !Number.isNaN(self.user));
-
-      if ( !Number.isNaN(self.user) ) {
-        self.localUser = Meteor.users.findOne(self.user);
-        console.log('self.localUser', self.localUser);
-      } else if (typeof self.user === 'object') {
+    $scope.$watch('Avatar.user.avatar', function(newValue, oldValue) {
+      console.log('$watch Avatar.user.avatar', newValue, typeof self.user);
+      if (self.user && typeof self.user === 'object') {
         self.localUser = self.user;
-      }
-
-
-      if (self.localUser && self.localUser.avatar) {
-        console.log('self.user.avatar', self.localUser.avatar);
-        self.avatar = Avatars.findOne(self.localUser.avatar);
-        console.log('self.avatar', self.avatar);
       } else {
         delete self.avatar;
       }
+    });
 
-    })
+    $scope.$watch('Avatar.user', function(newValue, oldValue) {
+      console.log('$watch Avatar.user', newValue, typeof self.user);
+      if (self.user && typeof self.user !== 'object' &&  typeof self.user !== 'string') {
+        delete self.avatar;
+      }
 
+      if ( self.user && typeof self.user === 'string' ) {
+        self.localUser = Meteor.users.findOne(self.user);
+        //self.localUser
+        console.log('self.localUser', self.localUser);
+      } else {
+        delete self.avatar;
+      }
+    });
+
+    $scope.$watch('Avatar.localUser.avatar', function(newValue, oldValue) {
+      if (newValue) {
+        self.avatar = Avatars.findOne(newValue);
+      } else {
+        delete self.avatar;
+      }
+    });
   }
 }
