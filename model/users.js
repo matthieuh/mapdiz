@@ -7,16 +7,12 @@ Schema.User = new SimpleSchema({
     type: String,
     optional: true,
     regEx: /^[a-z0-9A-Z_]{3,20}$/,
-    custom: function () {
-      console.log(this);
-    }
+    index: true,
+    unique: true
   },
   emails: {
     optional: true,
-    type: [Object],
-    custom: function () {
-      console.log(this);
-    }
+    type: [Object]
   },
   "emails.$.address": {
     optional: true,

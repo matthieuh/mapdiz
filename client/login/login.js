@@ -79,6 +79,8 @@ class Login {
 
     function displayError(e) {
       if (e) {
+        console.log('error', e);
+        Session.set("errorMessage", "Please log in to post a comment.");
         if(!$scope.$$phase) {
           self.errors = e.reason;
           $scope.$apply();

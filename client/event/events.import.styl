@@ -41,7 +41,6 @@
           height: 50px
 
           .icon
-            height: 100%
             font-size: 30px
             padding: 0 10px
 
@@ -80,11 +79,12 @@
             border-top: 1px solid #DDD
 
           &:hover, &.overflown
-            cursor: pointer
             background-color: rgba(245, 124, 0, 0.2)
             transition: all 0.2s ease-out 0s;
             border-right: 4px solid brand-primary
+            
             .content-wrapper
+              
               .event-pic-overlay
                 opacity: 1
 
@@ -133,6 +133,7 @@
 
                 &:hover
                   opacity: 1
+                  cursor: pointer
 
                 avatar
                   /*position: absolute
@@ -167,42 +168,39 @@
             .content
               flex: 60
               position: relative
-              .infos
-                position: relative
-                padding: 10px
-                max-height: 145px
+              padding: 10px
+              
+              .presence
+                display: flex
+                justify-content: center
+                font-size: 12px
+                .presence-btns
+                  button
+                    &:focus
+                      box-shadow: none
+                    &.active
+                      background-color: brand-primary
+                      color: white
 
-                .presence
-                  display: flex
-                  justify-content: center
-                  font-size: 12px
-                  .presence-btns
-                    button
-                      &:focus
-                        box-shadow: none
-                      &.active
-                        background-color: brand-primary
-                        color: white
+              h2
+                margin: 0
 
-                h2
-                  margin: 0
+              .description
+                display: -webkit-box
+                height: 96.2px
+                margin: 5px
+                line-height: 1.3
+                font-size: 16px
+                overflow: hidden
+                text-overflow: ellipsis
+                -webkit-line-clamp: 5
+                -webkit-box-orient: vertical
 
-                .description
-                  display: -webkit-box
-                  height: 96.2px
-                  margin: 5px
-                  line-height: 1.3
-                  font-size: 16px
-                  overflow: hidden
-                  text-overflow: ellipsis
-                  -webkit-line-clamp: 5
-                  -webkit-box-orient: vertical
-
-                p.creator
-                  position: absolute
-                  top: 1em
-                  right: 0.5em
-                  margin: 0
+              p.creator
+                position: absolute
+                top: 1em
+                right: 0.5em
+                margin: 0
 
 .filters
   display: flex

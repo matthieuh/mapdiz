@@ -17,11 +17,11 @@ SetModule('mapdiz');
   replace: false
 })
 @View({templateUrl: 'client/home/home.html'})
-@Inject('$scope', '$rootScope', '$reactive', '$state', '$meteor', '$log', 'mapSvc')
+@Inject('$scope', '$rootScope', '$reactive', '$state', '$meteor', '$log', 'mapSvc', '$translate')
 
 class Home {
 
-  constructor($scope, $rootScope, $reactive, $state, $meteor, $log, mapSvc) {
+  constructor($scope, $rootScope, $reactive, $state, $meteor, $log, mapSvc, $translate) {
     $log.info('Home');
 
     var self = this;
@@ -39,6 +39,13 @@ class Home {
     });
 
     $scope.$watchCollection('Home.myLocation', _updateMyLocation);
+
+    $translate.use('fr')
+    console.log('$translate.use()', $translate.use());
+
+    $translate('SLOGAN').then(function(slogan) {
+      console.log('SLOGAN', slogan);
+    });
 
     ////////////////////
 

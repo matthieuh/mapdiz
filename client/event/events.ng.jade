@@ -12,105 +12,104 @@ form.form-inline.search-form.flex-column
     //- TIME FILTER
     .range-filter.flex-wrap
       .range-label.flex-auto(
-        ng-click='vm.timeFilter.infinite=false;vm.timeFilter.options.disabled=!vm.timeFilter.options.disabled',
-        ng-class="{'disabled': vm.timeFilter.options.disabled}"
+        ng-click='EventsList.timeFilter.infinite=false;EventsList.timeFilter.options.disabled=!EventsList.timeFilter.options.disabled',
+        ng-class="{'disabled': EventsList.timeFilter.options.disabled}"
       ) Quand ?
-      .range-selector.flex-auto(ng-class="{'disabled': vm.timeFilter.options.disabled}")
+      .range-selector.flex-auto(ng-class="{'disabled': EventsList.timeFilter.options.disabled}")
         rzslider(
-          rz-slider-options='vm.timeFilter.options'
-          rz-slider-high='vm.timeFilter.max',
-          rz-slider-model='vm.timeFilter.min'
+          rz-slider-options='EventsList.timeFilter.options'
+          rz-slider-high='EventsList.timeFilter.max',
+          rz-slider-model='EventsList.timeFilter.min'
         )
-      .editable.range-value(ng-show='vm.timeFilter.options.disabled') peu importe quand ...
-      .editable.range-value(ng-hide='vm.timeFilter.options.disabled')
+      .editable.range-value(ng-show='EventsList.timeFilter.options.disabled') peu importe quand ...
+      .editable.range-value(ng-hide='EventsList.timeFilter.options.disabled')
         | de
-        input.flex-auto(type='text', name='timeFiltertMin', ng-model='vm.timeFilter.min')
+        input.flex-auto(type='text', name='timeFiltertMin', ng-model='EventsList.timeFilter.min')
         | à
-        input.flex-auto(type='text', name='timeFilterMax', ng-model='vm.timeFilter.max')
+        input.flex-auto(type='text', name='timeFilterMax', ng-model='EventsList.timeFilter.max')
         ng-pluralize(
-          count='vm.timeFilter.max',
+          count='EventsList.timeFilter.max',
           when="{'0': 'jour', '1': 'jour', 'other': 'jours'}")
 
     //- DISTANCE FILTER
     .range-filter.distance-range.flex-wrap
       .range-label.flex-auto(
-        ng-click='vm.distanceFilter.inifinite=false;vm.distanceFilter.options.disabled=!vm.distanceFilter.options.disabled',
-        ng-class="{'disabled': vm.distanceFilter.options.disabled}"
+        ng-click='EventsList.distanceFilter.inifinite=false;EventsList.distanceFilter.options.disabled=!EventsList.distanceFilter.options.disabled',
+        ng-class="{'disabled': EventsList.distanceFilter.options.disabled}"
       ) Ou ?
-      .range-selector.flex-auto(ng-class="{'disabled': vm.distanceFilter.options.disabled}")
+      .range-selector.flex-auto(ng-class="{'disabled': EventsList.distanceFilter.options.disabled}")
         rzslider(
-          rz-slider-options='vm.distanceFilter.options',
-          rz-slider-model='vm.distanceFilter.max'
+          rz-slider-options='EventsList.distanceFilter.options',
+          rz-slider-model='EventsList.distanceFilter.max'
         )
-      .editable.range-value(ng-show='vm.distanceFilter.options.disabled') peu importe la distance ...
-      .editable.range-value(ng-hide='vm.distanceFilter.options.disabled')
+      .editable.range-value(ng-show='EventsList.distanceFilter.options.disabled') peu importe la distance ...
+      .editable.range-value(ng-hide='EventsList.distanceFilter.options.disabled')
         | à maximum
-        input.flex-auto(name='distanceSort', type='text', ng-model='vm.distanceFilter.max')
+        input.flex-auto(name='distanceSort', type='text', ng-model='EventsList.distanceFilter.max')
         ng-pluralize(
-          count='vm.distanceFilter.max',
+          count='EventsList.distanceFilter.max',
           when="{'0': 'kilomètre', '1': 'kilomètre', 'other': 'kilomètres'}")
     //- .sorting
     //-   label(for="sort-order") Trier par ordre
-    //-   select(ng-model="vm.orderProperty", name='sort-order')
+    //-   select(ng-model="EventsList.orderProperty", name='sort-order')
     //-     option(value="1") Croissant
     //-     option(value="-1") Décroissant
 .events-list-wrapper
   ul.events-list
     li.flex-column(
-      ng-repeat="event in $parent.App.filteredEvents = ($parent.App.allEvents | filter:query | distance:vm.distanceFilter:vm.mapSvc.myLocation.position | isVisibleEvent | time:vm.timeFilter)",
-      ng-class="{'overflown': $root.openedWindow == event._id || vm.isOverflown(event._id)}",
+      ng-repeat="event in $parent.App.filteredEvents = ($parent.App.allEvents | filter:query | distance:EventsList.distanceFilter:EventsList.mapSvc.myLocation.position | isVisibleEvent | time:EventsList.timeFilter)",
+      ng-class="{'overflown': $root.openedWindow == event._id || EventsList.isOverflown(event._id)}",
       ng-mouseover='$root.openedWindow = event._id',
       ng-mouseleave='$root.openedWindow = false',
       id='event-{{event._id}}'
     )
       .content-wrapper.flex
         .event-pic-overlay.flex-auto(
-          ui-sref="app.event({eventId: event._id, eventSlug: event.url})",
           ng-style="$parent.$parent.App.getImage(event.cover)"
         )
-          .round(title='{{ vm.creator(event) | displayName }}')
+          .round(
+            title='{{ EventsList.creator(event) | displayName }}',
+            ui-sref='app.profile({userId: event.owner})'
+          )
             avatar(user='event.owner')
         .stickers
           .sticker Gratuit
           .sticker(ng-class='event.public ? "public" : "private"', ng-if="!event.public") Privé
 
-        a.delete(ng-click="vm.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
+        a.delete(ng-click="EventsList.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
         .content.flex-auto.selectable
-          .infos.flex-column
-            .title.flex
-              h2
-                a(ui-sref="app.event({eventId: event._id, eventSlug: event.url})") {{event.name}}
-              span.badge.public(ng-if="event.public") Public
-              span.badge.private(ng-if="!event.public") Privé
-            .date(ng-if='event.beginDate')
-              i.icon.ion-ios-calendar-outline
-              span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
-              span(ng-if='event.beginTime')  à {{ event.beginTime | date:'H:mm' }}
-            p.description {{ event.description }}
-            //- div(ng-if="event.public")
-            //-   | Everyone is invited
-            div(ng-hide="$root.currentUser")
-              i Enregistrez-vous pour vous inscrire à cet évenement.
-            //- div
-            //-   strong Participations :
-            //-   |  Oui - {{ (event.rsvps | filter:{rsvp:"yes"}).length }}
-            //-   | Peut-être - {{ (event.rsvps | filter:{rsvp:"maybe"}).length }}
-            //-   | Non - {{ (event.rsvps | filter:{rsvp:"no"}).length }}
-            //-   div(ng-repeat="rsvp in event.rsvps | filter:{rsvp:'yes'}")
-            //-     | {{ vm.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
-            //-   div(ng-repeat="rsvp in event.rsvps | filter:{rsvp:'maybe'}")
-            //-     | {{ vm.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
-            //-   div(ng-repeat="rsvp in event.rsvps | filter:{rsvp:'no'}")
-            //-     | {{ vm.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
-            //- ul(ng-if="!event.public")
-            //-   | Users who haven't responded ({{ outstandingInvitations(event).length }}):
-            //-   li(ng-repeat="invitedUser in outstandingInvitations(event)")
-            //-     | {{ invitedUser | displayName }}
-            //- p.creator
-              small Ajouté par {{ vm.creator(event) | displayName }}
-              //- small(am-time-ago='event.added')
-            .presence(ng-if='($root.openedWindow == event._id || vm.isOverflown(event._id)) && $root.currentUser')
-              .presence-btns.inline-block.clearfix.m1
-                button.left.btn.x-group-item.rounded-left(type='button', ng-click="vm.rsvp(event._id, 'yes')", ng-class="{'active': vm.myPresence(event, 'yes'), 'btn-outline ': !vm.myPresence(event, 'yes')}") Je viens !
-                button.left.btn.x-group-item.not-rounded(type='button', ng-click="vm.rsvp(event._id, 'maybe')", ng-class="{'active': vm.myPresence(event, 'maybe'), 'btn-outline ': !vm.myPresence(event, 'maybe')}") Peut-être
-                button.left.btn.x-group-item.rounded-right(type='button', ng-click="vm.rsvp(event._id, 'no')", ng-class="{'active': vm.myPresence(event, 'no'), 'btn-outline ': !vm.myPresence(event, 'no')}") Non désolé
+          .title.flex
+            h2
+              a(ui-sref="app.event({eventId: event._id, eventSlug: event.url})") {{event.name}}
+          .date(ng-if='event.beginDate')
+            i.icon.ion-ios-calendar-outline
+            span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
+            span(ng-if='event.beginTime')  à {{ event.beginTime | date:'H:mm' }}
+          p.description {{ event.description }}
+          //- div(ng-if="event.public")
+          //-   | Everyone is invited
+          div(ng-hide="$root.currentUser")
+            i Enregistrez-vous pour vous inscrire à cet évenement.
+          //- div
+          //-   strong Participations :
+          //-   |  Oui - {{ (event.rsvps | filter:{rsvp:"yes"}).length }}
+          //-   | Peut-être - {{ (event.rsvps | filter:{rsvp:"maybe"}).length }}
+          //-   | Non - {{ (event.rsvps | filter:{rsvp:"no"}).length }}
+          //-   div(ng-repeat="rsvp in event.rsvps | filter:{rsvp:'yes'}")
+          //-     | {{ EventsList.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+          //-   div(ng-repeat="rsvp in event.rsvps | filter:{rsvp:'maybe'}")
+          //-     | {{ EventsList.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+          //-   div(ng-repeat="rsvp in event.rsvps | filter:{rsvp:'no'}")
+          //-     | {{ EventsList.getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
+          //- ul(ng-if="!event.public")
+          //-   | Users who haven't responded ({{ outstandingInvitations(event).length }}):
+          //-   li(ng-repeat="invitedUser in outstandingInvitations(event)")
+          //-     | {{ invitedUser | displayName }}
+          //- p.creator
+            small Ajouté par {{ EventsList.creator(event) | displayName }}
+            //- small(am-time-ago='event.added')
+          .presence(ng-if='($root.openedWindow == event._id || EventsList.isOverflown(event._id)) && $root.currentUser')
+            .presence-btns.inline-block.clearfix.m1
+              button.left.btn.x-group-item.rounded-left(type='button', ng-click="EventsList.rsvp(event._id, 'yes')", ng-class="{'active': EventsList.myPresence(event, 'yes'), 'btn-outline ': !EventsList.myPresence(event, 'yes')}") Je viens !
+              button.left.btn.x-group-item.not-rounded(type='button', ng-click="EventsList.rsvp(event._id, 'maybe')", ng-class="{'active': EventsList.myPresence(event, 'maybe'), 'btn-outline ': !EventsList.myPresence(event, 'maybe')}") Peut-être
+              button.left.btn.x-group-item.rounded-right(type='button', ng-click="EventsList.rsvp(event._id, 'no')", ng-class="{'active': EventsList.myPresence(event, 'no'), 'btn-outline ': !EventsList.myPresence(event, 'no')}") Non désolé

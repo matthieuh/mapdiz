@@ -4,16 +4,16 @@ SetModule('mapdiz');
 
 @State({
   name: 'app.profile',
-  url: '/profile'
+  url: '/profile/:userId'
 })
 
 @Component({selector: 'profile', controllerAs: 'Profile'})
 @View({templateUrl: 'client/user/profile.html'})
-@Inject('$scope', '$reactive', 'mapSvc', '$log', '$timeout')
+@Inject('$scope', '$reactive', 'mapSvc', '$log', '$timeout', '$stateParams')
 
 class Profile {
 
-  constructor($scope, $reactive, mapSvc, $log, $timeout) {
+  constructor($scope, $reactive, mapSvc, $log, $timeout, $stateParams) {
     $log.info('Profile');
 
     var self = this;
@@ -26,7 +26,11 @@ class Profile {
         return Meteor.userId() != null;
       },
       currentUser() {
-        return Meteor.user();
+        if ($stateParams.userId && $stateParams.userId == 'me' || !$stateParams.userId) {
+          return Meteor.user();
+        } else {
+          return Meteor.users.findOne($stateParams.userId);
+        }
       }
     });
 

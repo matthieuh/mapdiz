@@ -79,7 +79,36 @@ header(ng-show="$root.currentUser || $root.loggingIn")
         edition='eventDetails.editing'
       )  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 
-main.p2(ng-show="$root.currentUser || $root.loggingIn")
+.presence
+  .rsvps
+    .rsvps-sum
+      .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"yes"}).length }}
+      .rsvps-title Participants
+    .rsvps-sum
+      .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"maybe"}).length }}
+      .rsvps-title ne savent pas encore
+    .rsvps-sum
+      .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"no"}).length }}
+      .rsvps-title ont déclinés
+
+  .presence-btns.button-group
+    button.button(type='button', ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'yes')", ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'yes')}") Je viens !
+    button.button(
+      type='button',
+      ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'maybe')",
+      ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'maybe')}"
+    ) Peut-être
+    button.button(
+      type='button',
+      ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'no')",
+      ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'no')}"
+    ) Non désolé
+
+
+  
+
+
+main.p2(ng-if="$root.currentUser || $root.loggingIn")
 
   .message-bar.background-error(ng-show='eventDetails.errorMsg')
     .title Oups !
@@ -98,6 +127,7 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
     ng-click='eventDetails.editing = false',
     ng-if="eventDetails.method == 'update'"
   ) Annuler édition
+
   section(ng-if='eventDetails.editing')
     //- label.block.col-12(for="public") Public
       input#public(type="checkbox", ng-model="eventDetails.newEvent.public")
@@ -105,6 +135,8 @@ main.p2(ng-show="$root.currentUser || $root.loggingIn")
     .checkbox
       input#public(name='public', ng-model='eventDetails.newEvent["public"]', type='checkbox')
       label(for='public') Publique
+
+
   //- Catégorie
   section#category(ng-show='eventDetails.editing')
     h3

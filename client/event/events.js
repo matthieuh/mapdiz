@@ -9,7 +9,11 @@ angular.module('mapdiz');
   html5Mode: true
 })
 
-@Component({selector: 'events-list'})
+@Component({
+  selector: 'events-list',
+  controllerAs: 'EventsList'
+})
+
 @View({templateUrl: 'client/event/events.html'})
 @Inject('$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout')
 
@@ -55,15 +59,15 @@ class EventsList {
     };
 
     // Bind filters parameters in session storage
-    localStorage.bind($scope, 'vm.timeFilter.min', 0);
-    localStorage.bind($scope, 'vm.timeFilter.max', 15);
-    localStorage.bind($scope, 'vm.timeFilter.options.infinite', false);
-    localStorage.bind($scope, 'vm.timeFilter.options.disabled', true);
+    localStorage.bind($scope, 'EventsList.timeFilter.min', 0);
+    localStorage.bind($scope, 'EventsList.timeFilter.max', 15);
+    localStorage.bind($scope, 'EventsList.timeFilter.options.infinite', false);
+    localStorage.bind($scope, 'EventsList.timeFilter.options.disabled', true);
 
-    localStorage.bind($scope, 'vm.distanceFilter.min', 0);
-    localStorage.bind($scope, 'vm.distanceFilter.max', 15);
-    localStorage.bind($scope, 'vm.distanceFilter.options.infinite', false);
-    localStorage.bind($scope, 'vm.distanceFilter.options.disabled', true);
+    localStorage.bind($scope, 'EventsList.distanceFilter.min', 0);
+    localStorage.bind($scope, 'EventsList.distanceFilter.max', 15);
+    localStorage.bind($scope, 'EventsList.distanceFilter.options.infinite', false);
+    localStorage.bind($scope, 'EventsList.distanceFilter.options.disabled', true);
 
     
     setMapCenter();
@@ -90,7 +94,7 @@ class EventsList {
     };
 
     function order(predicate, reverse) {
-      vm.mapSvc.filteredEvents = orderBy(vm.mapSvc.filteredEvents, predicate, reverse);
+      mapSvc.filteredEvents = orderBy(mapSvc.filteredEvents, predicate, reverse);
     };
 
     function myPresence(event, answer) {

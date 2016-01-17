@@ -27,26 +27,9 @@ SetModule('mapdiz', [
   'angular-click-outside',
   'mightyDatepicker',
   'mentio',
-  'hashtagify'
+  'hashtagify',
+  'pascalprecht.translate'
 ]);
-
-@Inject('gmLibraryProvider', '$windowProvider', 'localStorageServiceProvider')
-
-class config {
-  constructor (gmLibraryProvider, $windowProvider, localStorageServiceProvider) {
-
-    gmLibraryProvider.configure({
-      language: 'fr',
-      libraries: ['places']
-    });
-
-    localStorageServiceProvider
-      .setPrefix('mapdiz')
-      .setStorageType('sessionStorage');
-
-  }
-}
-
 
 @Component({
   selector: 'mapdiz',
@@ -90,4 +73,34 @@ class Mapdiz {
   }
 }
 
-bootstrap(Mapdiz, config);
+@Inject('gmLibraryProvider', '$windowProvider', 'localStorageServiceProvider', '$translateProvider')
+
+class MapdizConfig {
+  constructor (gmLibraryProvider, $windowProvider, localStorageServiceProvider, $translateProvider) {
+    console.log('config');
+    $translateProvider.useSanitizeValueStrategy('sanitize');
+    $translateProvider.translations({
+      'SLOGAN':'Hey Guys, this is a headline!'
+    });
+    $translateProvider.useStaticFilesLoader(
+      {
+        prefix: 'assets/translations/locale-',
+        suffix: '.json'
+      }
+    )
+    $translateProvider.preferredLanguage('fr');
+
+    gmLibraryProvider.configure({
+      language: 'fr',
+      libraries: ['places']
+    });
+
+    localStorageServiceProvider
+      .setPrefix('mapdiz')
+      .setStorageType('sessionStorage');
+
+  }
+}
+
+
+bootstrap(Mapdiz/*, MapdizConfig*/);

@@ -90,3 +90,6 @@ jparker:gravatar
 # NPM HACK
 meteorhacks:npm
 npm-container
+aldeed:schema-index
+planettraining:angular-translate
+planettraining:angular-translate-loader-static-files

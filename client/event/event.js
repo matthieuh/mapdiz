@@ -17,7 +17,11 @@ SetModule('mapdiz');
   html5Mode: true
 })
 
-@Component({selector: 'event', controllerAs: 'eventDetails'})
+@Component({
+  selector: 'event',
+  controllerAs: 'eventDetails'
+})
+
 @View({templateUrl: 'client/event/event.html'})
 @Inject(['$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload'])
 
@@ -58,12 +62,14 @@ class Event {
     self.autorun(_initMap);
     self.accessRight = self.method == 'create' ? 'right' : 'read';
     self.editing = self.method == 'create';
-    self.beginTimeSelected = beginTimeSelected;
-    self.endTimeSelected = endTimeSelected;
-    self.save = save;
-    self.deleteCover = deleteCover;
+    self.beginTimeSelected = _beginTimeSelected;
+    self.endTimeSelected = _endTimeSelected;
+    self.save = _save;
+    self.deleteCover = _deleteCover;
     self.validFormBtn = self.method === 'create' ? 'Ajouter' : 'Sauvegarder';
     self.tagTermClick = _tagTermClick;
+    self.rsvp = _rsvp;
+    self.myPresence = _myPresence;
 
     $scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {
@@ -176,12 +182,12 @@ class Event {
       self.newEvent[datimeScopeName] = momentDate.toDate();
     }
 
-    function deleteCover() {
+    function _deleteCover() {
       delete self.cover;
       delete self.newEvent.cover;
     }
 
-    function beginTimeSelected(selected) {
+    function _beginTimeSelected(selected) {
       if(selected && selected.title) {
         self.newEvent.beginTime = selected.title;
       } else {
@@ -189,7 +195,7 @@ class Event {
       }
     };
 
-    function endTimeSelected(selected) {
+    function _endTimeSelected(selected) {
       if(selected && selected.title) {
         self.newEvent.endTime = selected.title;
       } else {
@@ -197,7 +203,7 @@ class Event {
       }
     };
 
-    function save() {
+    function _save() {
       console.log('save', self.newEvent, self.method);
       delete self.errorMsg;
 
@@ -246,7 +252,7 @@ class Event {
       }
     };
 
-    function uploadPictures(savedEventId) {
+    function _uploadPictures(savedEventId) {
       console.log('uploadPictures', savedEventId);
       // Create
       Images.insert(self.cover, (error, image) => {
@@ -278,7 +284,33 @@ class Event {
       });
     }
 
-    function convertToSlug(Text) {
+    /**
+     * [rsvp description]
+     * @param  {[type]} eventId [description]
+     * @param  {[type]} rsvp    [description]
+     * @return {[type]}         [description]
+     */
+    function _rsvp(eventId, rsvp) {
+      Meteor.call('rsvp', eventId, rsvp);
+    }
+
+    function _myPresence(event, answer) {
+      return _.some(event.rsvps, function(rsvp) {
+        return rsvp.user === $rootScope.currentUser._id && rsvp.rsvp === answer;
+      });
+    }
+
+    /**
+     * [rsvp description]
+     * @param  {[type]} eventId [description]
+     * @param  {[type]} rsvp    [description]
+     * @return {[type]}         [description]
+     */
+    function rsvp(eventId, rsvp) {
+      Meteor.call('rsvp', eventId, rsvp);
+    }
+
+    function _convertToSlug(Text) {
       return Text
         .toLowerCase()
         .replace(/[^\w ]+/g,'')
