@@ -47,9 +47,14 @@ class Profile {
 
     self.openAvatarInput = _openAvatarInput;
     self.deleteAvatar = _deleteAvatar;
+    self.sendVerificationEmail = _sendVerificationEmail;
     avatarInput.bind("change", _uploadAvatar);
 
     ///////////////////
+
+    function _sendVerificationEmail() {
+      Meteor.call('sendVerificationEmail');
+    }
 
     /**
      * [centerOnUserGeoloc description]

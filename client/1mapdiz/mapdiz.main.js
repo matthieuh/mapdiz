@@ -28,7 +28,8 @@ SetModule('mapdiz', [
   'mightyDatepicker',
   'mentio',
   'hashtagify',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'accounts.ui'
 ]);
 
 @Component({

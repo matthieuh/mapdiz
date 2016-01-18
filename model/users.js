@@ -105,3 +105,11 @@ Meteor.users.deny({
 
 });
 */
+
+if (Meteor.isServer) {
+  Meteor.methods({
+    sendVerificationEmail: function () {
+      Accounts.sendVerificationEmail(Meteor.userId())
+    }
+  });
+}

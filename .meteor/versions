@@ -3,6 +3,8 @@ accounts-facebook@1.0.6
 accounts-oauth@1.1.8
 accounts-password@1.1.4
 accounts-twitter@1.0.6
+accounts-ui@1.1.6
+accounts-ui-unstyled@1.1.8
 aldeed:collection2@2.8.0
 aldeed:collection2-core@1.0.0
 aldeed:geocoder@0.3.8
@@ -63,6 +65,7 @@ ddp-rate-limiter@1.0.0
 ddp-server@1.2.2
 deps@1.0.9
 diff-sequence@1.0.1
+dotansimha:accounts-ui-angular@0.0.2
 ecmascript@0.1.6
 ecmascript-runtime@0.2.6
 ejson@1.0.7
@@ -88,6 +91,7 @@ jquery@1.11.4
 kit:basscss@7.0.4
 lai:collection-extensions@0.1.4
 launch-screen@1.0.4
+less@2.5.1
 livedata@1.0.15
 localstorage@1.0.5
 logging@1.0.8

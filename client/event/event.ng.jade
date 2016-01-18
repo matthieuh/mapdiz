@@ -79,7 +79,7 @@ header(ng-show="$root.currentUser || $root.loggingIn")
         edition='eventDetails.editing'
       )  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 
-.presence
+.presence(ng-hide='eventDetails.editing')
   .rsvps
     .rsvps-sum
       .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"yes"}).length }}
@@ -105,7 +105,7 @@ header(ng-show="$root.currentUser || $root.loggingIn")
     ) Non désolé
 
 
-  
+
 
 
 main.p2(ng-if="$root.currentUser || $root.loggingIn")

@@ -20,7 +20,13 @@ header.p2
     h1 {{ Profile.currentUser | displayName }}
     hr
     article.info Membre depuis le {{ Profile.currentUser.createdAt | date: 'dd/MM/yyyy' }}
-    article.info(ng-show='Profile.currentUser.emails[0].address') E-mail : {{ Profile.currentUser.emails[0].address }}
+    article.info#email(ng-show='Profile.currentUser.emails[0].address')
+      div
+        | E-mail : {{ Profile.currentUser.emails[0].address }}
+        =' '
+        i.fa.fa-close(ng-hide='Profile.currentUser.emails[0].verified', title='Adresse e-mail non vérifiée')
+        i.fa.fa-check(ng-show='Profile.currentUser.emails[0].verified', title='Adresse e-mail vérifiée')
+      a.verify-email(ng-hide='Profile.currentUser.emails[0].verified', ng-click='Profile.sendVerificationEmail()') Envoyer un e-mail de vérification
     article.info
 
 section {{ Profile.currentUser | json }} {{ Mapdiz.avatar | json }}

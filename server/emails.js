@@ -8,29 +8,29 @@ Meteor.startup(function() {
 
   // 1. Set up stmp
   smtp = {
-    username: 'mat38140@gmail.com',
-    password: 'Halfway38',
-    server:   'smtp.gmail.com',
+    username: 'mapdiz@sandboxc132c738a8f74767b437c93cd7c948e2.mailgun.org',
+    password: '25zuzwtd0dd8',
+    server:   'smtp.mailgun.org',
     port: 587
  };
 
   process.env.MAIL_URL = 'smtp://' + encodeURIComponent(smtp.username) + ':' + encodeURIComponent(smtp.password) + '@' + encodeURIComponent(smtp.server) + ':' + smtp.port;
-
+  console.log('process.env.MAIL_URL', process.env.MAIL_URL);
   // 2. Format the email
   //-- Set the from address
-  Accounts.emailTemplates.from = 'My_Name ';
+  Accounts.emailTemplates.from = 'postmaster@mapdiz.com ';
 
   //-- Application name
-  Accounts.emailTemplates.siteName = 'My_App';
+  Accounts.emailTemplates.siteName = 'Mapdiz';
 
   //-- Subject line of the email.
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
-    return 'Confirm Your Email Address for My_App';
+    return 'Confirmez votre adrese mail Mapdiz';
   };
 
   //-- Email text
   Accounts.emailTemplates.verifyEmail.text = function(user, url) {
-    return 'Thank you for registering.  Please click on the following link to verify your email address: \r\n' + url;
+    return 'Merci de inscription.  S\'il vous plait, veuillez cliquer sur le lien suivant pour confirmer votre adresse e-mail : \r\n' + url;
   };
 
   // 3.  Send email when account is created
