@@ -5,7 +5,10 @@ var {SetModule, Component, View, Inject} = angular2now;
 SetModule('mapdiz');
 
 @Component({
-  selector: 'login'
+  selector: 'login',
+  bind: {
+    mode: '@'
+  }
 })
 
 @View({templateUrl: 'client/login/login.html'})
@@ -13,7 +16,7 @@ SetModule('mapdiz');
 
 class Login {
   constructor($scope, $reactive, $rootScope, $state, $log, $timeout) {
-    $log.info('LoginCtrl');
+    $log.info('LoginCtrl', this.mode);
 
     var self = this;
 
@@ -36,48 +39,49 @@ class Login {
       }
     });
 
-    self.logout = logout;
-    self.loginWithPassword = loginWithPassword;
-    self.createAccount = createAccount;
-    self.changePassword = changePassword;
+
     self.showPopup = false;
-    self.displayCreateAccount = false;
+    self.displayCreateAccount = self.mode == 'register';
     self.connectedDisplay = 'classic';
-    self.togglePopup = togglePopup;
-    self.goTo = goTo;
+    self.togglePopup = _togglePopup;
+    self.goTo = _goTo;
+    self.loginWithPassword = _loginWithPassword;
     self.loginWithFacebook = _loginWithFacebook
+    self.logout = _logout;
+    self.createAccount = _createAccount;
+    self.changePassword = _changePassword;
 
     //////////////////////
 
-    function togglePopup(forceValue) {
+    function _togglePopup(forceValue) {
       self.errors = false;
       self.showPopup = forceValue || !self.showPopup;
     }
 
-    function logout() {
+    function _logout() {
       Meteor.logout();
-      togglePopup(false);
+      _togglePopup(false);
     }
 
-    function loginWithPassword(user, password) {
-      Meteor.loginWithPassword(user, password, displayError)
+    function _loginWithPassword(user, password) {
+      Meteor.loginWithPassword(user, password, _displayError)
     }
 
     function _loginWithFacebook() {
       Meteor.loginWithFacebook({
         requestPermissions: ['public_profile', 'user_friends', 'user_events', 'user_location']
-      }, displayError);
+      }, _displayError);
     }
 
-    function createAccount(newAccount) {
-      Accounts.createUser(newAccount, displayError);
+    function _createAccount(newAccount) {
+      Accounts.createUser(newAccount, _displayError);
     }
 
-    function changePassword(oldPassword, newPassword) {
-      Accounts.changePassword(oldPassword, newPassword, displayError);
+    function _changePassword(oldPassword, newPassword) {
+      Accounts.changePassword(oldPassword, newPassword, _displayError);
     }
 
-    function displayError(e) {
+    function _displayError(e) {
       if (e) {
         console.log('error', e);
         Session.set("errorMessage", "Please log in to post a comment.");
@@ -87,13 +91,13 @@ class Login {
         }
       } else {
         self.connectedDisplay = 'classic';
-        togglePopup(false);
+        _togglePopup(false);
       }
     }
 
-    function goTo(stateName) {
+    function _goTo(stateName) {
       $state.go(stateName);
-      togglePopup(false);
+      _togglePopup(false);
     }
 
   }

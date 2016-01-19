@@ -26,6 +26,7 @@
           background-color: transparent
           color: brand-primary
 
+
         .title, .icon
           color: white
 
@@ -34,6 +35,14 @@
 
           .title:hover
             text-decoration: underline
+
+
+      login[mode='register']
+        .link
+          @extends .button
+          margin: 5px 0
+          padding: 10px 15px
+          background-color: green
 
   .nav-bar .top-menu .title-icon .icon
     text-shadow: none
@@ -65,7 +74,6 @@
 
           li
             list-style: none
-
 
             span
               z-index: 2
@@ -99,6 +107,7 @@
         .container
           z-index: 3
           position: relative
+          text-align: center
 
           h1
             font-family: "Lato", sans-serif
@@ -113,27 +122,21 @@
             align-items: center
             margin-top: 50px
 
-            .grouped-form
-              display: flex
-              justify-content: center
-              align-items: center
+            .input
+              background-color: #FFF
+              border: 1px solid #DDD
 
-              .item
-                flex: 1
-                margin: 0
+              input
+                color: #3E4145
+                border: 0px none
 
-                &(:last-child)
-                  border-right: 0px none
+                &:active, &:focus
+                  background-color: #FFF
 
-              .button
-                display: block
-                border-radius: 0px
-                font-size: 15px
-                margin: 0px
-
-              .input-with-icon
-                .input-icon
-                  color: brand-primary
+            .input-with-icon
+              .input-icon
+                &:hover
+                  color: #FF565D
 
             #location
               width: 450px
