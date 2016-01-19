@@ -9,7 +9,7 @@ Meteor.startup(function() {
         );
 
         if (!found) {
-          throw new Meteor.Error(500, 'We sent you an email.');
+          throw new Meteor.Error(500, 'UNVERIFIED_EMAIL');
         }
         return found && parameters.allowed;
       } else {

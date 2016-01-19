@@ -83,10 +83,10 @@ class Login {
 
     function _displayError(e) {
       if (e) {
-        console.log('error', e);
-        Session.set("errorMessage", "Please log in to post a comment.");
+        console.log('error', e, e.error);
+        Session.set("errorMessage", "Please log in to post a comment.", _getErrorMessage(e));
         if(!$scope.$$phase) {
-          self.errors = e.reason;
+          self.errors = _getErrorMessage(e);
           $scope.$apply();
         }
       } else {
@@ -100,5 +100,20 @@ class Login {
       _togglePopup(false);
     }
 
+    function _getErrorMessage(e) {
+      self.unverifiedEmail = false;
+
+      if (e.reason) {
+        switch (e.reason) {
+          case 'UNVERIFIED_EMAIL':
+            self.unverifiedEmail = true;
+            return 'Confirmez votre adresse email';
+
+          default:
+            return e.reason
+        }
+      }
+
+    }
   }
 }

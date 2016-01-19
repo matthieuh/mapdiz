@@ -43,7 +43,8 @@
         .input.full-width
           input#password(type='password', name='password', ng-model='vm.password')
         .error-message(ng-show='vm.errors') {{ vm.errors }}
-
+        .error-link(ng-if='vm.unverifiedEmail')
+          a Renvoyer la confirmation
         .login-actions
           button.button.button-primary(type='submit') Se connecter
           button.button.button-fb(ng-click='vm.loginWithFacebook()') Connexion avec Facebook
