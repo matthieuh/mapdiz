@@ -1,6 +1,7 @@
 [root-state^='home']
 
   .nav-bar-main
+    z-index: 3
     position: absolute
     top: 0
     left: 0
@@ -44,50 +45,98 @@
       height: 900px //temp
 
       .homepage-layer
+        position: relative
         padding: 200px 0 55px 0
-        background-color: #59748F
-        background-image: url('http://www.so-events.at/SYSTEM/image_background/standard/background_02.jpg')
-        background-position: center center
-        background-size: cover
-        background-repeat: no-repeat
 
-        h1
-          font-family: "Lato", sans-serif
-          font-weight: 400
-          color: white
-          background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%;
-          box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16);
+        ul.md-slideshow
+          &::after
+            z-index: 1
+            position: absolute
+            top: 0
+            bottom: 0
+            right: 0
+            left: 0
+            content: ''
+            background-color: #59748F
+            background-image: url('assets/images/background/people-festival-party-dancing.jpg')
+            background-position: center center
+            background-size: cover
+            background-repeat: no-repeat
 
-        .homepage-search-box
-          display: flex
-          justify-content: center
-          align-items: center
-          margin-top: 50px
+          li
+            list-style: none
 
-          .grouped-form
+
+            span
+              z-index: 2
+              width: 100%
+              height: 100%
+              position: absolute
+              top: 0px
+              left: 0px
+              color: transparent
+              background-color: #59748F
+              background-position: center center
+              background-size: cover
+              background-repeat: no-repeat
+              opacity: 0
+              animation: imageAnimation 36s linear infinite 0s
+
+            &:nth-child(1) span
+              background-image: url('assets/images/background/night.jpg')
+              animation-delay: 6s
+
+            &:nth-child(2) span
+              background-image: url('assets/images/background/pexels-photo.jpg')
+              animation-delay: 12s
+
+            &:nth-child(3) span
+              background-image: url('assets/images/background/sky-people-clouds-crowd.jpg')
+              animation-delay: 18s
+
+
+
+        .container
+          z-index: 3
+          position: relative
+
+          h1
+            font-family: "Lato", sans-serif
+            font-weight: 400
+            color: white
+            background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%;
+            box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16);
+
+          .homepage-search-box
             display: flex
             justify-content: center
             align-items: center
+            margin-top: 50px
 
-            .item
-              flex: 1
-              margin: 0
+            .grouped-form
+              display: flex
+              justify-content: center
+              align-items: center
 
-              &(:last-child)
-                border-right: 0px none
+              .item
+                flex: 1
+                margin: 0
 
-            .button
-              display: block
-              border-radius: 0px
-              font-size: 15px
-              margin: 0px
+                &(:last-child)
+                  border-right: 0px none
 
-            .input-with-icon
-              .input-icon
-                color: brand-primary
+              .button
+                display: block
+                border-radius: 0px
+                font-size: 15px
+                margin: 0px
 
-          #location
-            width: 450px
+              .input-with-icon
+                .input-icon
+                  color: brand-primary
+
+            #location
+              width: 450px
 
       .container
         display: flex
@@ -130,3 +179,10 @@
               background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%
               box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16)
 
+@keyframes imageAnimation {
+  0% { opacity: 0; animation-timing-function: ease-in; }
+  8% { opacity: 1; animation-timing-function: ease-out; }
+  17% { opacity: 1 }
+  25% { opacity: 0 }
+  100% { opacity: 0 }
+}
