@@ -89,7 +89,7 @@ form.form-inline.search-form.flex-column
             i.icon.ion-ios-calendar-outline
             span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
             span(ng-if='event.beginTime')  à {{ event.beginTime | date:'H:mm' }}
-          p.description(hashtagify) {{ event.description }}
+          p.description {{ event.description }}
           //- div(ng-if="event.public")
           //-   | Everyone is invited
           div(ng-hide="$root.currentUser")

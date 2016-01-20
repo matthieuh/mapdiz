@@ -41,10 +41,10 @@
 
         .event-locations.grid-pictures
 
-          article.grid-picture(style="background-image:url('http://be.france.fr/sites/default/files/pariscphovoir.jpg')")
+          article.grid-picture(style="background-image:url('https://img0.mxstatic.com/wallpapers/bbdd39d1d45ba86ce5406727919b11ab_large.jpeg')")
             h3 Paris
 
-          article.grid-picture(style="background-image:url('http://www.justaletter.com/wp-content/uploads/2015/06/vue-lyon-eglise-saint-georges-basilique-fourviere-matin.jpg')")
+          article.grid-picture(style="background-image:url('https://www.justaletter.com/wp-content/uploads/2015/06/vue-lyon-eglise-saint-georges-basilique-fourviere-matin.jpg')")
             h3 Lyon
 
           article.grid-picture(style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Seilbahn-Grenoble.JPG/220px-Seilbahn-Grenoble.JPG')")
@@ -53,7 +53,7 @@
           article.grid-picture(style="background-image:url('https://lh6.googleusercontent.com/-osfKGwyNlrg/VZZH5UZNg2I/AAAAAAAAALU/bFjCmIq0drU/w506-h750/Bordeaux%2BM%25C3%25A9tropole.jpg')")
             h3 Bordeaux
 
-          article.grid-picture(style="background-image:url('http://be.france.fr/sites/default/files/pariscphovoir.jpg')")
+          article.grid-picture(style="background-image:url('https://img0.mxstatic.com/wallpapers/bbdd39d1d45ba86ce5406727919b11ab_large.jpeg')")
             h3 Paris
 
       section
@@ -62,8 +62,5 @@
 
         .event-categories.grid-pictures
 
-          article.grid-picture(
-            ng-repeat='category in Home.categories | orderBy:"-events"',
-            style="background-image:url('http://lorempixel.com/640/480/city/{{ $index }}')"
-          )
+          article.grid-picture(ng-repeat='category in Home.categories | orderBy:"-events"')
             h3 {{ category.symbol + category.label }} ({{ category.events.length }})
