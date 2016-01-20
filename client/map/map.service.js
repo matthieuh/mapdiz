@@ -244,6 +244,33 @@ class MapService {
       return deferred.promise;
     };
 
+    function _getCurrentLocation(successCallback, errorCallback) {
+      // Try HTML5-spec geolocation.
+      var geolocation = navigator.geolocation;
+
+      if (geolocation) {
+        try {
+
+          function handleSuccess(position) {
+            successCallback(position.coords);
+          }
+
+          navigator.geolocation.getCurrentPosition(handleSuccess, errorCallback, {
+            enableHighAccuracy: true,
+            maximumAge: 5000, // 5 sec.
+            timeout: 20000
+          });
+
+        } catch (err) {
+          alert('err', err);
+          errorCallback();
+        }
+      } else {
+        alert('Navigateur incompatible');
+        errorCallback();
+      }
+    }
+
     function _watchLocation(successCallback, errorCallback) {
       successCallback = successCallback || function(){};
       errorCallback = errorCallback || function(){};
@@ -260,12 +287,15 @@ class MapService {
 
           geolocation.watchPosition(handleSuccess, errorCallback, {
             enableHighAccuracy: true,
-            maximumAge: 5000 // 5 sec.
+            maximumAge: 5000, // 5 sec.
+            timeout: 20000
           });
         } catch (err) {
+          alert('err', err);
           errorCallback();
         }
       } else {
+        alert('Navigateur incompatible');
         errorCallback();
       }
     }
@@ -273,7 +303,7 @@ class MapService {
 
     function getUserLoc() {
       var deferred = $q.defer();
-      _watchLocation(function(coords) {
+      _getCurrentLocation(function(coords) {
         console.log('coords', coords);
         deferred.resolve({
           lat: coords.latitude,

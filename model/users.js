@@ -108,7 +108,8 @@ Meteor.users.deny({
 
 if (Meteor.isServer) {
   Meteor.methods({
-    sendVerificationEmail: function () {
+    sendVerificationEmail: function (login) {
+      //Meteor.users.findOne({ us//elogin
       Accounts.sendVerificationEmail(Meteor.userId())
     }
   });

@@ -6,7 +6,11 @@ form.form-inline.search-form.flex-column
         count='$parent.App.filteredEvents.length',
         when="{'0': 'aucun résultat', '1': '1 résultat', 'other': '{} résultats'}"
       )
-    .active-filters(ng-click='showFilters = !showFilters', ng-init='showFilters = false', ng-attr-title="{{ showFilters ? 'Masquer Filtres' : 'Afficher Filtres' }}")
+    .active-filters(
+      ng-click='showFilters = !showFilters',
+      ng-init='showFilters = false',
+      ng-attr-title="{{ showFilters ? 'Masquer Filtres' : 'Afficher Filtres' }}"
+    )
       i.icon.ion-ios-settings(ng-class="{'active': showFilters}")
   .filters(ng-show='showFilters').flex-wrap
     //- TIME FILTER
@@ -85,7 +89,7 @@ form.form-inline.search-form.flex-column
             i.icon.ion-ios-calendar-outline
             span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
             span(ng-if='event.beginTime')  à {{ event.beginTime | date:'H:mm' }}
-          p.description {{ event.description }}
+          p.description(hashtagify) {{ event.description }}
           //- div(ng-if="event.public")
           //-   | Everyone is invited
           div(ng-hide="$root.currentUser")

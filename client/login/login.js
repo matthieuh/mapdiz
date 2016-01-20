@@ -50,6 +50,7 @@ class Login {
     self.logout = _logout;
     self.createAccount = _createAccount;
     self.changePassword = _changePassword;
+    self.sendVerificationEmail = _sendVerificationEmail;
 
     //////////////////////
 
@@ -69,7 +70,7 @@ class Login {
 
     function _loginWithFacebook() {
       Meteor.loginWithFacebook({
-        requestPermissions: ['public_profile', 'user_friends', 'user_events', 'user_location']
+        requestPermissions: ['public_profile'/*, 'user_friends', 'user_events', 'user_location'*/]
       }, _displayError);
     }
 
@@ -107,13 +108,16 @@ class Login {
         switch (e.reason) {
           case 'UNVERIFIED_EMAIL':
             self.unverifiedEmail = true;
-            return 'Confirmez votre adresse email';
+            return 'Veuillez confirmer votre adresse email';
 
           default:
             return e.reason
         }
       }
+    }
 
+    function _sendVerificationEmail() {
+      Meteor.call('sendVerificationEmail');
     }
   }
 }
