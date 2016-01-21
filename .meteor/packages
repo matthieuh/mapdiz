@@ -73,6 +73,8 @@ firebait:angular-click-outside
 danialfarid:ng-file-upload
 johnar:angular-scroll
 netanelgilad:ment.io
+planettraining:angular-translate
+planettraining:angular-translate-loader-static-files
 matthieuh:angular-google-maps-native
 matthieuh:angular-img-cropper
 matthieuh:angular-google-places-autocomplete
@@ -81,18 +83,14 @@ matthieuh:angular-local-storage
 matthieuh:angular-mighty-datepicker
 matthieuh:angular-bindonce
 
-
 # DEV ONLY
 msavin:mongol
-rochal:slimscroll
-jparker:gravatar
 
 # NPM HACK
 meteorhacks:npm
 npm-container
 aldeed:schema-index
-planettraining:angular-translate
-planettraining:angular-translate-loader-static-files
 dotansimha:accounts-ui-angular
-mdg:validation-error
 force-ssl
+rochal:slimscroll
+jparker:gravatar
