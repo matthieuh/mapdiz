@@ -10,11 +10,11 @@ SetModule('mapdiz');
 
 @Component({selector: 'app', controllerAs: 'App'})
 @View({templateUrl: 'client/app/app.html'})
-@Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor', '$log', '$compile', '$filter')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$auth', '$log', '$compile', '$filter')
 
 class App {
 
-  constructor($scope, $reactive, $rootScope, $state, $meteor, $log, $compile, $filter) {
+  constructor($scope, $reactive, $rootScope, $state, $auth, $log, $compile, $filter) {
     $log.info('App');
 
     var self = this;
@@ -57,18 +57,9 @@ class App {
       $rootScope.currentState = to.name;
     });
 
-    $meteor.waitForUser().then( () => {
+    $auth.waitForUser().then( () => {
       if (!$rootScope.currentUser) return;
-      var profilePicsHandle;
-      var usersHandle;
-      $meteor.subscribe('users').then(function(handle) {
-        usersHandle = handle;
-        self.user =  Meteor.users.findOne($rootScope.currentUser._id);
-      });
-
-      $scope.$on('$destroy', function() {
-        usersHandle.stop();
-      });
+      self.user =  $auth.currentUser;
     });
 
     //////////////////////////////

@@ -13,6 +13,7 @@ angular2now.options({
 SetModule('mapdiz', [
   'ngSanitize',
   'angular-meteor',
+  'angular-meteor.auth',
   'angular-img-cropper',
   'ui.router',
   'GoogleMapsNative',
@@ -44,8 +45,6 @@ class Mapdiz {
   constructor($scope, $reactive, $rootScope, $state, $meteor) {
     var self = this;
 
-    self.toto = 'toto';
-
     $reactive(self).attach($scope);
 
     self.subscribe('avatars');
@@ -59,49 +58,42 @@ class Mapdiz {
       $rootScope.previousState = from.name;
       $rootScope.currentState = to.name;
     });
-
-
-    /*self.helpers({
-      isLoggedIn: () => {
-        return Meteor.userId() !== null;
-      },
-      currentUser: () => {
-        return Meteor.user();
-      }
-    });*/
-
-
   }
 }
 
-@Inject('gmLibraryProvider', '$windowProvider', 'localStorageServiceProvider', '$translateProvider')
+angular.module('mapdiz').config((gmLibraryProvider, $windowProvider, localStorageServiceProvider, $translateProvider) => {
+  console.log('config');
 
-class MapdizConfig {
-  constructor (gmLibraryProvider, $windowProvider, localStorageServiceProvider, $translateProvider) {
-    console.log('config');
-    $translateProvider.useSanitizeValueStrategy('sanitize');
-    $translateProvider.translations({
-      'SLOGAN':'Hey Guys, this is a headline!'
-    });
-    $translateProvider.useStaticFilesLoader(
-      {
-        prefix: 'assets/translations/locale-',
-        suffix: '.json'
-      }
-    )
-    $translateProvider.preferredLanguage('fr');
+  //$translateProvider.useSanitizeValueStrategy('sanitize');
+  $translateProvider.useStaticFilesLoader(
+    {
+      prefix: 'assets/translations/locale-',
+      suffix: '.json'
+    }
+  )
+  $translateProvider.preferredLanguage('fr');
 
-    gmLibraryProvider.configure({
-      language: 'fr',
-      libraries: ['places']
-    });
+  gmLibraryProvider.configure({
+    language: 'fr',
+    libraries: ['places']
+  });
 
-    localStorageServiceProvider
-      .setPrefix('mapdiz')
-      .setStorageType('sessionStorage');
+  localStorageServiceProvider
+    .setPrefix('mapdiz')
+    .setStorageType('sessionStorage');
+});
 
-  }
+
+//bootstrap(Mapdiz/*, MapdizConfig*/);
+
+function onReady() {
+  console.log('ready');
+  angular.bootstrap(document, ['mapdiz'], {
+    strictDi: true
+  });
 }
 
-
-bootstrap(Mapdiz/*, MapdizConfig*/);
+if (Meteor.isCordova)
+  angular.element(document).on("deviceready", onReady);
+else
+  angular.element(document).ready(onReady);

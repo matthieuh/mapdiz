@@ -84,8 +84,6 @@ class Login {
 
     function _displayError(e) {
       if (e) {
-        console.log('error', e, e.error);
-        Session.set("errorMessage", "Please log in to post a comment.", _getErrorMessage(e));
         if(!$scope.$$phase) {
           self.errors = _getErrorMessage(e);
           $scope.$apply();
@@ -109,15 +107,24 @@ class Login {
           case 'UNVERIFIED_EMAIL':
             self.unverifiedEmail = true;
             return 'Veuillez confirmer votre adresse email';
-
           default:
             return e.reason
         }
       }
     }
 
-    function _sendVerificationEmail() {
-      Meteor.call('sendVerificationEmail');
+    function _sendVerificationEmail(login) {
+      Meteor.call('sendVerificationEmail', login, (error) => {
+        delete self.errors;
+        if (error) {
+          _displayError(error);
+        } else {
+          $timeout(() => {
+            self.unverifiedEmail = false;
+            self.unverifiedEmailSend = true;
+          }, 0);
+        }
+      });
     }
   }
 }

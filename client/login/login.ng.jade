@@ -42,9 +42,10 @@
         label.label(for='password') Mot de passe
         .input.full-width
           input#password(type='password', name='password', ng-model='vm.password')
+        .info-message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
         .error-message(ng-show='vm.errors') {{ vm.errors }}
         .error-link(ng-if='vm.unverifiedEmail')
-          a(ng-click='vm.sendVerificationEmail()') Ré-envoyer le mail de confirmation
+          a(ng-click='vm.sendVerificationEmail(vm.login)') Ré-envoyer le mail de confirmation
         .login-actions
           button.button.button-primary(type='submit') Se connecter
           button.button.button-fb(ng-click='vm.loginWithFacebook()') Connexion avec Facebook
