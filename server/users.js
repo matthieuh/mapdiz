@@ -11,5 +11,5 @@ Meteor.publish("usersData", function (options, searchString) {
     username: { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
   };
 
-  return Meteor.users.find(selector, options);
+  return Meteor.users.find(selector, {fields: {emails: 1, profile: 1}});
 });

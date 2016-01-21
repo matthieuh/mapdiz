@@ -7,8 +7,8 @@ angular.module('hashtagify')
     return {
       restrict: 'A',
       scope: {
-          uClick: '&userClick',
-          tClick: '&termClick'
+        uClick: '&userClick',
+        tClick: '&termClick'
       },
       link: function(scope, element, attrs) {
 
@@ -18,28 +18,28 @@ angular.module('hashtagify')
 
         function _initWatcher() {
           unbindWatcher = scope.$watch(function() {
-            console.log('element', element[0].innerHTML);
-            return element[0].innerHTML;
-          }, _replaceContent);
+            if (element && element[0] && element[0].innerHTML) {
+              return element[0].innerHTML;
+            }
+          }, _replaceContent, true);
         }
 
 
         function _replaceContent(val) {
-          console.log('_replaceContent');
           $timeout(function() {
 
             var html = element.html();
 
             if (html === '') {
-                return false;
+              return false;
             }
 
             if (attrs.userClick) {
-                html = html.replace(/(|\s)*@(\w+)/g, '$1<a ng-click="uClick({$event: $event})" class="hashtag">@$2</a>');
+              html = html.replace(/ (@[a-z0-9][a-z0-9\-_êéàûùµ]*)/ig, ' <a ng-click="uClick({$event: $event})" class="hashtag">$1</a>');
             }
 
             if (attrs.termClick) {
-                html = html.replace(/(^|\s)*#(\w+)/g, '$1<a ng-click="tClick({$event: $event})" class="hashtag">#$2</a>');
+              html = html.replace(/ (#[a-z0-9][a-z0-9\-_êéàûùµ]*)/ig, ' <a ng-click="tClick({$event: $event})" class="hashtag">$1</a>');
             }
 
             unbindWatcher();

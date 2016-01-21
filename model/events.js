@@ -57,6 +57,7 @@ Schema.Event = new SimpleSchema({
     optional: true
   },
   "owner": {
+    label: "Organisateur",
     type: Schema.User,
     optional: true
   },
@@ -105,19 +106,21 @@ Schema.Event = new SimpleSchema({
 
       if (description.isSet) {
         var hastags = _getHashTags(description.value);
+        console.log('hastags', hastags);
         hastags.forEach(function(hastag) {
 
           var tag = Tags.findOne({
             label: {
               $regex: new RegExp(hastag, "i")
-            }
+            },
+            advisable: false
           });
 
           if (tag) {
             tags.push({label: tag.label, _id: tag._id});
           } else {
             var newTag = Tags.insert({
-              label: _convertToSlug(hastag),
+              label: hastag.toLowerCase(),
               advisable: false,
               symbol: '#'
             });
@@ -313,7 +316,10 @@ function _getHashTags(inputText) {
     var matches = [];
     var match;
 
+    console.log('inputText', inputText);
+
     while ((match = regex.exec(inputText))) {
+      console.log('match[1]', match[1])
         matches.push(match[1]);
     }
 

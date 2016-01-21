@@ -6,6 +6,12 @@ form.form-inline.search-form.flex-column
         count='$parent.App.filteredEvents.length',
         when="{'0': 'aucun résultat', '1': '1 résultat', 'other': '{} résultats'}"
       )
+    .category.select
+      //- label Catégorie :
+      select
+        option cat1
+        option cat2
+      i.fa.fa-angle-down.fa-2
     .active-filters(
       ng-click='showFilters = !showFilters',
       ng-init='showFilters = false',
@@ -89,7 +95,10 @@ form.form-inline.search-form.flex-column
             i.icon.ion-ios-calendar-outline
             span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
             span(ng-if='event.beginTime')  à {{ event.beginTime | date:'H:mm' }}
-          p.description {{ event.description }}
+          p.description(
+            term-click='EventsList.tagTermClick($event)'
+            hashtagify
+          ) {{ event.description }}
           //- div(ng-if="event.public")
           //-   | Everyone is invited
           div(ng-hide="$root.currentUser")

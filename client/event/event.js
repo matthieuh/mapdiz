@@ -118,7 +118,9 @@ class Event {
     }
 
     function _tagsCollection() {
-      return Tags.find();
+      return Tags.find({
+        advisable: false,
+      });
     }
 
     function _initMap() {

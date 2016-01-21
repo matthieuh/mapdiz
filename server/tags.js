@@ -1,6 +1,10 @@
 Meteor.publish("tags", function() {
 
-  return Tags.find();
+  let selector = {
+    advisable: false,
+  };
+
+  return Tags.find(selector);
 });
 
 Meteor.publish("categories", function (options, searchString) {

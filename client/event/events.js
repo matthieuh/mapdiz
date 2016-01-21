@@ -36,6 +36,7 @@ class EventsList {
     self.order = order;
     self.isOverflown = isOverflown;
     self.mapSvc = mapSvc;
+    self.tagTermClick = _tagTermClick;
     self.url = url;
     //self.images = $meteor.collectionFS(Images, false).subscribe('images');
     self.timeFilter = {
@@ -69,7 +70,7 @@ class EventsList {
     localStorage.bind($scope, 'EventsList.distanceFilter.options.infinite', false);
     localStorage.bind($scope, 'EventsList.distanceFilter.options.disabled', true);
 
-    
+
     setMapCenter();
 
     $scope.$on('$destroy', function() {
@@ -80,6 +81,11 @@ class EventsList {
     });
 
     ////////////////////////
+
+    function _tagTermClick(e) {
+      var tagText = e.target.innerHTML;
+      console.log('tagTermClick, tagText:', e, tagText);
+    }
 
     function url(event, store) {
       if(event && event.cover) {
