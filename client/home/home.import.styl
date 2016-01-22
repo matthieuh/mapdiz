@@ -118,28 +118,38 @@
 
           .homepage-search-box
             display: flex
+            flex-direction: column
             justify-content: center
             align-items: center
             margin-top: 50px
 
-            .input
-              background-color: #FFF
-              border: 1px solid #DDD
+            .grouped-form
+              display: flex
+              flex: wrap
+              flex: 1
+              justify-content: center
+              align-items: center
 
-              input
-                color: #3E4145
-                border: 0px none
+              .input-with-icon
+                flex: 1
+                background-color: #FFF
+                border: 1px solid #DDD
+                max-width: 450px
+                //min-width: 300px
+                margin: 0
 
-                &:active, &:focus
-                  background-color: #FFF
+                input
+                  color: #3E4145
+                  border: 0px none
 
-            .input-with-icon
-              .input-icon
-                &:hover
-                  color: #FF565D
+                  &:active, &:focus
+                    background-color: #FFF
 
-            #location
-              width: 450px
+
+                button.input-icon
+                  &:hover
+                    color: #FF565D
+
 
       .container
         display: flex
