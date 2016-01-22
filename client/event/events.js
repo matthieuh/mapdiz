@@ -27,6 +27,14 @@ class EventsList {
 
     $reactive(self).attach($scope);
 
+    self.subscribe('categories');
+    self.subscribe('tags');
+
+    self.helpers({
+      categories: _categoriesCollection,
+      tags: _tagsCollection
+    });
+
     self.creator = creator;
     self.rsvp = rsvp;
     self.getUserById = getUserById;
@@ -38,7 +46,6 @@ class EventsList {
     self.mapSvc = mapSvc;
     self.tagTermClick = _tagTermClick;
     self.url = url;
-    //self.images = $meteor.collectionFS(Images, false).subscribe('images');
     self.timeFilter = {
       options: {
         floor: 0,
@@ -81,6 +88,18 @@ class EventsList {
     });
 
     ////////////////////////
+
+    function _categoriesCollection() {
+      return Tags.find({
+        advisable: true,
+      });
+    }
+
+    function _tagsCollection() {
+      return Tags.find({
+        advisable: false,
+      });
+    }
 
     function _tagTermClick(e) {
       var tagText = e.target.innerHTML;

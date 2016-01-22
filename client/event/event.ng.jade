@@ -10,8 +10,8 @@ header(ng-show="$root.currentUser || $root.loggingIn")
     a.delete-cover(href='#', ng-show='eventDetails.cover', ng-click="eventDetails.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  .cover(ng-style="$parent.$parent.App.getImage(event.cover)", ng-show='event.cover && !eventDetails.cover')
-  img.cover(ng-src="{{eventDetails.cover}}", ng-show='eventDetails.cover')
+  //.cover(ng-style="$parent.$parent.App.getImage(eventDetails.cover)", ng-show='eventDetails.cover')
+  img.cover(ng-src="{{eventDetails.cover}}", ng-show='eventDetails.cover', width="800" height="200")
   .over-cover
     .title
       h1(ng-hide='eventDetails.editing') {{ eventDetails.newEvent.name }}
@@ -174,8 +174,6 @@ main.p2(ng-if="$root.currentUser || $root.loggingIn")
 
     article
       ul.tags
-        //-li(ng-if='!eventDetails.newEvent._id && eventDetails.newEvent.category')
-          a.tag(href='#') {{ eventDetails.newEvent.category }}
         li(ng-repeat='tag in eventDetails.newEvent.tags')
           a.tag(href='#') {{ tag.label }}
 

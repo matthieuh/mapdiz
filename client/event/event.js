@@ -82,7 +82,7 @@ class Event {
     });
 
     $scope.$watch('eventDetails.cover', () => {
-      if (typeof self.cover == 'object') {
+      if (self.cover && typeof self.cover == 'object') {
         self.cover = self.cover.url();
       }
     });
@@ -206,18 +206,15 @@ class Event {
     };
 
     function _save() {
-      console.log('save', self.newEvent, self.method);
       delete self.errorMsg;
 
       if (self.method == 'create') { // Create
         Events.insert(self.newEvent, (error, savedEventId) => {
-          console.log('Events.insert', error, savedEventId, self.cover);
-          if (error) {
+          if (error && error.message) {
             self.errorMsg = error.message;
-          }
-          else {
+          } else {
             if (self.cover) {
-              uploadPictures(savedEventId);
+              _uploadPictures(savedEventId);
             } else { // SUCCESS
               self.editing = false;
               $state.go('app.events', {eventId: savedEventId, eventSlug: convertToSlug(self.newEvent.name)});
@@ -239,15 +236,14 @@ class Event {
             category: self.newEvent.category
           }
         }, (error) => {
-          console.log('Events.update', error);
-          if (error) {
+          if (error && error.message) {
             self.errorMsg = error.message;
           } else {
             if (self.cover) {
-              uploadPictures(self.newEvent._id);
+              _uploadPictures(self.newEvent._id);
             } else { // SUCCESS
               self.editing = false;
-              $state.go('app.events', {eventId: savedEventId, eventSlug: self.newEvent.url || convertToSlug(self.newEvent.name)});
+              //$state.go('app.events', {eventId: savedEventId, eventSlug: self.newEvent.url || convertToSlug(self.newEvent.name)});
             }
           }
         });
@@ -255,13 +251,10 @@ class Event {
     };
 
     function _uploadPictures(savedEventId) {
-      console.log('uploadPictures', savedEventId);
       // Create
       Images.insert(self.cover, (error, image) => {
 
-        console.log('Images.insert', error, image);
-
-        if (error) {
+        if (error && error.message) {
           self.errorMsg = error.message;
         } else {
 
@@ -297,9 +290,11 @@ class Event {
     }
 
     function _myPresence(event, answer) {
-      return _.some(event.rsvps, function(rsvp) {
-        return rsvp.user === $rootScope.currentUser._id && rsvp.rsvp === answer;
-      });
+      if (event) {
+        return _.some(event.rsvps, function(rsvp) {
+          return rsvp.user === $rootScope.currentUser._id && rsvp.rsvp === answer;
+        });
+      }
     }
 
     /**

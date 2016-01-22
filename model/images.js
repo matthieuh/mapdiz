@@ -1,16 +1,16 @@
 Images = new FS.Collection("images", {
   stores: [
-    new FS.Store.GridFS("original"),
-    /*new FS.Store.GridFS("cropped", {
+    //new FS.Store.GridFS("original"),
+    new FS.Store.GridFS("original", {
       transformWrite: function(fileObj, readStream, writeStream) {
-        var cropInfos = fileObj.metadata.cropInfos;
+        //var cropInfos = fileObj.metadata.cropInfos;
         gm(readStream, fileObj.name())
-          .crop(cropInfos.w, cropInfos.h, cropInfos.x, cropInfos.y)
-          .resize('500', null)
+          //.crop(cropInfos.w, cropInfos.h, cropInfos.x, cropInfos.y)
+          .resize('800', null)
           .stream()
           .pipe(writeStream);
       }
-    }),*/
+    }),
     new FS.Store.GridFS("thumbnail", {
       transformWrite: function(fileObj, readStream, writeStream) {
         console.log('thumbnail gen', fileObj);
