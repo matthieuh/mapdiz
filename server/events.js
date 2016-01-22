@@ -1,7 +1,6 @@
-Meteor.publish("events", function (options, searchString) {
+Meteor.publish("events", function (options, searchString, categoryId) {
   if (searchString == null)
     searchString = '';
-
   /*Counts.publish(this, 'numberOfEvents', Events.find({
     'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
     $or:[
@@ -18,7 +17,7 @@ Meteor.publish("events", function (options, searchString) {
         {invited: {$exists: true}}
       ]}
     ]}), { noReady: true });*/
-  return Events.find({
+  let selector = {
     'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
     $or:[
       {$and:[
@@ -33,14 +32,12 @@ Meteor.publish("events", function (options, searchString) {
         {invited: this.userId},
         {invited: {$exists: true}}
       ]}
-    ]}, options);
-});
+    ]
+  };
 
-/*Meteor.publish("EventAndImages", function (eventId) {
-  check(eventId, String);
-  return [
-    Parties.find({_id: eventId}, {fields: {secretInfo: 0}}),
-    Images.find({roomId: mainPic})
-  ];
-});*/
+   if (categoryId)
+    selector.category = categoryId;
+
+  return Events.find(selector);
+});
 

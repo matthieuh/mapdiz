@@ -21,18 +21,16 @@ class App {
 
     $reactive(self).attach($scope);
 
+    self.subscribe('events', _eventsSubscription);
+    self.subscribe('images');
+
     self.helpers({
       events: _eventsCollection,
       images: _imagesCollection
     });
 
     self.getImage = _getImage;
-
-    self.subscribe('events', _eventsSubscription);
-    self.subscribe('images');
-
     google = $scope.google;
-
     $scope.$state = $state;
 
 
@@ -59,20 +57,17 @@ class App {
 
     $auth.waitForUser().then( () => {
       if (!$rootScope.currentUser) return;
-      self.user =  $auth.currentUser;
+      self.user = $auth.currentUser;
     });
 
     //////////////////////////////
 
     function _eventsCollection() {
-      console.log('eventsCollection', self.events);
       return Events.find();
     }
 
     function _eventsSubscription() {
-      console.log('eventsSubscription', self.events);
-      self.allEvents = self.filteredEvents = self.events;
-      return [];
+      return [null, null, self.getReactively('filteredCategory')];
     }
 
     function _imagesCollection() {

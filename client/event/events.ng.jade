@@ -4,7 +4,7 @@ form.form-inline.search-form.flex-column
       select(
         name='category',
         ng-options='category._id as category.label for category in EventsList.categories | orderBy:"label"',
-        ng-model='EventsList.filteredCategory'
+        ng-model='$parent.App.filteredCategory'
       )
         option(value='', ng-hide='EventsList.newEvent.category') Tous
       i.fa.fa-angle-down.fa-2
@@ -69,7 +69,7 @@ form.form-inline.search-form.flex-column
 .events-list-wrapper
   ul.events-list
     li.flex-column(
-      ng-repeat="event in $parent.App.filteredEvents = ($parent.App.allEvents | filter:query | distance:EventsList.distanceFilter:EventsList.mapSvc.myLocation.position | isVisibleEvent | time:EventsList.timeFilter)",
+      ng-repeat="event in $parent.App.filteredEvents = ($parent.App.events | filter:query | distance:EventsList.distanceFilter:EventsList.mapSvc.myLocation.position | isVisibleEvent | time:EventsList.timeFilter)",
       ng-class="{'overflown': $root.openedWindow == event._id || EventsList.isOverflown(event._id)}",
       ng-mouseover='$root.openedWindow = event._id',
       ng-mouseleave='$root.openedWindow = false',
