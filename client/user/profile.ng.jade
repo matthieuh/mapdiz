@@ -1,14 +1,6 @@
 header.p2
   .avatar-container
-    img.avatar(
-      ng-src='{{ Profile.avatar.url("avatar-large") }}',
-      ng-show="Profile.avatar")
-    img.avatar(
-      ng-src='https://graph.facebook.com/{{ Profile.currentUser.services.facebook.id }}/picture/?type=large',
-      ng-show="Profile.currentUser && !Profile.avatar && Profile.currentUser.services.facebook")
-    img.avatar(
-      src='assets/images/default-user.png',
-      ng-show="Profile.currentUser && !Profile.avatar && !Profile.currentUser.services.facebook")
+    avatar.avatar(user='Profile.currentUser', format='large', width='185', height='185')
 
     input#avatar-input(
       type="file",

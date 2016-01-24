@@ -6,6 +6,7 @@ SetModule('mapdiz');
 class uninvited {
   constructor() {
     return function (users, event) {
+      console.log('users, event', users, event);
       if (!event)
         return false;
 

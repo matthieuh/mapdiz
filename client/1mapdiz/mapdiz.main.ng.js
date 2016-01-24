@@ -45,6 +45,8 @@ class Mapdiz {
   constructor($scope, $reactive, $rootScope, $state, $meteor) {
     var self = this;
 
+    //let test = new Vivus('logo', {duration: 200});
+
     $reactive(self).attach($scope);
 
     self.subscribe('avatars');

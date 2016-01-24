@@ -1,23 +1,30 @@
-md-dialog.add-picture-modal
+md-dialog.invitaton-modal
   form
     md-toolbar
       .md-toolbar-tools
         h2 Invitations
     md-dialog-content.p2
-      .input.input-with-icon(style='width: 100%')
-        input(ng-model='InvitationModal.searchText')
-        i.input-icon.fa.fa-search.fa-2
 
-      md-list
-        //- | uninvited:Invitation.ngModel
-        md-list-item(ng-repeat='user in InvitationModal.users')
-          div {{ user | displayName }}
-          md-button(ng-click='InvitationModal.invite(user)') Inviter
+      .user-search
+        .input.input-with-icon(style='width: 100%')
+          input(
+            ng-model='InvitationModal.searchText',
+            placeholder='Chercher un utilisateur'
+          )
+          i.input-icon.fa.fa-search.fa-2
 
-        //-{{ Invitation.ngModel | json }}
-        //-a(ng-click='InvitationModal.getFBFriends()') get FB friends
-        //-pre {{ Invitation.friends | json}}
+        md-list
+          //- | uninvited:Invitation.ngModel
+          md-list-item.secondary-button-padding.md-with-secondary.md-clickable(
+            ng-repeat='user in InvitationModal.users | filter:InvitationModal.searchText')
+            p {{ user | displayName }}
+            button.button.button-small(ng-click='InvitationModal.invite(user)', ng-show='!InvitationModal.isInvited(user._id)') Inviter
+            button.button.button-small.button-disabled(ng-show='InvitationModal.isInvited(user._id)') Invité
+          md-divider
 
+          //-{{ Invitation.ngModel | json }}
+          //-a(ng-click='InvitationModal.getFBFriends()') get FB friends
+          //-pre {{ Invitation.friends | json}}
 
     .md-actions(layout='row')
       span(flex='')

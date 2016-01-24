@@ -7,14 +7,16 @@ angular.module('mapdiz');
 @Component({
   selector: 'avatar',
   bind: {
-    user: '='
+    user: '=',
+    format: '@',
+    width: '@',
+    height: '@'
   },
   controllerAs: 'Avatar'
 })
 
 @View({
-  templateUrl: 'client/avatar/avatar.html',
-  transclude: true
+  templateUrl: 'client/avatar/avatar.html'
 })
 
 @Inject('$scope', '$rootScope', '$state', '$log')
@@ -24,6 +26,8 @@ class DateRange {
     $log.info('Avatar');
 
     var self = this;
+    
+    self.getAvatarUrl = _getAvatarUrl;
 
     $scope.$watch('Avatar.user.avatar', function(newValue, oldValue) {
       console.log('$watch Avatar.user.avatar', newValue, typeof self.user);
@@ -56,5 +60,14 @@ class DateRange {
         delete self.avatar;
       }
     });
+
+    //////////////////
+
+    function _getAvatarUrl() {
+      if (self.avatar && self.avatar.url) {
+        let format = self.format || 'small';
+        return self.avatar.url(`avatar-${ format }`);
+      }
+    }
   }
 }

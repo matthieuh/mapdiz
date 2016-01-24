@@ -63,4 +63,4 @@
         .event-categories.grid-pictures
 
           article.grid-picture(ng-repeat='category in Home.categories | orderBy:"-events"')
-            h3 {{ category.symbol + category.label }} ({{ category.events.length }})
+            h3 {{ category.symbol + category.label }} ({{ category.events.length || 0 }})

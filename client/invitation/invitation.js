@@ -25,6 +25,8 @@ class Invitation {
 
     var self = this;
 
+    console.log('ngModel', self.ngModel)
+
     let reactiveContext = $reactive(self).attach($scope);
 
     reactiveContext.helpers({
@@ -58,12 +60,12 @@ class Invitation {
 
       $mdDialog.show({
         parent: parentEl,
-        controller: ['$scope', '$rootScope', '$reactive', '$state', '$mdDialog', 'newOrder', _invitationModalCtrl],
+        controller: ['$scope', '$rootScope', '$reactive', '$state', '$mdDialog', 'ngModel', _invitationModalCtrl],
         controllerAs: 'InvitationModal',
         templateUrl: 'client/invitation/invitation-modal.html',
         bindToController: true,
         locals: {
-          newOrder: 0
+          ngModel: self.ngModel
         }
       }).then(function(image) {
         if (image) {
@@ -73,7 +75,7 @@ class Invitation {
       });
     }
 
-    function _invitationModalCtrl($scope, $rootScope, $reactive, $state, $mdDialog, newOrder) {
+    function _invitationModalCtrl($scope, $rootScope, $reactive, $state, $mdDialog, ngModel) {
 
       var mdSelf = this;
 
@@ -88,11 +90,14 @@ class Invitation {
       mdSelf.sort = {
         name: 1
       };
+      mdSelf.ngModel = ngModel;
       mdSelf.orderProperty = '1';
       mdSelf.searchText = '';
       mdSelf.close = _close;
       mdSelf.invite = _invite;
       mdSelf.invites = _invites;
+      mdSelf.findUserById = _findUserById;
+      mdSelf.isInvited = _isInvited;
       mdSelf.subscribe('usersData', _usersSubscription);
 
       if (Meteor.user() && Meteor.user().services && Meteor.user().services.facebook) {
@@ -149,6 +154,13 @@ class Invitation {
         }
       }
 
+      function _findUserById(userId) {
+        return _.find(mdSelf.users, {_id: userId});
+      }
+
+      function _isInvited(userId) {
+        return _.contains(self.ngModel.invited, userId);
+      }
 
     }
   }
