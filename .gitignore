@@ -2,3 +2,4 @@
 packages/angular2-now
 packages/angular-meteor
 prod_settings.json
+deployment_token.json
