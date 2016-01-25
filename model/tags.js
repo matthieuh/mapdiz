@@ -9,10 +9,31 @@ Schema.Tag = new SimpleSchema({
     type: String,
     label: "Label"
   },
+  "slug": {
+    type: String,
+    label: "Slug",
+    optional: true
+  },
   "advisable": {
     type: Boolean,
     label: "Conseillé",
     optional: true
+  },
+  "image": {
+    type: Object,
+    optional: true,
+  },
+  "image.url": {
+    type: String,
+    optional: true,
+  },
+  "image.file": {
+    type: String,
+    optional: true,
+  },
+  "image.path": {
+    type: String,
+    optional: true,
   },
   "events": {
     label: "Evenements",

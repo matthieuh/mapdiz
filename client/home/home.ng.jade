@@ -58,9 +58,13 @@
 
       section
 
-        h2 Tags
+        h2 Catégories
 
         .event-categories.grid-pictures
 
-          article.grid-picture(ng-repeat='category in Home.categories | orderBy:"-events"')
+          article.grid-picture(
+            ng-repeat='category in Home.categories | orderBy:"-events"',
+            style="background-image:url({{ category.image.url || category.image.path }})",
+            ui-sref='app.events({category: category.slug})'
+          )
             h3 {{ category.symbol + category.label }} ({{ category.events.length || 0 }})

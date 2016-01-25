@@ -4,7 +4,7 @@ angular.module('mapdiz');
 
 @State({
   name: 'app.events',
-  url: '/events?latlng',
+  url: '/events?category&latlng',
   defaultRoute: true,
   html5Mode: true
 })
@@ -77,8 +77,8 @@ class EventsList {
     localStorage.bind($scope, 'EventsList.distanceFilter.options.infinite', false);
     localStorage.bind($scope, 'EventsList.distanceFilter.options.disabled', true);
 
+    _init();
 
-    setMapCenter();
 
     $scope.$on('$destroy', function() {
       if(angular.isDefined(subscriptionHandle)){
@@ -88,6 +88,19 @@ class EventsList {
     });
 
     ////////////////////////
+
+    function _init() {
+      _getFilteredCategory();
+      setMapCenter();
+    }
+
+    function _getFilteredCategory() {
+      self.autorun(() => {
+        let filteredCategory = _.find(self.getReactively('categories'), { slug: $stateParams.category });
+        if (filteredCategory)
+          $scope.$parent.App.filteredCategory = filteredCategory._id;
+      });
+    }
 
     function _categoriesCollection() {
       return Tags.find({
