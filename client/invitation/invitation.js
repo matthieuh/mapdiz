@@ -159,7 +159,7 @@ class Invitation {
       }
 
       function _isInvited(userId) {
-        return _.contains(self.ngModel.invited, userId);
+        return _.contains(self.ngModel.invited, userId) || userId == Meteor.userId();
       }
 
     }
