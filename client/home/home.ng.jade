@@ -39,22 +39,15 @@
 
         h2 Villes
 
-        .event-locations.grid-pictures
+        .event-cities.grid-pictures
 
-          article.grid-picture(style="background-image:url('https://img0.mxstatic.com/wallpapers/bbdd39d1d45ba86ce5406727919b11ab_large.jpeg')")
-            h3 Paris
+          article.grid-picture(
+            ng-repeat='city in Home.cities | orderBy:"-events"',
+            style="background-image:url({{ city.image.url || city.image.path }})",
+            ui-sref="app.events({ latlng: city.center.lat +','+ city.center.lng })"
+          )
+            h3 {{ city.label }}
 
-          article.grid-picture(style="background-image:url('https://www.justaletter.com/wp-content/uploads/2015/06/vue-lyon-eglise-saint-georges-basilique-fourviere-matin.jpg')")
-            h3 Lyon
-
-          article.grid-picture(style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Seilbahn-Grenoble.JPG/220px-Seilbahn-Grenoble.JPG')")
-            h3 Grenoble
-
-          article.grid-picture(style="background-image:url('https://lh6.googleusercontent.com/-osfKGwyNlrg/VZZH5UZNg2I/AAAAAAAAALU/bFjCmIq0drU/w506-h750/Bordeaux%2BM%25C3%25A9tropole.jpg')")
-            h3 Bordeaux
-
-          article.grid-picture(style="background-image:url('https://img0.mxstatic.com/wallpapers/bbdd39d1d45ba86ce5406727919b11ab_large.jpeg')")
-            h3 Paris
 
       section
 

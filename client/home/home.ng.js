@@ -34,8 +34,11 @@ class Home {
     self.search = _search;
 
     self.subscribe('categories');
+    self.subscribe('highlighted-cities');
+
     self.helpers({
-      categories: _categoriesCollection
+      categories: _categoriesCollection,
+      cities: _citiesCollection
     });
 
     $scope.$watchCollection('Home.myLocation', _updateMyLocation);
@@ -48,6 +51,12 @@ class Home {
     });
 
     ////////////////////
+
+    function _citiesCollection() {
+      return Cities.find({
+        highlighted: true,
+      });
+    }
 
     function _categoriesCollection() {
       return Tags.find({

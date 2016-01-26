@@ -1,3 +1,5 @@
+Schema = {}
+
 Avatars = new FS.Collection("avatars", {
   stores: [
     new FS.Store.GridFS("avatar-original"),
