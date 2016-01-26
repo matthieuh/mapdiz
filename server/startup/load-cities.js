@@ -6,7 +6,7 @@ Meteor.startup(function () {
       slug: "lyon",
       highlighted: true,
       image: {
-        path: "assets/images/category/alcohol-bar-party-cocktail-large.jpg"
+        path: "assets/images/city/lyon.jpg"
       },
       center: {
         lat: 45.764043,
@@ -18,7 +18,7 @@ Meteor.startup(function () {
       slug: "grenoble",
       highlighted: true,
       image: {
-        path: "assets/images/category/christmas-xmas-gifts-presents.jpg"
+        path: "assets/images/city/grenoble.jpg"
       },
       center: {
         lat: 45.188529,
