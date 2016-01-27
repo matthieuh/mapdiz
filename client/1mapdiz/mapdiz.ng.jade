@@ -18,14 +18,33 @@
   .app(ui-view='')
 
 footer(ng-if='$state.current.name.indexOf("app") < 0')
+
   .container
     .footer-column
-      h3 Découvrir
+      h3 Société
       ul
-        li gregregreg
-        li gregregreg
-        li gregregreg
-        li gregregreg
-    .footer-column regrreg
-    .footer-column gregregr
+        li À propos
+        li Blog
+        li Presse
+        li Partenariat
 
+    .footer-column
+      h3 Aide
+      ul
+        li Aide organisateurs
+        li Aide participants
+        li Contact
+
+    .footer-column
+      h3 Nous suivre
+      ul
+        li Facebook
+        li Twitter
+        li Google +
+
+  .footer-bottom
+    .container
+      ul
+        li Mapdiz 2016
+        li CGU
+        li Utilisation des cookies
