@@ -35,6 +35,7 @@ class EventsList {
       tags: _tagsCollection
     });
 
+    self.mapSvc = mapSvc;
     self.creator = creator;
     self.rsvp = rsvp;
     self.getUserById = getUserById;
@@ -42,10 +43,11 @@ class EventsList {
     self.remove = remove;
     self.myPresence = myPresence;
     self.order = order;
-    self.isOverflown = isOverflown;
     self.mapSvc = mapSvc;
     self.tagTermClick = _tagTermClick;
     self.url = url;
+    self.mouseenterEvent = _mouseenterEvent;
+    self.mouseleaveEvent = _mouseleaveEvent;
     self.timeFilter = {
       options: {
         floor: 0,
@@ -94,6 +96,16 @@ class EventsList {
       setMapCenter();
     }
 
+    function _mouseenterEvent(eventId) {
+      $timeout(function(){
+        mapSvc.openedWindow = eventId;
+      }, 0);
+    }
+
+    function _mouseleaveEvent() {
+      mapSvc.openedWindow = false;
+    }
+
     function _getFilteredCategory() {
       self.autorun(() => {
         let filteredCategory = _.find(self.getReactively('categories'), { slug: $stateParams.category });
@@ -125,10 +137,6 @@ class EventsList {
         if (!image || !image.url) return null
         return image.url({store: store});
       }
-    };
-
-    function isOverflown(eventId) {
-      return (mapSvc.getOverflownMarkerId() === eventId);
     };
 
     function order(predicate, reverse) {

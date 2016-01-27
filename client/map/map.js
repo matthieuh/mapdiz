@@ -47,7 +47,7 @@ class Map {
     }
 
     function markerMouseOver(eventId) {
-      $rootScope.openedWindow = eventId;
+      mapSvc.openedWindow = eventId;
       var containers = document.getElementsByClassName('events-list');
       if (containers) var container = angular.element(containers[0]);
       var someElement = angular.element(document.getElementById('event-' + eventId));
@@ -58,7 +58,7 @@ class Map {
     };
 
     function markerMouseOut() {
-      $rootScope.openedWindow = false;
+      mapSvc.openedWindow = false;
     };
 
     self.getFilteredEventContent = _setFilteredEventContent;

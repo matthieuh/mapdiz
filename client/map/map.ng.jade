@@ -43,7 +43,7 @@
           options="{content: Map.getFilteredEventContent()}",
           on-domready='Map.mapSvc.draggableMarker.onDomready(map)')
         gm-infowindow(
-          ng-show='$root.openedWindow == filteredEvent._id || $root.clickedWindow == filteredEvent._id',
+          ng-show='Map.mapSvc.openedWindow == filteredEvent._id || Map.mapSvc.clickedWindow == filteredEvent._id',
           options="{content: '\
           <div class=\"info-window\">\
             <div class=\"iw-container\">\

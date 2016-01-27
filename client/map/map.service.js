@@ -13,10 +13,10 @@ class MapService {
   	var _events = [];
     var _visibleEvents = [];
     var _currentBounds = {};
-    var _overflownMarkerId;
     var _newPosition = {};
 
     var service = {
+      openedWindow: false,
       markerOpen: {},
       mapObj: {},
       map: {
@@ -52,7 +52,6 @@ class MapService {
       getMap: getMap,
       markerClick: markerClick,
       windowCloseClick: windowCloseClick,
-      getOverflownMarkerId: getOverflownMarkerId,
       openWindow: openWindow,
       closeWindow: closeWindow,
       setMapCenter: setMapCenter,
@@ -149,10 +148,6 @@ class MapService {
 
     function windowCloseClick(id) {
       // model.show = false;
-    };
-
-    function getOverflownMarkerId() {
-      return _overflownMarkerId;
     };
 
     function openWindow(eventId){
