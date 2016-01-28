@@ -51,8 +51,6 @@ mquandalle:stylus
 waitingkuo:normalize
 kit:basscss
 fortawesome:fontawesome
-semantic:ui
-flemay:less-autoprefixer
 
 # ACCOUNTS
 accounts-password
