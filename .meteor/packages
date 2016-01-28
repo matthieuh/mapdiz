@@ -51,6 +51,8 @@ mquandalle:stylus
 waitingkuo:normalize
 kit:basscss
 fortawesome:fontawesome
+semantic:ui
+flemay:less-autoprefixer
 
 # ACCOUNTS
 accounts-password
@@ -98,4 +100,3 @@ modweb:vivus
 ongoworks:security
 alanning:roles
 percolate:migrations
-semantic:ui
