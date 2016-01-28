@@ -26,11 +26,10 @@ class DateRange {
     $log.info('Avatar');
 
     var self = this;
-    
+
     self.getAvatarUrl = _getAvatarUrl;
 
-    $scope.$watch('Avatar.user.avatar', function(newValue, oldValue) {
-      console.log('$watch Avatar.user.avatar', newValue, typeof self.user);
+    $scope.$watch('Avatar.user.profile.avatar', function(newValue, oldValue) {
       if (self.user && typeof self.user === 'object') {
         self.localUser = self.user;
       } else {
@@ -39,21 +38,18 @@ class DateRange {
     });
 
     $scope.$watch('Avatar.user', function(newValue, oldValue) {
-      console.log('$watch Avatar.user', newValue, typeof self.user);
       if (self.user && typeof self.user !== 'object' &&  typeof self.user !== 'string') {
         delete self.avatar;
       }
 
       if ( self.user && typeof self.user === 'string' ) {
         self.localUser = Meteor.users.findOne(self.user);
-        //self.localUser
-        console.log('self.localUser', self.localUser);
       } else {
         delete self.avatar;
       }
     });
 
-    $scope.$watch('Avatar.localUser.avatar', function(newValue, oldValue) {
+    $scope.$watch('Avatar.localUser.profile.avatar', function(newValue, oldValue) {
       if (newValue) {
         self.avatar = Avatars.findOne(newValue);
       } else {

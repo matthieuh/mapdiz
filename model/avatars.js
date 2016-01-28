@@ -55,5 +55,5 @@ if (Meteor.isServer) {
 
 Avatars.files.after.insert(function(userId, doc) {
   console.log('after.insert', doc);
-  Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'avatar': doc._id }} );
+  Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.avatar': doc._id }} );
 });

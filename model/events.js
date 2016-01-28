@@ -168,10 +168,6 @@ Schema.Event = new SimpleSchema({
 Events.attachSchema(Schema.Event);
 
 Events.allow({
-  insert: function (userId, event) {
-    console.log('insert event', userId, event);
-    return userId && event.owner === userId;
-  },
   update: function (userId, event, fields, modifier) {
     if (userId !== event.owner)
       return false;

@@ -36,7 +36,7 @@ class Profile {
 
     self.autorun(() => {
       if (Meteor.user() && Meteor.user().avatar) {
-        $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar')));
+        $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.profile.avatar')));
         console.log('currentUser', self.currentUser);
       } else {
         delete self.avatar;
