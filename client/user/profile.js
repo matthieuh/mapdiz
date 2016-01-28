@@ -95,7 +95,7 @@ class Profile {
       if (self.currentUser && self.currentUser.avatar) {
         Avatars.remove(self.currentUser.avatar);
         console.log('Meteor.user()._id', Meteor.user()._id);
-        Meteor.users.update({_id: Meteor.user()._id}, {$set: { 'avatar': '' }});
+        Meteor.users.update({_id: Meteor.user()._id}, {$set: { 'profile.avatar': '' }});
       }
     }
   }
