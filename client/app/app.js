@@ -23,10 +23,12 @@ class App {
 
     self.subscribe('events', _eventsSubscription);
     self.subscribe('images');
+    self.subscribe('categories');
 
     self.helpers({
       events: _eventsCollection,
-      images: _imagesCollection
+      images: _imagesCollection,
+      categories: _categoriesCollection
     });
 
     self.getImage = _getImage;
@@ -72,6 +74,12 @@ class App {
 
     function _imagesCollection() {
       return Images.find({});
+    }
+
+    function _categoriesCollection() {
+      return Tags.find({
+        advisable: true,
+      });
     }
 
     function _getImage(image, onlyUrl) {

@@ -25,6 +25,8 @@ class Map {
     self.markerMouseOver = markerMouseOver;
     self.markerMouseOut = markerMouseOut;
     self.getImage = getImage;
+    self.App = $scope.$parent.App;
+    console.log('self.App', self.App);
 
     $scope.$on('marker.openWindow', function(event, eventId) {
       var event = _.find(self.filteredEvents, {_id: eventId});

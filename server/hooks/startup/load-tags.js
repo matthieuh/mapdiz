@@ -2,12 +2,15 @@ Meteor.startup(function () {
   //if (Tags.find().count() === 0) {
     var tags = [
       {
-        label: "Fête",
-        slug: "party",
+        label: "Vie Nocturne",
+        slug: "nightlife",
         advisable: true,
         symbol: '#',
         image: {
           path: "assets/images/category/alcohol-bar-party-cocktail-large.jpg"
+        },
+        marker: {
+          path: "assets/images/markers/nightlife_reverse.png"
         }
       },
       {
@@ -17,6 +20,9 @@ Meteor.startup(function () {
         symbol: '#',
         image: {
           path: "assets/images/category/christmas-xmas-gifts-presents.jpg"
+        },
+        marker: {
+          path: "assets/images/markers/birthday_reverse.png"
         }
       },
       {
@@ -26,6 +32,33 @@ Meteor.startup(function () {
         symbol: '#',
         image: {
           path: "assets/images/category/jetty-landing-stage-sea-holiday.jpg"
+        },
+        marker: {
+          path: "assets/images/markers/trip_reverse.png"
+        }
+      },
+      {
+        label: "Sport",
+        slug: "sport",
+        advisable: true,
+        symbol: '#',
+        image: {
+          path: "assets/images/category/people-men-grass-sport-large.jpg"
+        },
+        marker: {
+          path: "assets/images/markers/sport_reverse.png"
+        }
+      },
+      {
+        label: "Art",
+        slug: "art",
+        advisable: true,
+        symbol: '#',
+        image: {
+          path: "assets/images/category/city-love-rainbow-nyc-large.jpg"
+        },
+        marker: {
+          path: "assets/images/markers/art_reverse.png"
         }
       }
     ];
@@ -38,7 +71,8 @@ Meteor.startup(function () {
       {
         $set: {
           slug: tags[i].slug,
-          image: tags[i].image
+          image: tags[i].image,
+          marker: tags[i].marker
         }
       });
     }

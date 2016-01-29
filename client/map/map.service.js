@@ -39,9 +39,7 @@ class MapService {
         content: "Déplace-moi sur le lieu de l'évenement",
         onDomready: onMarkerDomready
       },
-      filteredEventOptions: {
-        icon: getEventIcon('birthay')
-      },
+      getEventIcon: _getEventIcon,
       events: [],
       visibleEvents: [],
       filteredEvents: [],
@@ -365,20 +363,21 @@ class MapService {
       }
     }
 
-    function getEventIcon(categoryId) {
-      let iconBase = 'assets/images/markers/';
+    function _getEventIcon(categories, categoryId) {
 
-      let icons = {
-        birthday: 'parking_lot_maps.png',
-        party: 'library_maps.png',
-        meeting: 'info-i_maps.png'
-      };
+      let defaultMarker = 'assets/images/markers/default.png';
+      let category =  _.find(categories, {_id: categoryId});
+      let categoryMarker;
+
+      if (category && category.marker && category.marker.path) {
+        categoryMarker = category.marker.path;
+      }
 
       let protocol = $location.protocol();
       let host = $location.host();
       let port = $location.port();
-      let url = `${ protocol }:\/\/${ host }:${ port }/${ iconBase }${ icons[categoryId] || 'default.png' } `;
-      console.log('url', url);
+      let url = `${ protocol }:\/\/${ host }:${ port }/${ categoryMarker || defaultMarker }`;
+
       return url;
     }
 

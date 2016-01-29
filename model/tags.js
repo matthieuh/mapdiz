@@ -17,6 +17,7 @@ Schema.Tag = new SimpleSchema({
   "advisable": {
     type: Boolean,
     label: "Conseillé",
+    defaultValue: false,
     optional: true
   },
   "image": {
@@ -32,6 +33,22 @@ Schema.Tag = new SimpleSchema({
     optional: true,
   },
   "image.path": {
+    type: String,
+    optional: true,
+  },
+  "marker": {
+    type: Object,
+    optional: true,
+  },
+  "marker.url": {
+    type: String,
+    optional: true,
+  },
+  "marker.file": {
+    type: String,
+    optional: true,
+  },
+  "marker.path": {
     type: String,
     optional: true,
   },

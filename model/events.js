@@ -82,8 +82,7 @@ Schema.Event = new SimpleSchema({
   },
   "category": {
     label: "Tags",
-    type: String,
-    optional: true
+    type: String
   },
   "tags": {
     label: "Tags",
@@ -286,7 +285,7 @@ var contactEmail = function(user) {
   return null;
 };
 
-Events.before.insert(function(userId, doc) {
+Events.before.upsert(function(userId, doc) {
   doc.owner = userId;
   if (doc.name) {
     doc.url = _convertToSlug(doc.name);
@@ -297,13 +296,15 @@ Events.before.insert(function(userId, doc) {
 });
 
 
-Events.before.update(function(userId, doc, fieldNames, modifier, options) {
+Events.after.update(function(userId, doc, fieldNames, modifier, options) {
   console.log(fieldNames);
   modifier.$set = modifier.$set || {};
   modifier.$set.updated = Date.now();
 
-  if (doc.tags) {
-    doc.tags.forEach(function(tag) {
+  if (fieldNames.indexOf('tags') > -1 || fieldNames.indexOf('category')) {
+    var allTag = _.union(doc.tags, doc.category);
+
+    allTag.forEach(function(tag) {
       Tags.update({_id: tag._id}, {
         $addToSet: {
           events: {name: doc.name, _id: doc._id}
