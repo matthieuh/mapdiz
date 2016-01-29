@@ -7,7 +7,9 @@ Security.defineMethod('ifIsSameUser', {
 });
 
 // users can create new updates
-Events.permit(['insert']).ifLoggedIn().ifIsSameUser().apply();
+Events.permit(['insert']).ifLoggedIn().apply();
+//Events.permit(['update']).ifLoggedIn().ifIsSameUser().apply();
 
 // logged in users can only edit THEIR profile
 Users.permit(['update']).ifLoggedIn().ifIsSameUser().onlyProps(['profile']).apply();
+

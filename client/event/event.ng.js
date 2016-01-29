@@ -207,9 +207,10 @@ class Event {
 
     function _save() {
       delete self.errorMsg;
-
+      console.log('_save');
       if (self.method == 'create') { // Create
         Events.insert(self.newEvent, (error, savedEventId) => {
+          console.log('error', error, error.message, savedEventId);
           if (error && error.message) {
             self.errorMsg = error.message;
           } else {

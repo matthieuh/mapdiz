@@ -252,7 +252,8 @@ Meteor.methods({
         // update the appropriate rsvp entry with $
         Events.update(
           {_id: eventId, "rsvps.user": this.userId},
-          {$set: {"rsvps.$.rsvp": rsvp}});
+          {$set: {"rsvps.$.rsvp": rsvp}}
+        );
 
       } else {
         // minimongo doesn't yet support $ in modifier. as a temporary
@@ -285,7 +286,7 @@ var contactEmail = function(user) {
   return null;
 };
 
-Events.before.upsert(function(userId, doc) {
+Events.before.insert(function(userId, doc) {
   doc.owner = userId;
   if (doc.name) {
     doc.url = _convertToSlug(doc.name);
@@ -300,6 +301,10 @@ Events.after.update(function(userId, doc, fieldNames, modifier, options) {
   console.log(fieldNames);
   modifier.$set = modifier.$set || {};
   modifier.$set.updated = Date.now();
+
+  if (fieldNames.indexOf('name') > -1) {
+    modifier.$set.name = capitalizeFirstLetter(doc.name);
+  }
 
   if (fieldNames.indexOf('tags') > -1 || fieldNames.indexOf('category')) {
     var allTag = _.union(doc.tags, doc.category);
