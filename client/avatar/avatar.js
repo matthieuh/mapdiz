@@ -42,7 +42,7 @@ class Avatar {
     //self.subscribe('userAvatar', _avatarSubscription)
     self.getAvatarUrl = _getAvatarUrl;
 
-    $scope.$watch('Avatar.user.profile.avatar', _userAvatarChange);
+    //$scope.$watch('Avatar.user.profile.avatar', _userAvatarChange);
     $scope.$watch('Avatar.userid', _userIdChange);
 
     //////////////////
