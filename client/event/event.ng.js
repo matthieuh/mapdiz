@@ -203,7 +203,7 @@ class Event {
       } else {
         self.newEvent.endTime = undefined;
       }
-    };
+    }
 
     function _save() {
       delete self.errorMsg;
@@ -249,7 +249,7 @@ class Event {
           }
         });
       }
-    };
+    }
 
     function _uploadPictures(savedEventId) {
       // Create

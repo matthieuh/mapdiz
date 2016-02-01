@@ -23,9 +23,9 @@ Avatars = new FS.Collection("avatars", {
 
 if (Meteor.isServer) {
   Meteor.methods({
-    setSmall: function(_id, size) {
+    setSmallAvatar: function(_id, size) {
       var avatar = Avatars.findOne(_id);
-      var readStream = image.createReadStream('original');
+      var readStream = avatar.createReadStream('original');
       var writeStream = avatar.createWriteStream('avatar-small');
 
       // The following line should be avoided
@@ -34,6 +34,21 @@ if (Meteor.isServer) {
       });
 
       gm(readStream).crop(size.width, size.height, size.x, size.y).stream().pipe(writeStream);
+    },
+    getSmallAvatar: function(_id) {
+      var avatar = Avatars.findOne(_id);
+      console.log('getSmallAvatar back', avatar);
+      //return avatar;
+      var readStream = avatar.createReadStream('avatar-original');
+      var writeStream = avatar.createWriteStream('avatar-small');
+      return avatar;
+      // The following line should be avoided
+      writeStream.safeOn('stored', function() {
+        avatar.updatedAt(new Date(), {store: 'avatar-small'});
+      });
+
+      gm(readStream).resize('50', null, true).stream().pipe(writeStream);
+      //return avatar;
     }
   });
 

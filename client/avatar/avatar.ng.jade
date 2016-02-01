@@ -1,16 +1,5 @@
-//- p avatar : {{ Avatar.user._id }} /
 img.profile-picture-mini(
 	ng-src='{{ Avatar.getAvatarUrl() }}',
-	ng-if='Avatar.localUser && Avatar.avatar',
-  width='{{ Avatar.width || "auto" }}',
-  height='{{ Avatar.height || "auto" }}'
-)
-img.profile-picture-mini(
-  ng-src='https://graph.facebook.com/{{ Avatar.localUser.services.facebook.id }}/picture/?type={{ Avatar.format || "small" }}',
-  ng-if='Avatar.localUser && Avatar.localUser.services.facebook && !Avatar.avatar')
-img.profile-picture-mini(
-  src='assets/images/default-user.png',
-  ng-if="Avatar.localUser && !Avatar.avatar && !Avatar.localUser.services.facebook || !Avatar.localUser",
   width='{{ Avatar.width || "auto" }}',
   height='{{ Avatar.height || "auto" }}'
 )
