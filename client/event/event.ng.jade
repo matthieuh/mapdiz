@@ -1,7 +1,6 @@
-.alert.alert-info(ng-hide="($root.currentUser && $root.loggingIn) || eventDetails.method == 'update'")
-  | Connectez-vous pour créer un évenement {{ eventDetails.method }} - {{ $root.currentUser}} - {{ $root.loggingIn }}
+.alert.alert-info(ng-if="!$root.currentUser && eventDetails.method == 'create'") Connectez-vous pour créer un évenement
 
-header(ng-show="($root.currentUser && $root.loggingIn) || eventDetails.method == 'update'")
+header(ng-if="$root.currentUser || eventDetails.method == 'update'")
   .cover-manager(ng-if='eventDetails.editing')
     add-picture.edit-cover(picture='eventDetails.cover')
       i.icon.ion-image
@@ -79,7 +78,7 @@ header(ng-show="($root.currentUser && $root.loggingIn) || eventDetails.method ==
         edition='eventDetails.editing'
       )  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 
-.presence
+.presence(ng-if="eventDetails.method == 'update'")
   .rsvps(ng-show='eventDetails.newEvent.rsvps.length > 0')
     .rsvps-sum
       .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"yes"}).length }}
@@ -91,7 +90,7 @@ header(ng-show="($root.currentUser && $root.loggingIn) || eventDetails.method ==
       .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"no"}).length }}
       .rsvps-title ont déclinés
 
-  .presence-btns.button-group(ng-if='$root.currentUser || $root.loggingIn')
+  .presence-btns.button-group(ng-if="$root.currentUser || $root.loggingIn")
     button.button(type='button', ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'yes')", ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'yes')}") Je viens !
     button.button(
       type='button',
