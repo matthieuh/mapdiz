@@ -47,6 +47,7 @@ class Profile {
     self.openAvatarInput = _openAvatarInput;
     self.deleteAvatar = _deleteAvatar;
     self.sendVerificationEmail = _sendVerificationEmail;
+    self.getAvatarUrl = _getAvatarUrl;
     avatarInput.bind("change", _uploadAvatar);
 
     ///////////////////
@@ -91,10 +92,26 @@ class Profile {
 
     function _deleteAvatar() {
       console.log('deleteAvatar', self.currentUser);
-      if (self.currentUser && self.currentUser.avatar) {
-        Avatars.remove(self.currentUser.avatar);
-        console.log('Meteor.user()._id', Meteor.user()._id);
-        Meteor.users.update({_id: Meteor.user()._id}, {$set: { 'profile.avatar': '' }});
+      if (self.currentUser && self.currentUser.profile.avatar && self.currentUser.profile.avatar) {
+        Avatars.remove(self.currentUser.profile.avatar);
+        console.log('Meteor.user()._id', Meteor.userId());
+        Meteor.users.update({_id: Meteor.userId()}, {$set: { 'profile.avatar': '' }});
+      }
+    }
+
+    function _getAvatarUrl() {
+
+      var localUser = self.currentUser;
+      var format = 'large';
+
+      if (self.avatar) {
+        return self.avatar.url(`avatar-${ format }`);
+      } else if (localUser && localUser.services && localUser.services.facebook) {
+        let fbId = localUser.services.facebook.id;
+        let fbAvatarUrl = `https:\/\/graph.facebook.com/${ fbId }/picture/?type=${ format }`;
+        return fbAvatarUrl;
+      } else {
+        return 'assets/images/default-user.png';
       }
     }
   }

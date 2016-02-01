@@ -1,6 +1,7 @@
 header.p2
   .avatar-container
-    avatar.avatar(user='Profile.currentUser', format='large', width='185', height='185')
+    //avatar.avatar(user='Profile.currentUser', format='large', width='185', height='185')
+    img(ng-src='{{ Profile.getAvatarUrl() }}', width='185', height='185')
 
     input#avatar-input(
       type="file",

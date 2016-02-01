@@ -21,10 +21,10 @@ angular.module('mapdiz');
   templateUrl: 'client/avatar/avatar.html'
 })
 
-@Inject('$scope', '$log', '$reactive')
+@Inject('$scope', '$log', '$reactive', '$timeout')
 
 class Avatar {
-  constructor($scope, $log, $reactive) {
+  constructor($scope, $log, $reactive, $timeout) {
     $log.info('Avatar');
 
     var self = this;
@@ -42,32 +42,38 @@ class Avatar {
     //self.subscribe('userAvatar', _avatarSubscription)
     self.getAvatarUrl = _getAvatarUrl;
 
-    //$scope.$watch('Avatar.user.profile.avatar', _userAvatarChange);
-    $scope.$watch('Avatar.userid', _userIdChange);
+    self.autorun(() => {
+      _userIdChange();
+      _userAvatarChange();
+    });
 
     //////////////////
 
-    /*function _userAvatarChange(newValue, oldValue) {
-      self.avatar = Avatars.findOne(newValue);
-      console.log('_userAvatarChange', newValue, self.user);
-    }*/
+    function _userAvatarChange() {
+      self.avatar = Avatars.findOne(self.getReactively('localUser.profile.avatar'));
+      console.log('_userAvatarChange', self.avatar);
+    }
 
-    function _userIdChange(newValue, oldValue) {
-      if (self.userId == Meteor.userId()) {
-        self.user = Meteor.user();
-      } else {
-        self.user = Meteor.users.findOne(self.userid);
+    function _userIdChange() {
+      if (self.userid) {
+        if (self.userId == Meteor.userId()) {
+          self.localUser = Meteor.user();
+        } else {
+          self.localUser = Meteor.users.findOne(self.getReactively('userid'));
+        }
+      } else { 
+        delete self.avatar;
       }
 
-      console.log('_userIdChange', newValue, self.user);
+      console.log('_userIdChange', self.user, self.userid);
     }
 
     function _getAvatarUrl() {
 
-      let localUser = self.user;
-      let format = self.format || 'small';
+      var localUser = self.localUser;
+      var format = self.format || 'small';
 
-      if (self.avatar && self.avatar.url) {
+      if (self.avatar) {
         return self.avatar.url(`avatar-${ format }`);
       } else if (localUser && localUser.services && localUser.services.facebook) {
         let fbId = localUser.services.facebook.id;

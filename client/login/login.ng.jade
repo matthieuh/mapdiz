@@ -4,7 +4,7 @@
   ng-if="!vm.mode && $root.currentUser || !$root.currentUser"
 )
   avatar(
-    user='vm.currentUser',
+    userid='vm.currentUser._id',
     ng-if="!vm.mode && $root.currentUser",
     ng-click='vm.togglePopup()'
   )
