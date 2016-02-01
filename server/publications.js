@@ -2,6 +2,11 @@ Meteor.publish('avatars', function() {
   return Avatars.find();
 });
 
+Meteor.publish("userAvatar", function(avatarId) {
+  if (avatarId)
+    return Avatars.find({_id: avatarId});
+});
+
 
 Meteor.publish('cities', function() {
   return Cities.find();

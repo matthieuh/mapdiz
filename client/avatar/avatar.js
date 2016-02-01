@@ -6,8 +6,10 @@ angular.module('mapdiz');
 
 @Component({
   selector: 'avatar',
+  //scope: undefined,
   bind: {
     user: '=',
+    userid: '=',
     format: '@',
     width: '@',
     height: '@'
@@ -19,51 +21,65 @@ angular.module('mapdiz');
   templateUrl: 'client/avatar/avatar.html'
 })
 
-@Inject('$scope', '$rootScope', '$state', '$log')
+@Inject('$scope', '$log', '$reactive')
 
-class DateRange {
-  constructor($scope, $rootScope, $state, $log) {
+class Avatar {
+  constructor($scope, $log, $reactive) {
     $log.info('Avatar');
 
     var self = this;
 
+    $reactive(self).attach($scope);
+
+    /*self.helpers({
+      avatar() {
+        let avatarId = self.getReactively('user.profile.avatar');
+        if (avatarId)
+          return Avatars.findOne(avatarId);
+      }
+    });*/
+
+    //self.subscribe('userAvatar', _avatarSubscription)
     self.getAvatarUrl = _getAvatarUrl;
 
-    $scope.$watch('Avatar.user.profile.avatar', function(newValue, oldValue) {
-      if (self.user && typeof self.user === 'object') {
-        self.localUser = self.user;
-      } else {
-        delete self.avatar;
-      }
-    });
-
-    $scope.$watch('Avatar.user', function(newValue, oldValue) {
-      if (self.user && typeof self.user !== 'object' &&  typeof self.user !== 'string') {
-        delete self.avatar;
-      }
-
-      if ( self.user && typeof self.user === 'string' ) {
-        self.localUser = Meteor.users.findOne(self.user);
-      } else {
-        delete self.avatar;
-      }
-    });
-
-    $scope.$watch('Avatar.localUser.profile.avatar', function(newValue, oldValue) {
-      if (newValue) {
-        self.avatar = Avatars.findOne(newValue);
-      } else {
-        delete self.avatar;
-      }
-    });
+    $scope.$watch('Avatar.user.profile.avatar', _userAvatarChange);
+    $scope.$watch('Avatar.userid', _userIdChange);
 
     //////////////////
 
+    /*function _userAvatarChange(newValue, oldValue) {
+      self.avatar = Avatars.findOne(newValue);
+      console.log('_userAvatarChange', newValue, self.user);
+    }*/
+
+    function _userIdChange(newValue, oldValue) {
+      if (self.userId == Meteor.userId()) {
+        self.user = Meteor.user();
+      } else {
+        self.user = Meteor.users.findOne(self.userid);
+      }
+
+      console.log('_userIdChange', newValue, self.user);
+    }
+
     function _getAvatarUrl() {
+
+      let localUser = self.user;
+      let format = self.format || 'small';
+
       if (self.avatar && self.avatar.url) {
-        let format = self.format || 'small';
         return self.avatar.url(`avatar-${ format }`);
+      } else if (localUser && localUser.services && localUser.services.facebook) {
+        let fbId = localUser.services.facebook.id;
+        let fbAvatarUrl = `https:\/\/graph.facebook.com/${ fbId }/picture/?type=${ format }`;
+        return fbAvatarUrl;
+      } else {
+        return 'assets/images/default-user.png';
       }
     }
+
+    /*function _avatarSubscription() {
+      return [self.getReactively('user.profile.avatar')];
+    }*/
   }
 }
