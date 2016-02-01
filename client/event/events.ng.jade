@@ -83,7 +83,7 @@ form.form-inline.search-form.flex-column
             title='{{ EventsList.creator(event) | displayName }}',
             ui-sref='app.profile({userId: event.owner})'
           )
-            avatar(user='event.owner', width='50')
+            avatar(user='event.owner', height='50')
         .stickers
           .sticker Gratuit
           .sticker(ng-class='event.public ? "public" : "private"', ng-if="!event.public") Privé
