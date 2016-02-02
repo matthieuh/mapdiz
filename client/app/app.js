@@ -21,7 +21,7 @@ class App {
 
     $reactive(self).attach($scope);
 
-    self.subscribe('events', _eventsSubscription);
+    self.subscribe('events');
     self.subscribe('images');
     self.subscribe('categories');
 
@@ -48,7 +48,7 @@ class App {
 
     $rootScope.$watch('currentUser', (nv, ov) => {
       if (!nv && ov) {
-        $state.go('app.events');
+        $state.go('home');
       }
     });
 
@@ -69,7 +69,7 @@ class App {
     }
 
     function _eventsSubscription() {
-      return [null, null, self.getReactively('filteredCategory')];
+      return [null, null, self.getReactively('filteredCategory') || ''];
     }
 
     function _imagesCollection() {

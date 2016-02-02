@@ -30,7 +30,7 @@
         )
 
       gm-marker.event-marker(
-        ng-repeat='filteredEvent in $parent.$parent.App.filteredEvents',
+        ng-repeat='filteredEvent in Map.App.filteredEvents',
         options='{icon: Map.mapSvc.getEventIcon( Map.App.categories, filteredEvent.category)}',
         position='filteredEvent.position',
         on-click='$root.clickedWindow = filteredEvent._id',

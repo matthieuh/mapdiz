@@ -26,6 +26,7 @@ class Profile {
         return Meteor.userId() != null;
       },
       currentUser() {
+        delete self.currentUser;
         if ($stateParams.userId && $stateParams.userId == 'me' || !$stateParams.userId) {
           self.itsMe = true;
           console.log('itsMe');
@@ -41,15 +42,19 @@ class Profile {
       $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.profile.avatar')));
     });
 
-    _centerMapOnUserLoc();
-
     self.openAvatarInput = _openAvatarInput;
     self.deleteAvatar = _deleteAvatar;
     self.sendVerificationEmail = _sendVerificationEmail;
     self.getAvatarUrl = _getAvatarUrl;
     avatarInput.bind("change", _uploadAvatar);
 
+    _init();
+
     ///////////////////
+
+    function _init() {
+      _centerMapOnUserLoc();
+    }
 
     function _sendVerificationEmail() {
       Meteor.call('sendVerificationEmail');

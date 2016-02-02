@@ -60,7 +60,7 @@ Meteor.publish("events", function (options, searchString, categoryId) {
     ]
   };
 
-   if (categoryId)
+  if (categoryId)
     selector.category = categoryId;
 
   return Events.find(selector);

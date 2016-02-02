@@ -20,6 +20,10 @@ class MapService {
       markerOpen: {},
       mapObj: {},
       map: {
+        center: {
+          lat: 15,
+          lng: 15
+        },
         zoom: 12,
         options: {
           //styles: [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]
@@ -54,7 +58,7 @@ class MapService {
       closeWindow: closeWindow,
       setMapCenter: setMapCenter,
       setMapZoom: setMapZoom,
-      updateMap: updateMap,
+      updateMap: _updateMap,
       updateVisibleMarkers: updateVisibleMarkers,
       getUserLoc: getUserLoc,
       mapZoomChange: mapZoomChange,
@@ -170,7 +174,7 @@ class MapService {
       service.map = map;
     };
 
-    function updateMap(obj){
+    function _updateMap(obj){
       service.map = _.merge(service.map, obj);
     };
 
@@ -364,7 +368,6 @@ class MapService {
     }
 
     function _getEventIcon(categories, categoryId) {
-
       let defaultMarker = 'assets/images/markers/default.png';
       let category =  _.find(categories, {_id: categoryId});
       let categoryMarker;

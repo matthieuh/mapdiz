@@ -52,6 +52,8 @@ class Event {
             tags: []
           };
         } else {
+          if (!$scope.$parent.App.filteredEvents)
+            $scope.$parent.App.filteredEvents = $scope.$parent.App.events;
           return Events.findOne($stateParams.eventId);
         }
       },
@@ -154,17 +156,24 @@ class Event {
         // Open window
 
         let position = self.getReactively('newEvent.position');
+        console.log('position', position);
         // Set zomm and center
 
         if (position) {
-          mapSvc.updateMap({
+          /*mapSvc.updateMap({
             zoom: 15,
             center: {
               lat: position.lat,
               lng: position.lng
             }
-          });
+          });*/
 
+          mapSvc.map.zoom = 15;
+          mapSvc.map.center = {
+            lat: position.lat,
+            lng: position.lng
+          };
+          $scope.$parent.App.filteredCategory = '';
           $rootScope.openedWindow = self.newEvent._id;
         }
       }
