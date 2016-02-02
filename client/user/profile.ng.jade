@@ -1,14 +1,14 @@
 header.p2
   .avatar-container
-    //avatar.avatar(user='Profile.currentUser', format='large', width='185', height='185')
-    img(ng-src='{{ Profile.getAvatarUrl() }}', width='185', height='185')
-
+    //-avatar(
+      userid='Profile.currentUser._id')
+    .avatar-wrapper(ng-style="{'background-image':'url('+ Profile.getAvatarUrl() +')'}")
     input#avatar-input(
       type="file",
       ng-show='false'
     )
-    .edit-avatar-btn(ng-click='Profile.openAvatarInput()') Changer
-    a(ng-click='Profile.deleteAvatar()', ng-show='Profile.avatar') Supprimer ma photo
+    .edit-avatar-btn(ng-click='Profile.openAvatarInput()', ng-if='Profile.itsMe') Changer
+    a(ng-click='Profile.deleteAvatar()', ng-show='Profile.avatar && Profile.itsMe') Supprimer ma photo
   section.infos.ml2.flex-auto.selectable
     h1 {{ Profile.currentUser | displayName }}
     hr

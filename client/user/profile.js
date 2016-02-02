@@ -27,19 +27,18 @@ class Profile {
       },
       currentUser() {
         if ($stateParams.userId && $stateParams.userId == 'me' || !$stateParams.userId) {
+          self.itsMe = true;
+          console.log('itsMe');
           return Meteor.user();
         } else {
+          console.log('$stateParams.userId', $stateParams.userId);
           return Meteor.users.findOne($stateParams.userId);
         }
       }
     });
 
     self.autorun(() => {
-      if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.avatar) {
-        $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.profile.avatar')));
-      } else {
-        delete self.avatar;
-      }
+      $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.profile.avatar')));
     });
 
     _centerMapOnUserLoc();

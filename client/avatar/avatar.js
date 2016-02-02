@@ -50,7 +50,7 @@ class Avatar {
     //////////////////
 
     function _userAvatarChange() {
-      self.avatar = Avatars.findOne(self.getReactively('localUser.profile.avatar'));
+      $timeout(self.avatar = Avatars.findOne(self.getReactively('localUser.profile.avatar')));
       console.log('_userAvatarChange', self.avatar);
     }
 
@@ -61,7 +61,7 @@ class Avatar {
         } else {
           self.localUser = Meteor.users.findOne(self.getReactively('userid'));
         }
-      } else { 
+      } else {
         delete self.avatar;
       }
 

@@ -31,14 +31,6 @@ class Login {
       }
     });
 
-    self.autorun(() => {
-      if (Meteor.user() && Meteor.user().avatar) {
-        $timeout(self.avatar = Avatars.findOne(self.getReactively('currentUser.avatar')));
-      } else {
-        delete self.avatar;
-      }
-    });
-
 
     self.showPopup = false;
     self.displayCreateAccount = self.mode == 'register';
