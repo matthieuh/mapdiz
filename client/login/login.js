@@ -12,10 +12,10 @@ SetModule('mapdiz');
 })
 
 @View({templateUrl: 'client/login/login.html'})
-@Inject('$scope', '$reactive', '$rootScope', '$state', '$log', '$timeout')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$log', '$timeout', '$auth')
 
 class Login {
-  constructor($scope, $reactive, $rootScope, $state, $log, $timeout) {
+  constructor($scope, $reactive, $rootScope, $state, $log, $timeout, $auth) {
     $log.info('LoginCtrl', this.mode);
 
     var self = this;
@@ -44,7 +44,16 @@ class Login {
     self.changePassword = _changePassword;
     self.sendVerificationEmail = _sendVerificationEmail;
 
+    _init();
+
     //////////////////////
+
+    function _init() {
+      $auth.waitForUser().then(() => {
+        self.currentUser = Meteor.user();
+        console.log('user logged', self.currentUser);
+      });
+    }
 
     function _togglePopup(forceValue) {
       self.errors = false;
@@ -52,12 +61,13 @@ class Login {
     }
 
     function _logout() {
+      delete self.currentUser;
       Meteor.logout();
       _togglePopup(false);
     }
 
     function _loginWithPassword(user, password) {
-      Meteor.loginWithPassword(user, password, _displayError)
+      Meteor.loginWithPassword(user, password, _displayError);
     }
 
     function _loginWithFacebook() {
