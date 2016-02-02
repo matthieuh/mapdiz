@@ -71,7 +71,7 @@ form.form-inline.search-form.flex-column
     li.flex-column(
       ng-repeat="event in $parent.App.filteredEvents = ($parent.App.events | filter:query | distance:EventsList.distanceFilter:EventsList.mapSvc.myLocation.position | isVisibleEvent | time:EventsList.timeFilter)",
       ng-class="{'overflown': EventsList.mapSvc.openedWindow == event._id}",
-      ng-mouseover='EventsList.mouseenterEvent(event._id, $event)',
+      ng-mouseover='EventsList.overflownEvent = event._id',
       ng-mouseleave='EventsList.mouseleaveEvent($event)',
       id='event-{{event._id}}'
     )
@@ -107,7 +107,7 @@ form.form-inline.search-form.flex-column
           div(ng-hide="$root.currentUser")
             i Enregistrez-vous pour vous inscrire à cet évenement.
 
-          .presence(ng-if='($root.openedWindow == event._id || EventsList.isOverflown(event._id)) && $root.currentUser')
+          .presence(ng-if='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id)')
             .presence-btns.inline-block.clearfix.m1
               button.left.btn.x-group-item.rounded-left(type='button', ng-click="EventsList.rsvp(event._id, 'yes')", ng-class="{'active': EventsList.myPresence(event, 'yes'), 'btn-outline ': !EventsList.myPresence(event, 'yes')}") Je viens !
               button.left.btn.x-group-item.not-rounded(type='button', ng-click="EventsList.rsvp(event._id, 'maybe')", ng-class="{'active': EventsList.myPresence(event, 'maybe'), 'btn-outline ': !EventsList.myPresence(event, 'maybe')}") Peut-être
