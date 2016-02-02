@@ -1,5 +1,6 @@
-img.profile-picture-mini(
-	ng-src='{{ Avatar.getAvatarUrl() }}',
+//-img.profile-picture-mini(
+  ng-src='{{ Avatar.getAvatarUrl() }}',
   width='{{ Avatar.width || "auto" }}',
-  height='{{ Avatar.height || "auto" }}'
-)
+  height='{{ Avatar.height || "auto" }}')
+
+.avatar-wrapper(ng-style="{'background-image':'url('+ Avatar.getAvatarUrl() +')'}")
