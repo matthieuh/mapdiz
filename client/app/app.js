@@ -21,7 +21,7 @@ class App {
 
     $reactive(self).attach($scope);
 
-    self.subscribe('events');
+    self.subscribe('events', _eventsSubscription);
     self.subscribe('images');
     self.subscribe('categories');
 
@@ -69,7 +69,7 @@ class App {
     }
 
     function _eventsSubscription() {
-      return [null, null, self.getReactively('filteredCategory') || ''];
+      return [null, null, self.getReactively('filteredCategory')];
     }
 
     function _imagesCollection() {
