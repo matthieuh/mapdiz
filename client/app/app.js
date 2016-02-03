@@ -35,7 +35,14 @@ class App {
     google = $scope.google;
     $scope.$state = $state;
 
+    $scope.$on('event.overflown', function(event, args) {
+      console.log('on event.overflown');
+      self.overflownEvent = args.id;
+    });
 
+    $scope.$on('event.overflown.none', function(event) {
+      self.overflownEvent = false;
+    });
 
     $rootScope.$on("$stateChangeError",
       function (event, toState, toParams, fromState, fromParams, error) {

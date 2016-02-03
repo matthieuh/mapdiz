@@ -28,15 +28,6 @@ class Map {
     self.App = $scope.$parent.App;
     console.log('self.App', self.App);
 
-    $scope.$on('marker.openWindow', function(event, eventId) {
-      var event = _.find(self.filteredEvents, {_id: eventId});
-      event.show = true;
-    });
-
-    $scope.$on('marker.closeWindow', function(event, eventId) {
-      var event = _.find(self.filteredEvents, {_id: eventId});
-      event.show = false;
-    });
 
     /////////////////////////////
 

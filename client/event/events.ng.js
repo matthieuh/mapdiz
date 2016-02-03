@@ -81,7 +81,6 @@ class EventsList {
 
     _init();
 
-
     $scope.$on('$destroy', function() {
       if(angular.isDefined(subscriptionHandle)){
         subscriptionHandle.stop();
@@ -97,13 +96,14 @@ class EventsList {
     }
 
     function _mouseenterEvent(eventId) {
-      $timeout(function(){
-        mapSvc.openedWindow = eventId;
-      }, 0);
+      console.log('mouseenterEvent');
+      self.overflownEvent = eventId;
+      $scope.$emit('event.overflown', { id: eventId });
     }
 
     function _mouseleaveEvent() {
-      mapSvc.openedWindow = false;
+      self.overflownEvent = false;
+      $scope.$emit('event.overflown.none');
     }
 
     function _getFilteredCategory() {
