@@ -1,12 +1,12 @@
 .alert.alert-info(ng-if="!$root.currentUser && eventDetails.method == 'create'") Connectez-vous pour créer un évenement
 
-.unverified-email(ng-if='$root.currentUser && !vm.emailIsVerfied() && eventDetails.method == "create"')
+.unverified-email(ng-if='$root.currentUser && !vm.emailIsVerified() && eventDetails.method == "create"')
   h1 Ajout d'évenement
   i.fa.fa-paper-plane-o.fa-4
   h2 Merci de vérifier votre adresse email
   p Veuillez cliquer sur le lien de confirmation afin de profiter pleinement de Mapdiz.com.
 
-header(ng-if="($root.currentUser || eventDetails.method == 'update') && vm.emailIsVerfied()")
+header(ng-if="($root.currentUser && vm.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
   .cover-manager(ng-if='eventDetails.editing')
     add-picture.edit-cover(picture='eventDetails.cover')
       i.icon.ion-image
@@ -84,7 +84,7 @@ header(ng-if="($root.currentUser || eventDetails.method == 'update') && vm.email
         edition='eventDetails.editing'
       )  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 
-.presence(ng-if="eventDetails.method == 'update' && vm.emailIsVerfied()")
+.presence(ng-if="($root.currentUser && vm.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
   .rsvps(ng-show='eventDetails.newEvent.rsvps.length > 0')
     .rsvps-sum
       .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"yes"}).length }}
@@ -113,7 +113,7 @@ header(ng-if="($root.currentUser || eventDetails.method == 'update') && vm.email
 
 
 
-main.p2(ng-if="($root.currentUser || $root.loggingIn) && vm.emailIsVerfied()")
+main.p2(ng-if="($root.currentUser && vm.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
 
   .message-bar.background-error(ng-show='eventDetails.errorMsg')
     .title Oups !
