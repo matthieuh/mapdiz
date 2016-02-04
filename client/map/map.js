@@ -40,7 +40,7 @@ class Map {
     }
 
     function markerMouseOver(eventId) {
-      mapSvc.openedWindow = eventId;
+      self.App.overflownEvent = eventId;
       var containers = document.getElementsByClassName('events-list');
       if (containers) var container = angular.element(containers[0]);
       var someElement = angular.element(document.getElementById('event-' + eventId));

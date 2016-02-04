@@ -34,7 +34,7 @@
         options='{icon: Map.mapSvc.getEventIcon( Map.App.categories, filteredEvent.category)}',
         position='filteredEvent.position',
         on-click='Map.App.overflownEvent = filteredEvent._id',
-        on-mouseover='Map.App.overflownEvent = filteredEvent._id',
+        on-mouseover='Map.markerMouseOver(filteredEvent._id)',
         on-mouseout='Map.App.overflownEvent = false',
         gm-then="Map.onMarkerDomready(map)"
       )
