@@ -1,9 +1,15 @@
-/*Meteor.startup(function() {
+Meteor.startup(function() {
   if (Meteor.isServer) {
     var loginAttemptVerifier = function(parameters) {
       console.log('loginAttemptVerifier', parameters);
 
-      if (parameters.user && parameters.user.emails && (parameters.user.emails.length > 0)) {
+      if (parameters.user && parameters.user.services && parameters.user.services.facebook) {
+        Users.update(parameters.user._id, {$set: { "emails.0.verified" : true }});
+      }
+
+      return true;
+
+      /*if (parameters.user && parameters.user.emails && (parameters.user.emails.length > 0)) {
         // return true if verified email, false otherwise.
         var found = _.find(
           parameters.user.emails,
@@ -17,9 +23,9 @@
       } else {
         console.log("user has no registered emails.");
         return true;
-      }
+      }*/
     }
     Accounts.validateLoginAttempt(loginAttemptVerifier);
   }
 });
-*/
+
