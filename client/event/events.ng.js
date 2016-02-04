@@ -40,7 +40,6 @@ class EventsList {
     self.rsvp = rsvp;
     self.getUserById = getUserById;
     self.pageChanged = pageChanged;
-    self.remove = remove;
     self.myPresence = myPresence;
     self.order = order;
     self.mapSvc = mapSvc;
@@ -153,10 +152,6 @@ class EventsList {
       if (self.orderProperty) self.sort = {name: parseInt(self.orderProperty)};
     }
 
-    function remove(eventId) {
-      mapSvc.events.remove(eventId);
-    }
-
     function pageChanged(newPage) {
       self.page = newPage;
     }
@@ -199,6 +194,7 @@ class EventsList {
      * [setMapCenter Set map center]
      */
     function setMapCenter() {
+      mapSvc.setMapZoom(12);
 
       if ($stateParams.latlng) {
         var splittedLatlng = $stateParams.latlng.split(',');
@@ -228,7 +224,6 @@ class EventsList {
 
       if (_.isEmpty(newPosition)){
         mapSvc.setMapCenter('userGeoLoc', true);
-        mapSvc.setMapZoom(12);
       } else {
         mapSvc.setMapCenter(newPosition.center);
         mapSvc.setMapZoom(newPosition.zoom);

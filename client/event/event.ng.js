@@ -67,6 +67,7 @@ class Event {
     self.beginTimeSelected = _beginTimeSelected;
     self.endTimeSelected = _endTimeSelected;
     self.save = _save;
+    self.remove = _remove;
     self.deleteCover = _deleteCover;
     self.validFormBtn = self.method === 'create' ? 'Ajouter' : 'Sauvegarder';
     self.tagTermClick = _tagTermClick;
@@ -131,27 +132,11 @@ class Event {
 
         mapSvc.setMapCenter('userGeoLoc', true);
 
-        //mapSvc.draggableMarker.content = compiled[0];
-
       } else {
 
         if (Meteor.userId() && self.getReactively('newEvent.owner') && self.newEvent.owner == Meteor.userId()) {
           self.accessRight = 'right';
         }
-        /*mapSvc.map.zoom = 14;
-
-          console.log('eventDetails.newEvent.position', newValue, oldValue);
-          if (self.newEvent && self.newEvent.position && self.newEvent.position.lat) {
-            mapSvc.map.center = {
-              lat: self.newEvent.position.lat,
-              lng: self.newEvent.position.lng
-            };
-            //mapSvc.draggableMarker.content = compiled[0];
-          }
-        });*/
-
-        console.log('self.newEvent.position', self.newEvent);
-
 
         // Open window
 
@@ -160,14 +145,6 @@ class Event {
         // Set zomm and center
 
         if (position) {
-          /*mapSvc.updateMap({
-            zoom: 15,
-            center: {
-              lat: position.lat,
-              lng: position.lng
-            }
-          });*/
-
           mapSvc.map.zoom = 15;
           mapSvc.map.center = {
             lat: position.lat,
@@ -258,6 +235,11 @@ class Event {
           }
         });
       }
+    }
+
+    function _remove() {
+      Events.remove(self.newEvent._id);
+      $state.go('app.events');
     }
 
     function _uploadPictures(savedEventId) {

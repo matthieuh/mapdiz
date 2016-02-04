@@ -177,5 +177,6 @@ main.p2(ng-if="$root.currentUser || $root.loggingIn")
           a.tag(href='#') {{ tag.label }}
 
   invitation(ng-model='eventDetails.newEvent', ng-if='!eventDetails.editing') Lancer des invitations
-
-  button.button.button-primary(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}
+  .buttons
+    button.button.button-red(ng-click="eventDetails.remove()", ng-if='eventDetails.editing && eventDetails.newEvent._id') Supprimer
+    button.button.button-primary(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}

@@ -88,7 +88,7 @@ form.form-inline.search-form.flex-column
           .sticker Gratuit
           .sticker(ng-class='event.public ? "public" : "private"', ng-if="!event.public") Privé
 
-        a.delete(ng-click="EventsList.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
+        //-a.delete(ng-click="EventsList.remove(event._id)", ng-show="$root.currentUser && $root.currentUser._id == event.owner") &#215;
         .content.flex-auto.selectable
           .title.flex
             h2
