@@ -56,8 +56,17 @@ class Profile {
       _centerMapOnUserLoc();
     }
 
-    function _sendVerificationEmail() {
-      Meteor.call('sendVerificationEmail');
+    function _sendVerificationEmail(login) {
+      Meteor.call('sendVerificationEmail', login, (error) => {
+        delete self.emailSendError;
+        if (error) {
+          self.emailSendError = 'Erreur lors de l\'envoi du mail de vérification';
+        } else {
+          $timeout(() => {
+            self.unverifiedEmailSent = true;
+          }, 0);
+        }
+      });
     }
 
     /**

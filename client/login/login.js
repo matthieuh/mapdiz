@@ -67,7 +67,11 @@ class Login {
     }
 
     function _loginWithPassword(user, password) {
-      Meteor.loginWithPassword(user, password, _displayError);
+      Meteor.loginWithPassword(user, password, function(e) {
+        _displayError(e, false);
+        self.unverifiedEmail = !_emailIsVerfied();
+        console.log('self.unverifiedEmail', self.unverifiedEmail);
+      });
     }
 
     function _loginWithFacebook() {
@@ -78,19 +82,29 @@ class Login {
 
     function _createAccount(newAccount) {
       Accounts.createUser(newAccount, _displayError);
+      //self.unverifiedEmail = true;
     }
 
     function _changePassword(oldPassword, newPassword) {
       Accounts.changePassword(oldPassword, newPassword, _displayError);
     }
 
-    function _displayError(e) {
+    function _emailIsVerfied() {
+      var found = _.find(
+        Meteor.user().emails,
+        function(thisEmail) { return thisEmail.verified }
+      );
+      return !!found;
+    }
+
+    function _displayError(e, redirect) {
+      redirect = redirect !== undefined ? redirect : true;
       if (e) {
         if(!$scope.$$phase) {
           self.errors = _getErrorMessage(e);
           $scope.$apply();
         }
-      } else {
+      } else if (redirect) {
         self.connectedDisplay = 'classic';
         _togglePopup(false);
       }
@@ -122,7 +136,6 @@ class Login {
           _displayError(error);
         } else {
           $timeout(() => {
-            self.unverifiedEmail = false;
             self.unverifiedEmailSend = true;
           }, 0);
         }

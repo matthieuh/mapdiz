@@ -1,10 +1,7 @@
-Meteor.startup(function() {
+/*Meteor.startup(function() {
   if (Meteor.isServer) {
     var loginAttemptVerifier = function(parameters) {
       console.log('loginAttemptVerifier', parameters);
-
-      if (parameters.user && parameters.user.services && parameters.user.services.facebook)
-        return true
 
       if (parameters.user && parameters.user.emails && (parameters.user.emails.length > 0)) {
         // return true if verified email, false otherwise.
@@ -16,12 +13,13 @@ Meteor.startup(function() {
         if (!found) {
           throw new Meteor.Error(500, 'UNVERIFIED_EMAIL');
         }
-        return found && parameters.allowed;
+        return true;
       } else {
         console.log("user has no registered emails.");
-        return false;
+        return true;
       }
     }
     Accounts.validateLoginAttempt(loginAttemptVerifier);
   }
 });
+*/

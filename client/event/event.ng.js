@@ -73,6 +73,7 @@ class Event {
     self.tagTermClick = _tagTermClick;
     self.rsvp = _rsvp;
     self.myPresence = _myPresence;
+    self.emailIsVerfied = _emailIsVerfied;
 
     $scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {
@@ -305,6 +306,14 @@ class Event {
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
     };
+
+    function _emailIsVerfied() {
+      var found = _.find(
+        Meteor.user().emails,
+        function(thisEmail) { return thisEmail.verified }
+      );
+      return !!found;
+    }
 
 	}
 }

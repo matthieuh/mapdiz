@@ -19,7 +19,9 @@ header.p2
         =' '
         i.fa.fa-close(ng-hide='Profile.currentUser.emails[0].verified', title='Adresse e-mail non vérifiée')
         i.fa.fa-check(ng-show='Profile.currentUser.emails[0].verified', title='Adresse e-mail vérifiée')
-      a.verify-email(ng-hide='Profile.currentUser.emails[0].verified', ng-click='Profile.sendVerificationEmail()') Envoyer un e-mail de vérification
+      a.verify-email(ng-hide='Profile.currentUser.emails[0].verified', ng-click='Profile.sendVerificationEmail(Profile.currentUser.emails[0].address)', ng-if='!Profile.unverifiedEmailSent') Envoyer un e-mail de vérification
+      .info-message(ng-if='Profile.unverifiedEmailSent') E-mail de confirmation envoyé !
+      .error-message(ng-if='Profile.emailSendError') {{ vm.emailSendError }}
     article.info
 
 //-section {{ Profile.currentUser | json }} {{ Mapdiz.avatar | json }}

@@ -30,7 +30,8 @@
     click-outside='vm.togglePopup()',
     outside-if-not='connect-btn, create-account'
   )
-    .login.p2(ng-if='!vm.displayCreateAccount')
+
+    .login.p2(ng-if='!vm.displayCreateAccount && !vm.unverifiedEmail')
       h2 Connectez-vous
       .or
         | Ou
@@ -44,13 +45,11 @@
           input#password(type='password', name='password', ng-model='vm.password')
         .info-message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
         .error-message(ng-show='vm.errors') {{ vm.errors }}
-        .error-link(ng-if='vm.unverifiedEmail')
-          a(ng-click='vm.sendVerificationEmail(vm.login)') Ré-envoyer le mail de confirmation
         .login-actions
           button.button.button-primary(type='submit') Se connecter
           button.button.button-fb(ng-click='vm.loginWithFacebook()') Connexion avec Facebook
 
-    .create-account.p2(ng-if='vm.displayCreateAccount')
+    .create-account.p2(ng-if='vm.displayCreateAccount && !vm.unverifiedEmail')
       h2 Créez un compte
       .or
         | Ou
@@ -74,11 +73,24 @@
 
   #login-popup1.login-popup.absolute.bg-white.border.rounded(
     ng-show='vm.showPopup',
-    ng-if="$root.currentUser",
+    ng-if="$root.currentUser || vm.unverifiedEmail",
     click-outside='vm.togglePopup()',
     outside-if-not='connect-btn, create-account'
   )
-    .classic(ng-show="vm.connectedDisplay == 'classic'")
+    .unverified-email(ng-if='vm.unverifiedEmail')
+      i.fa.fa-paper-plane-o.fa-4
+      h2 Merci de vérifier votre adresse email
+      p Veuillez cliquer sur le lien de confirmation afin de profiter pleinement de Mapdiz.com.
+
+      .error-link(ng-if='!vm.unverifiedEmailSend')
+        a(ng-click='vm.sendVerificationEmail(vm.login)') Ré-envoyer le mail de confirmation
+
+      .info-message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
+      .error-message(ng-show='vm.errors') {{ vm.errors }}
+
+      button.button.button-primary(ng-click='vm.unverifiedEmail = false') Continuer
+
+    .classic(ng-show="vm.connectedDisplay == 'classic' && !vm.unverifiedEmail")
       .btn(ng-click="vm.goTo('app.profile')") Mon compte
       .btn(ng-click="vm.connectedDisplay='changePassword'") Changer mot de passe
       .btn(ng-click='vm.logout()') Se déconnecter
