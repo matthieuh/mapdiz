@@ -1,6 +1,6 @@
 .alert.alert-info(ng-if="!$root.currentUser && eventDetails.method == 'create'") Connectez-vous pour créer un évenement
 
-.unverified-email(ng-if='!vm.emailIsVerfied() && eventDetails.method == "create"')
+.unverified-email(ng-if='$root.currentUser && !vm.emailIsVerfied() && eventDetails.method == "create"')
   h1 Ajout d'évenement
   i.fa.fa-paper-plane-o.fa-4
   h2 Merci de vérifier votre adresse email
