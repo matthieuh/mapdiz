@@ -174,7 +174,7 @@ class Event {
             lng: position.lng
           };
           $scope.$parent.App.filteredCategory = '';
-          $rootScope.openedWindow = self.newEvent._id;
+          $scope.$emit('event.overflown', { id: self.newEvent._id });
         }
       }
     }

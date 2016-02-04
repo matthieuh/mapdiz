@@ -71,7 +71,7 @@ form.form-inline.search-form.flex-column
     li.flex-column(
       ng-repeat="event in $parent.App.filteredEvents = ($parent.App.events | filter:query | distance:EventsList.distanceFilter:EventsList.mapSvc.myLocation.position | isVisibleEvent | time:EventsList.timeFilter)",
       ng-class="{'overflown': EventsList.mapSvc.openedWindow == event._id}",
-      ng-mouseover='EventsList.mouseenterEvent(event._id)',
+      ng-mouseenter='EventsList.mouseenterEvent(event._id)',
       ng-mouseleave='EventsList.mouseleaveEvent()',
       id='event-{{event._id}}'
     )
