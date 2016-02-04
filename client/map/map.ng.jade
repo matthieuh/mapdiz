@@ -33,9 +33,9 @@
         ng-repeat='filteredEvent in Map.App.filteredEvents',
         options='{icon: Map.mapSvc.getEventIcon( Map.App.categories, filteredEvent.category)}',
         position='filteredEvent.position',
-        on-click='$root.clickedWindow = filteredEvent._id',
-        on-mouseover='Map.markerMouseOver(filteredEvent._id);',
-        on-mouseout='Map.markerMouseOut();',
+        on-click='Map.App.overflownEvent = filteredEvent._id',
+        on-mouseover='Map.App.overflownEvent = filteredEvent._id',
+        on-mouseout='Map.App.overflownEvent = false',
         gm-then="Map.onMarkerDomready(map)"
       )
         //-gm-infowindow(
