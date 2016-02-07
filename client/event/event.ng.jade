@@ -84,7 +84,7 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
         edition='eventDetails.editing'
       )  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 
-.presence(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
+.presence(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create' && !eventDetails.editing) || eventDetails.method == 'update'")
   .rsvps(ng-show='eventDetails.newEvent.rsvps.length > 0')
     .rsvps-sum
       .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"yes"}).length }}

@@ -35,7 +35,7 @@
         position='filteredEvent.position',
         on-click='Map.App.overflownEvent = filteredEvent._id',
         on-mouseover='Map.markerMouseOver(filteredEvent._id)',
-        on-mouseout='Map.App.overflownEvent = false',
+        on-mouseout='Map.App.overflownEvent = Map.mapSvc.openedWindow = false',
         gm-then="Map.onMarkerDomready(map)"
       )
         //-gm-infowindow(
