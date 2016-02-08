@@ -33,7 +33,7 @@ class App {
 
     self.getImage = _getImage;
     google = $scope.google;
-    $scope.$state = $state;
+    $scope.$state = $rootScope.$state = $state;
 
     $scope.$on('event.overflown', function(event, args) {
       console.log('on event.overflown');

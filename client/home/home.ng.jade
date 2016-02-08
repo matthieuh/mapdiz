@@ -13,22 +13,21 @@
       //- h2
 
       form.homepage-search-box
-        .grouped-form
-          #location.ui.big.icon.action.input
-            input(
-              placeholder='Adresse de localisation',
-              type='text',
-              name='location',
-              autocomplete='off',
-              g-places-autocomplete,
-              ng-model='Home.myLocation["address"]'
-            )
-            i.link.icon(
-              ng-click='Home.setMyLocation()',
-              title='Utiliser ma position actuelle',
-              ng-class="Home.gettingGeoloc ? ['fa-spinner', 'fa-spin'] : 'fa-location-arrow'"
-            )
-            button.ui.button(ng-click='Home.search()') Rechercher
+        .grouped-form.ui.big.left.icon.action.input
+          input(
+            placeholder='Adresse de localisation',
+            type='text',
+            name='location',
+            autocomplete='off',
+            g-places-autocomplete,
+            ng-model='Home.myLocation["address"]'
+          )
+          i.link.icon(
+            ng-click='Home.setMyLocation()',
+            title='Utiliser ma position actuelle',
+            ng-class="Home.gettingGeoloc ? ['fa-spinner', 'fa-spin'] : 'fa-location-arrow'"
+          )
+          button.ui.primary.button(ng-click='Home.search()') Rechercher
 
 
   .homepage-content

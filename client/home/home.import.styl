@@ -121,24 +121,28 @@
             display: flex
             flex-direction: column
             justify-content: center
+            align-items: center
             margin-top: 50px
 
             .grouped-form
               display: flex
-              flex-wrap: wrap
+              //flex-wrap: wrap
               flex: 1
               justify-content: center
-              align-items: center
-
-              .input
+              
+              input
                 flex: 1
-                max-width: 450px
-                min-width: 300px
-                margin: 0
+                font-size: 1.1rem
+                max-width: 650px
+                min-width: 350px
+                
+                &:focus + i.icon
+                  color: #FF565D
 
-                i.icon
-                  &:hover
-                    color: #FF565D
+              i.icon
+                height: 43px
+                &:hover
+                  color: #FF565D
 
       .homepage-content
         text-align: left
@@ -178,6 +182,12 @@
               color: #fff
               background: rgba(0, 0, 0, 0.15) none repeat scroll 0% 0%
               box-shadow: 0px 0px 100px 71px rgba(0, 0, 0, 0.16)
+              
+  @media screen and (max-width: screen-sm-max)
+    .homepage-search-box
+      button
+        margin-top: 20px
+              
 
 @keyframes imageAnimation {
   0% { opacity: 0; animation-timing-function: ease-in; }

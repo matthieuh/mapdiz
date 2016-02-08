@@ -16,15 +16,15 @@
     ng-if="!$root.currentUser && !vm.mode",
     ng-click='vm.togglePopup()'
   )
-    .link Se connecter
+    button Se connecter
   .title(
     ng-if="!$root.currentUser && vm.mode == 'register'",
     ng-click='vm.togglePopup()'
   )
-    .link S'inscrire
+    button.ui.button.positive S'inscrire
 
 
-  #login-popup2.login-popup.absolute.bg-white.border.rounded(
+  #login-popup2.login-popup.absolute.border.rounded.ui.segment(
     ng-show='vm.showPopup',
     ng-if="!$root.currentUser",
     click-outside='vm.togglePopup()',
@@ -46,8 +46,8 @@
         .info-message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
         .error-message(ng-show='vm.errors') {{ vm.errors }}
         .login-actions
-          button.button.button-primary(type='submit') Se connecter
-          button.button.button-fb(ng-click='vm.loginWithFacebook()') Connexion avec Facebook
+          button.ui.primary.button(type='submit') Se connecter
+          button.ui.facebook.button(ng-click='vm.loginWithFacebook()') Connexion avec Facebook
 
     .create-account.p2(ng-if='vm.displayCreateAccount && !vm.unverifiedEmail')
       h2 Créez un compte
@@ -68,10 +68,10 @@
         .error-message(ng-show='vm.errors') {{ vm.errors }}
 
         .login-actions
-          button.button.button-primary(type='submit') Créer votre compte
-          button.button.button-fb(ng-click='vm.loginWithFacebook()') Inscription avec Facebook
+          button.ui.primary.button(type='submit') Créer votre compte
+          button.ui.facebook.button(ng-click='vm.loginWithFacebook()') Inscription avec Facebook
 
-  #login-popup1.login-popup.absolute.bg-white.border.rounded(
+  #login-popup1.login-popup.absolute.border.rounded.ui.segment(
     ng-show='vm.showPopup',
     ng-if="$root.currentUser || vm.unverifiedEmail",
     click-outside='vm.togglePopup()',
