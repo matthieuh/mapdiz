@@ -69,7 +69,7 @@ class Login {
     function _loginWithPassword(user, password) {
       Meteor.loginWithPassword(user, password, function(e) {
         _displayError(e, false);
-        self.unverifiedEmail = !_emailIsVerfied();
+        self.unverifiedEmail = !_emailIsVerified();
         console.log('self.unverifiedEmail', self.unverifiedEmail);
       });
     }
@@ -81,15 +81,23 @@ class Login {
     }
 
     function _createAccount(newAccount) {
-      Accounts.createUser(newAccount, _displayError);
-      //self.unverifiedEmail = true;
+      console.log('_createAccount', newAccount);
+      Accounts.createUser({
+        username: newAccount.username,
+        email: newAccount.email,
+        password: newAccount.password 
+      }, function(e) {
+        _displayError(e, false);
+        self.unverifiedEmail = !_emailIsVerified();
+        console.log('self.unverifiedEmail', self.unverifiedEmail);
+      });
     }
 
     function _changePassword(oldPassword, newPassword) {
       Accounts.changePassword(oldPassword, newPassword, _displayError);
     }
 
-    function _emailIsVerfied() {
+    function _emailIsVerified() {
       var found = _.find(
         Meteor.user().emails,
         function(thisEmail) { return thisEmail.verified }

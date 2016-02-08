@@ -1,7 +1,7 @@
-.alert.alert-info(ng-if="!$root.currentUser && eventDetails.method == 'create'") Connectez-vous pour créer un évenement
+.alert.alert-info(ng-if="!$root.currentUser && eventDetails.method == 'create'") Connectez-vous pour créer un événement
 
 .unverified-email(ng-if='$root.currentUser && !eventDetails.emailIsVerified() && eventDetails.method == "create"')
-  h1 Ajout d'évenement
+  h1 Ajout d'événement
   i.fa.fa-paper-plane-o.fa-4
   h2 Merci de vérifier votre adresse email
   p Veuillez cliquer sur le lien de confirmation afin de profiter pleinement de Mapdiz.com.
@@ -23,7 +23,7 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
       h1.editable.editable-text(
         ng-click='eventDetails.editName=true',
         ng-show='eventDetails.editing && !eventDetails.editName'
-      ) {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
+      ) {{ eventDetails.newEvent.name || "Nom de l'événement" }}
       .input.input-with-icon(
         ng-if='eventDetails.editing && eventDetails.editName',
         ng-show='eventDetails.editName'
@@ -31,7 +31,7 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
         input(
           type="text",
           ng-model="eventDetails.newEvent.name",
-          placeholder='Nom de l\'évenement'
+          placeholder='Nom de l\'événement'
         )
         button.input-icon.fa.fa-check.fa-lg(ng-click='eventDetails.editName=false')
       =' '
@@ -118,7 +118,7 @@ main.p2(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDeta
   .message-bar.background-error(ng-show='eventDetails.errorMsg')
     .title Oups !
     .alert-content
-     p Les informations pour créer l'évenement sont incorrects :
+     p Les informations pour créer l'événement sont incorrects :
      ul
       li {{ eventDetails.errorMsg }}
 
@@ -164,7 +164,7 @@ main.p2(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDeta
     article
       textarea#description.block.col-12.field(
         ng-model="eventDetails.newEvent.description",
-        placeholder='Description de l\'évenement',
+        placeholder='Description de l\'événement',
         ng-if='eventDetails.editing',
         mentio,
         mentio-typed-text="typedTerm",

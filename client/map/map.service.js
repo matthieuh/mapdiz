@@ -40,7 +40,7 @@ class MapService {
         events: {},
         visible: false,
         draggable: false,
-        content: "Déplace-moi sur le lieu de l'évenement",
+        content: "Déplace-moi sur le lieu de l'événement",
         onDomready: onMarkerDomready
       },
       getEventIcon: _getEventIcon,

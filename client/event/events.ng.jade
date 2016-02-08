@@ -105,7 +105,7 @@ form.form-inline.search-form.flex-column
           //- div(ng-if="event.public")
           //-   | Everyone is invited
           div(ng-hide="$root.currentUser")
-            i Enregistrez-vous pour vous inscrire à cet évenement.
+            i Enregistrez-vous pour vous inscrire à cet événement.
 
           .presence(ng-if='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id)')
             .presence-btns.inline-block.clearfix.m1

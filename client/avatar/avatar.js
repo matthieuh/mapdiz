@@ -31,15 +31,6 @@ class Avatar {
 
     $reactive(self).attach($scope);
 
-    /*self.helpers({
-      avatar() {
-        let avatarId = self.getReactively('user.profile.avatar');
-        if (avatarId)
-          return Avatars.findOne(avatarId);
-      }
-    });*/
-
-    //self.subscribe('userAvatar', _avatarSubscription)
     self.getAvatarUrl = _getAvatarUrl;
 
     self.autorun(() => {
@@ -51,7 +42,6 @@ class Avatar {
 
     function _userAvatarChange() {
       $timeout(self.avatar = Avatars.findOne(self.getReactively('localUser.profile.avatar')));
-      console.log('_userAvatarChange', self.avatar);
     }
 
     function _userIdChange() {
@@ -64,8 +54,6 @@ class Avatar {
       } else {
         delete self.avatar;
       }
-
-      console.log('_userIdChange', self.user, self.userid);
     }
 
     function _getAvatarUrl() {
@@ -83,9 +71,5 @@ class Avatar {
         return 'assets/images/default-user.png';
       }
     }
-
-    /*function _avatarSubscription() {
-      return [self.getReactively('user.profile.avatar')];
-    }*/
   }
 }

@@ -101,7 +101,7 @@ class Event {
         <div class='iw-container'>
           <img class='cover' ng-src='{{ eventDetails.cover }}'>
           <div class='info-window-content'>
-            <h4>{{ eventDetails.newEvent.name || "Nom de l'évenement" }}</h4>
+            <h4>{{ eventDetails.newEvent.name || "Nom de l'événement" }}</h4>
             <div class='description mxn1' ng-show='eventDetails.newEvent.description'>
               <strong>Description :</strong> {{ eventDetails.newEvent.description }}
               <div class="iw-bottom-gradient"></div>

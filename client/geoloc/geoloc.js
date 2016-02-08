@@ -76,7 +76,7 @@ class Geoloc {
       $scope.$on('draggableMarker.position.changed', draggableMarkerChanged);
       $scope.$on('$destroy', reinitDialog);
 
-      mapSvc.draggableMarker.content = "Déplace-moi sur le lieu de l'évenement";
+      mapSvc.draggableMarker.content = "Déplace-moi sur le lieu de l'événement";
       mapSvc.draggableMarker.draggable = true;
       mapSvc.draggableMarker.visible = true;
 
