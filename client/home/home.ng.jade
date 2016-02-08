@@ -14,7 +14,7 @@
 
       form.homepage-search-box
         .grouped-form
-          .input#location.input-with-icon.item
+          #location.ui.big.icon.action.input
             input(
               placeholder='Adresse de localisation',
               type='text',
@@ -23,12 +23,12 @@
               g-places-autocomplete,
               ng-model='Home.myLocation["address"]'
             )
-            button.input-icon.fa.fa-lg(
+            i.link.icon(
               ng-click='Home.setMyLocation()',
               title='Utiliser ma position actuelle',
               ng-class="Home.gettingGeoloc ? ['fa-spinner', 'fa-spin'] : 'fa-location-arrow'"
             )
-          button.item.button.button-primary(ng-click='Home.search()') Rechercher
+            button.ui.button(ng-click='Home.search()') Rechercher
 
 
   .homepage-content

@@ -7,7 +7,6 @@ form.form-inline.search-form.flex-column
         ng-model='$parent.App.filteredCategory'
       )
         option(value='', ng-hide='EventsList.newEvent.category') Tous
-      i.fa.fa-angle-down.fa-2
     input#search(type="text", ng-model="query", placeholder="Rechercher...")
     .result-length
       ng-pluralize(
@@ -107,8 +106,8 @@ form.form-inline.search-form.flex-column
           div(ng-hide="$root.currentUser")
             i Enregistrez-vous pour vous inscrire à cet évenement.
 
-          .presence(ng-if='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id)')
-            .presence-btns.inline-block.clearfix.m1
-              button.left.btn.x-group-item.rounded-left(type='button', ng-click="EventsList.rsvp(event._id, 'yes')", ng-class="{'active': EventsList.myPresence(event, 'yes'), 'btn-outline ': !EventsList.myPresence(event, 'yes')}") Je viens !
-              button.left.btn.x-group-item.not-rounded(type='button', ng-click="EventsList.rsvp(event._id, 'maybe')", ng-class="{'active': EventsList.myPresence(event, 'maybe'), 'btn-outline ': !EventsList.myPresence(event, 'maybe')}") Peut-être
-              button.left.btn.x-group-item.rounded-right(type='button', ng-click="EventsList.rsvp(event._id, 'no')", ng-class="{'active': EventsList.myPresence(event, 'no'), 'btn-outline ': !EventsList.myPresence(event, 'no')}") Non désolé
+          .presence(ng-show='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id)')
+            .presence-btns.ui.basic.buttons
+              button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'yes')", ng-class="{'active': EventsList.myPresence(event, 'yes')}") Je viens !
+              button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'maybe')", ng-class="{'active': EventsList.myPresence(event, 'maybe')}") Peut-être
+              button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'no')", ng-class="{'active': EventsList.myPresence(event, 'no')}") Non désolé

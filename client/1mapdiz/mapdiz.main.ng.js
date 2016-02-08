@@ -44,7 +44,7 @@ SetModule('mapdiz', [
 class Mapdiz {
   constructor($scope, $reactive, $rootScope, $state, $meteor) {
     var self = this;
-
+    var toto = 'toto';
     //let test = new Vivus('logo', {duration: 200});
 
     $reactive(self).attach($scope);

@@ -15,9 +15,8 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
     a.delete-cover(href='#', ng-show='eventDetails.cover', ng-click="eventDetails.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  //.cover(ng-style="$parent.$parent.App.getImage(eventDetails.cover)", ng-show='eventDetails.cover')
   img.cover(ng-src="{{eventDetails.cover}}", ng-show='eventDetails.cover', width="800" height="200")
-  .over-cover
+  .over-cover.ui.form
     .title
       h1(ng-hide='eventDetails.editing') {{ eventDetails.newEvent.name }}
       h1.editable.editable-text(
@@ -113,7 +112,7 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
 
 
 
-main.p2(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
+main.ui.form(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
 
   .message-bar.background-error(ng-show='eventDetails.errorMsg')
     .title Oups !
@@ -148,14 +147,12 @@ main.p2(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDeta
       i.icon.ion-ios-pricetag-outline
       |  Catégorie
     article
-      .select
-        select(
-          name='category',
-          ng-options='category._id as category.label for category in eventDetails.categories | orderBy:"label"',
-          ng-model='eventDetails.newEvent.category'
-        )
-          option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
-        i.fa.fa-angle-down.fa-2
+      select.ui.dropdown(
+        name='category',
+        ng-options='category._id as category.label for category in eventDetails.categories | orderBy:"label"',
+        ng-model='eventDetails.newEvent.category'
+      )
+        option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
   //- Description
   section(ng-hide='!eventDetails.newEvent.description && !eventDetails.editing')
     h3

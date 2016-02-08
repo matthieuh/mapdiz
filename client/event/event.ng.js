@@ -113,7 +113,15 @@ class Event {
 
     var compiled = $compile(content)($scope);
 
+    _init();
+
     /////////////////////
+
+    function _init() {
+      let dd = $('.ui.dropdown')
+      console.log('dd', dd);
+      dd.dropdown();
+    }
 
     function _categoriesCollection() {
       return Tags.find({
