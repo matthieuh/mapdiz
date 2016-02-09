@@ -19,7 +19,7 @@ form.form-inline.search-form.flex-column
       ng-attr-title="{{ showFilters ? 'Masquer Filtres' : 'Afficher Filtres' }}"
     )
       i.icon.ion-ios-settings(ng-class="{'active': showFilters}")
-  .filters(ng-show='showFilters').flex-wrap
+  .filters(ng-show='showFilters')
     //- TIME FILTER
     .range-filter.flex-wrap
       .range-label.flex-auto(
@@ -43,7 +43,7 @@ form.form-inline.search-form.flex-column
           when="{'0': 'jour', '1': 'jour', 'other': 'jours'}")
 
     //- DISTANCE FILTER
-    .range-filter.distance-range.flex-wrap
+    .range-filter.distance-range
       .range-label.flex-auto(
         ng-click='EventsList.distanceFilter.inifinite=false;EventsList.distanceFilter.options.disabled=!EventsList.distanceFilter.options.disabled',
         ng-class="{'disabled': EventsList.distanceFilter.options.disabled}"
