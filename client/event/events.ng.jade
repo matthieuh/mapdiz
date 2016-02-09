@@ -106,7 +106,7 @@ form.form-inline.search-form.flex-column
           div(ng-hide="$root.currentUser")
             i Enregistrez-vous pour vous inscrire à cet évenement.
 
-          .presence(ng-show='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id)')
+          .presence(ng-if='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id)')
             .presence-btns.ui.basic.buttons
               button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'yes')", ng-class="{'active': EventsList.myPresence(event, 'yes')}") Je viens !
               button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'maybe')", ng-class="{'active': EventsList.myPresence(event, 'maybe')}") Peut-être

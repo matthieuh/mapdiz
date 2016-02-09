@@ -1,11 +1,11 @@
 
 .login-menu
+  display: flex
   position: relative
   min-width: 50px
   min-height: 50px
   max-height: 50px
-  padding: 0 20px
-  display: flex
+  padding: 0 18px
 
   &:hover, &.active
     cursor: pointer
@@ -39,6 +39,7 @@
     top: 50px
     right: 18px
     margin-top: 10px
+    padding: 0
     z-index: 9999
     width: 300px
     text-align: left
@@ -61,6 +62,9 @@
         margin-right: 0
         margin-left: 0
         margin-bottom: 0
+        
+        &:not(:last-child)
+          margin-bottom: 10px
 
     &:after, &:before
       bottom: 100%
@@ -94,3 +98,11 @@
 
       a
         font-weight: bold
+
+    .user-menu
+      margin: 0
+      border: 0
+      box-shadow: none
+      
+    .popup-content
+      padding: 1rem

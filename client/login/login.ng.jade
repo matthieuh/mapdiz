@@ -16,7 +16,7 @@
     ng-if="!$root.currentUser && !vm.mode",
     ng-click='vm.togglePopup()'
   )
-    button Se connecter
+    .link Se connecter
   .title(
     ng-if="!$root.currentUser && vm.mode == 'register'",
     ng-click='vm.togglePopup()'
@@ -31,41 +31,42 @@
     outside-if-not='connect-btn, create-account'
   )
 
-    .login.p2(ng-if='!vm.displayCreateAccount && !vm.unverifiedEmail')
+    .popup-content.login(ng-if='!vm.displayCreateAccount && !vm.unverifiedEmail')
       h2 Connectez-vous
       .or
         | Ou
         a(id='create-account', ng-click='vm.displayCreateAccount=true')  créez un compte
-      form(ng-submit='vm.loginWithPassword(vm.login, vm.password)')
-        label.label E-mail / Identifiant
-        .input.full-width
+      form.ui.form(ng-submit='vm.loginWithPassword(vm.login, vm.password)')
+        .field
+          label E-mail / Identifiant
           input(type='text', ng-model='vm.login')
-        label.label(for='password') Mot de passe
-        .input.full-width
+        .field 
+          label(for='password') Mot de passe
           input#password(type='password', name='password', ng-model='vm.password')
-        .info-message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
-        .error-message(ng-show='vm.errors') {{ vm.errors }}
+        .ui.success.message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
+        .ui.error.message(ng-show='vm.errors') {{ vm.errors }}
         .login-actions
           button.ui.primary.button(type='submit') Se connecter
           button.ui.facebook.button(ng-click='vm.loginWithFacebook()') Connexion avec Facebook
 
-    .create-account.p2(ng-if='vm.displayCreateAccount && !vm.unverifiedEmail')
+    .popup-content.create-account(ng-if='vm.displayCreateAccount && !vm.unverifiedEmail')
       h2 Créez un compte
       .or
         | Ou
         a(ng-click='vm.displayCreateAccount = !vm.displayCreateAccount')  connectez-vous
 
-      form(ng-submit='vm.createAccount(vm.newAccount)')
-        label.label Identifiant
-        .input.full-width
-          input.block(type='text', ng-model='vm.newAccount.username', name='username')
-        label.label E-mail
-        .input.full-width
+      form.ui.form(ng-submit='vm.createAccount(vm.newAccount)')
+        .field
+          label Identifiant
+          input(type='text', ng-model='vm.newAccount.username', name='username')
+        .field
+          label E-mail
           input(type='text', ng-model='vm.newAccount.email', name='email')
-        label(for='password') Mot de passe
-        .input.full-width
+        .field
+          label(for='password') Mot de passe
           input#password(type='password', name='newPassword', ng-model='vm.newAccount.password')
-        .error-message(ng-show='vm.errors') {{ vm.errors }}
+
+        .ui.error.message(ng-show='vm.errors') {{ vm.errors }}
 
         .login-actions
           button.ui.primary.button(type='submit') Créer votre compte
@@ -77,7 +78,7 @@
     click-outside='vm.togglePopup()',
     outside-if-not='connect-btn, create-account'
   )
-    .unverified-email(ng-if='vm.unverifiedEmail')
+    .popup-content.unverified-email(ng-if='vm.unverifiedEmail')
       i.fa.fa-paper-plane-o.fa-4
       h2 Merci de vérifier votre adresse email
       p Veuillez cliquer sur le lien de confirmation afin de profiter pleinement de Mapdiz.com.
@@ -85,23 +86,26 @@
       .error-link(ng-if='!vm.unverifiedEmailSend')
         a(ng-click='vm.sendVerificationEmail(vm.login)') Ré-envoyer le mail de confirmation
 
-      .info-message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
-      .error-message(ng-show='vm.errors') {{ vm.errors }}
+      .ui.success.message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
+      .ui.error.message(ng-show='vm.errors') {{ vm.errors }}
 
       button.button.button-primary(ng-click='vm.unverifiedEmail = false') Continuer
 
-    .classic(ng-show="vm.connectedDisplay == 'classic' && !vm.unverifiedEmail")
-      .btn(ng-click="vm.goTo('app.profile')") Mon compte
-      .btn(ng-click="vm.connectedDisplay='changePassword'") Changer mot de passe
-      .btn(ng-click='vm.logout()') Se déconnecter
-    .changePassword.p2(ng-show="vm.connectedDisplay == 'changePassword'")
+    .user-menu.ui.vertical.fluid.menu(ng-show="vm.connectedDisplay == 'classic' && !vm.unverifiedEmail")
+      a.item(ng-click="vm.goTo('app.profile')") Mon compte
+      a.item(ng-click="vm.connectedDisplay='changePassword'") Changer mot de passe
+      a.item(ng-click='vm.logout()') Se déconnecter
+
+    .popup-content.changePassword.p2(ng-show="vm.connectedDisplay == 'changePassword'")
       h2 Changement mot de passe
-      form(ng-submit='vm.changePassword(vm.password, vm.newPassword)')
-        label(for='password') Mot de passe
-        input#password.block.col-12.field(type='password', name='password', ng-model='vm.password')
-        label(for='password') Nouveau mot de passe
-        input#password.block.col-12.field(type='password', name='password', ng-model='vm.newPassword')
-        .error-message(ng-show='vm.errors') {{ vm.errors }}
+      form.ui.form(ng-submit='vm.changePassword(vm.password, vm.newPassword)')
+        .field
+          label(for='password') Mot de passe
+          input#password(type='password', name='password', ng-model='vm.password')
+        .field
+          label(for='password') Nouveau mot de passe
+          input#password(type='password', name='password', ng-model='vm.newPassword')
+        .ui.error.message(ng-show='vm.errors') {{ vm.errors }}
         .btns.btns-center
-          button.btn.btn-primary(type='submit') Changer
-          button.btn.btn-primary.black.bg-darken-2(ng-click="vm.connectedDisplay='classic'") Annuler
+          button.ui.button.primary(type='submit') Changer
+          button.ui.button(ng-click="vm.connectedDisplay='classic'") Annuler

@@ -53,11 +53,24 @@ class Login {
         self.currentUser = Meteor.user();
         console.log('user logged', self.currentUser);
       });
+      
+      // Close popup if an other login popup is open
+      let triggeredMsg = self.mode || 'login';
+      $rootScope.$on('login-popup.' + triggeredMsg + '.toggle', function() {
+        if (self.showPopup)
+          _togglePopup(false);
+      });
     }
 
     function _togglePopup(forceValue) {
       self.errors = false;
       self.showPopup = forceValue || !self.showPopup;
+
+      // Tell others popup to close if this one is open
+      if (self.showPopup) {
+        let triggeredMsg = self.mode == 'register' ? 'login' : 'register';
+        $rootScope.$broadcast('login-popup.'+ triggeredMsg +'.toggle');
+      }
     }
 
     function _logout() {
@@ -67,29 +80,35 @@ class Login {
     }
 
     function _loginWithPassword(user, password) {
+      delete self.errors;
       Meteor.loginWithPassword(user, password, function(e) {
-        _displayError(e, false);
-        self.unverifiedEmail = !_emailIsVerfied();
-        console.log('self.unverifiedEmail', self.unverifiedEmail);
+        if (e) {
+          _displayError(e, false);
+        } else {
+          self.unverifiedEmail = !_emailIsVerified();
+          console.log('self.unverifiedEmail', self.unverifiedEmail);
+        }
       });
     }
 
     function _loginWithFacebook() {
+      delete self.errors;
       Meteor.loginWithFacebook({
         requestPermissions: ['public_profile'/*, 'user_friends', 'user_events', 'user_location'*/]
       }, _displayError);
     }
 
     function _createAccount(newAccount) {
+      delete self.errors;
       Accounts.createUser(newAccount, _displayError);
-      //self.unverifiedEmail = true;
     }
 
     function _changePassword(oldPassword, newPassword) {
+      delete self.errors;
       Accounts.changePassword(oldPassword, newPassword, _displayError);
     }
 
-    function _emailIsVerfied() {
+    function _emailIsVerified() {
       var found = _.find(
         Meteor.user().emails,
         function(thisEmail) { return thisEmail.verified }
@@ -98,6 +117,7 @@ class Login {
     }
 
     function _displayError(e, redirect) {
+      console.log('displayError', e);
       redirect = redirect !== undefined ? redirect : true;
       if (e) {
         if(!$scope.$$phase) {

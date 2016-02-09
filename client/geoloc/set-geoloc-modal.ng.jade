@@ -2,36 +2,38 @@ md-dialog.set-geoloc-modal
   md-toolbar
     .md-toolbar-tools
       h2 Emplacement
-  md-dialog-content.p2
-    p Pour définir l'emplacement de votre évenement vous pouvez déplacez marqueur (
+  md-dialog-content
+    p Pour définir l'emplacement de votre évenement vous pouvez déplacez le marqueur (
       =' '
       i.icon.ion-location
-      |   ) ou utiliser une autre méthode ci-dessous :
-    .location-selectors-wrapper.mt2.mb2
-      .tabs
-        .tab(ng-click='geolocChoiceType="address"', ng-class="{'active': geolocChoiceType == 'address'}") Adresse
-        .tab(ng-click='geolocChoiceType="coordinates"', ng-class="{'active': geolocChoiceType == 'coordinates'}") Coordonnées
-      .location-selectors.p2
-        .location-selector(ng-show='geolocChoiceType == "address"')
-          label.white(for='address') Adresse
-          .edit-address
-            input#address.block.col-12.field(
-              type='text',
-              autocomplete='off',
-              g-places-autocomplete,
-              ng-model='placesObj',
-              ng-change='placeObjToLocation(placesObj)'
-            )
-        .location-selector(ng-show='geolocChoiceType == "coordinates"')
-          label.white(for="latInput") Latitude
-          input#latInput.block.col-12.field(
+      |  ) sur la carte ou utiliser une autre méthode ci-dessous :
+
+    form.ui.form
+      .ui.top.attached.tabular.menu
+        a.item(ng-click='geolocChoiceType="address"', ng-class="{'active': geolocChoiceType == 'address'}") Adresse
+        a.item(ng-click='geolocChoiceType="coordinates"', ng-class="{'active': geolocChoiceType == 'coordinates'}") Coordonnées
+      .ui.bottom.attached.segment(ng-show='geolocChoiceType == "address"')
+        .field
+          label(for='address') Adresse
+          input#address(
+            type='text',
+            autocomplete='off',
+            g-places-autocomplete,
+            ng-model='placesObj',
+            ng-change='placeObjToLocation(placesObj)'
+          )
+      .ui.bottom.attached.segment(ng-show='geolocChoiceType == "coordinates"')
+        .field
+          label(for="latInput") Latitude
+          input#latInput(
             type="text",
             ng-model="location.lat",
             autocomplete='off',
             ng-focus="latLngFocused()"
           )
+        .field
           label.white(for="lngInput") Longitude
-          input#lngInput.block.col-12.field(
+          input#lngInput(
             type="text",
             ng-model="location.lng",
             autocomplete='off',
@@ -40,7 +42,7 @@ md-dialog.set-geoloc-modal
 
   .md-actions(layout='row')
     span(flex='')
-    md-button.md-primary(ng-click='answer(location)', ng-disabled='!location')
+    button.ui.button.primary(ng-click='answer(location)', ng-disabled='!location')
       | Ajouter emplacement
-    md-button.md-warn(ng-click='answer()')
+    button.ui.button(ng-click='answer()')
       | Annuler

@@ -95,17 +95,21 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
       .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"no"}).length }}
       .rsvps-title ont déclinés
 
-  .presence-btns.button-group(ng-if="$root.currentUser || $root.loggingIn")
-    button.button(type='button', ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'yes')", ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'yes')}") Je viens !
-    button.button(
+  .presence-btns.ui.basic.buttons(ng-if="$root.currentUser || $root.loggingIn")
+    button.ui.button(
+      type='button',
+      ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'yes')",
+      ng-class="{'active': eventDetails.myPresence(eventDetails.newEvent, 'yes')}"
+    ) Je viens !
+    button.ui.button(
       type='button',
       ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'maybe')",
-      ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'maybe')}"
+      ng-class="{'active': eventDetails.myPresence(eventDetails.newEvent, 'maybe')}"
     ) Peut-être
-    button.button(
+    button.ui.button(
       type='button',
       ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'no')",
-      ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'no')}"
+      ng-class="{'active': eventDetails.myPresence(eventDetails.newEvent, 'no')}"
     ) Non désolé
 
 
@@ -121,12 +125,12 @@ main.ui.form(ng-if="($root.currentUser && eventDetails.emailIsVerified() && even
      ul
       li {{ eventDetails.errorMsg }}
 
-  button.button.button-small.edit-btn.button-primary.enable-edit-btn(
+  button.ui.button.right.floated(
     ng-hide='eventDetails.editing',
     ng-click='eventDetails.editing = true',
     ng-if="eventDetails.accessRight == 'right'"
   ) Editer
-  button.button.button-small.edit-btn.disable-edit-btn(
+  button.ui.button.right.floated(
     ng-show='eventDetails.editing',
     ng-click='eventDetails.editing = false',
     ng-if="eventDetails.method == 'update'"
@@ -181,5 +185,5 @@ main.ui.form(ng-if="($root.currentUser && eventDetails.emailIsVerified() && even
 
   invitation(ng-model='eventDetails.newEvent', ng-if='!eventDetails.editing') Lancer des invitations
   .buttons
-    button.button.button-red(ng-click="eventDetails.remove()", ng-if='eventDetails.editing && eventDetails.newEvent._id') Supprimer
-    button.button.button-primary(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}
+    button.ui.button(ng-click="eventDetails.remove()", ng-if='eventDetails.editing && eventDetails.newEvent._id') Supprimer
+    button.ui.primary.button(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}
