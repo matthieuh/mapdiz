@@ -91,7 +91,7 @@ form.form-inline.search-form.flex-column
         .content.flex-auto.selectable
           .title.flex
             h2
-              a(ui-sref="app.event({eventId: event._id, eventSlug: event.url})") {{event.name}}
+              a(ui-sref="app.event({eventId: event._id, eventSlug: event.url})") {{ event.name }}
           .date(ng-if='event.beginDate')
             i.icon.ion-ios-calendar-outline
             span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
@@ -106,7 +106,9 @@ form.form-inline.search-form.flex-column
           div(ng-hide="$root.currentUser")
             i Enregistrez-vous pour vous inscrire à cet évenement.
 
-          .presence(ng-if='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id)')
+          .presence(
+            ng-if='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id || EventsList.isPresent(event))'
+          )
             .presence-btns.ui.basic.buttons
               button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'yes')", ng-class="{'active': EventsList.myPresence(event, 'yes')}") Je viens !
               button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'maybe')", ng-class="{'active': EventsList.myPresence(event, 'maybe')}") Peut-être

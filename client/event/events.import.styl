@@ -202,12 +202,16 @@
                 margin: 1em
 
                 .presence-btns
-                  button
-                    &:focus
-                      box-shadow: none
+                  
+                  button.ui.button
+                    
                     &.active
-                      background-color: brand-primary
-                      color: white
+                      background-color: brand-primary !important
+                      color: white !important
+                      
+                    &:hover:not(.active)
+                      background-color: rgba(245, 124, 0, 0.1) !important
+
 
               h2
                 margin: 0

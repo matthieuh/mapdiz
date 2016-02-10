@@ -116,74 +116,77 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
 
 
 
-main.ui.form(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
+main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
 
-  .message-bar.background-error(ng-show='eventDetails.errorMsg')
-    .title Oups !
-    .alert-content
-     p Les informations pour créer l'évenement sont incorrects :
-     ul
-      li {{ eventDetails.errorMsg }}
+  form.ui.form
+    .message-bar.background-error(ng-show='eventDetails.errorMsg')
+      .title Oups !
+      .alert-content
+       p Les informations pour créer l'évenement sont incorrects :
+       ul
+        li {{ eventDetails.errorMsg }}
 
-  button.ui.button.right.floated(
-    ng-hide='eventDetails.editing',
-    ng-click='eventDetails.editing = true',
-    ng-if="eventDetails.accessRight == 'right'"
-  ) Editer
-  button.ui.button.right.floated(
-    ng-show='eventDetails.editing',
-    ng-click='eventDetails.editing = false',
-    ng-if="eventDetails.method == 'update'"
-  ) Annuler édition
+    button.ui.button.right.floated(
+      ng-click='eventDetails.editing = !eventDetails.editing',
+      ng-if="eventDetails.accessRight == 'right'",
+      ng-switch='eventDetails.editing'
+    )
+      span(ng-switch-when='false') Editer
+      span(ng-switch-when='true') Annuler édition
 
-  section(ng-if='eventDetails.editing')
-    //- label.block.col-12(for="public") Public
-      input#public(type="checkbox", ng-model="eventDetails.newEvent.public")
+    //-button.ui.button.right.floated(
+      ng-show='eventDetails.editing',
+      ng-click='eventDetails.editing = false',
+      ng-if="eventDetails.method == 'update'") Annuler édition
 
-    .checkbox
-      input#public(name='public', ng-model='eventDetails.newEvent["public"]', type='checkbox')
-      label(for='public') Publique
+    section(ng-if='eventDetails.editing')
+      //- label.block.col-12(for="public") Public
+        input#public(type="checkbox", ng-model="eventDetails.newEvent.public")
+
+      .ui.toggle.checkbox
+        input#public(name='public', ng-model='eventDetails.newEvent["public"]', ng-true-value="false", ng-false-value="true", type='checkbox')
+        label(for='public') {{ eventDetails.newEvent.public ? 'Publique' : 'privé' }}
 
 
-  //- Catégorie
-  section#category(ng-show='eventDetails.editing')
-    h3
-      i.icon.ion-ios-pricetag-outline
-      |  Catégorie
-    article
-      select.ui.dropdown(
-        name='category',
-        ng-options='category._id as category.label for category in eventDetails.categories | orderBy:"label"',
-        ng-model='eventDetails.newEvent.category'
-      )
-        option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
-  //- Description
-  section(ng-hide='!eventDetails.newEvent.description && !eventDetails.editing')
-    h3
-      i.icon.ion-ios-compose-outline
-      |  Description
-    article
-      textarea#description.block.col-12.field(
-        ng-model="eventDetails.newEvent.description",
-        placeholder='Description de l\'évenement',
-        ng-if='eventDetails.editing',
-        mentio,
-        mentio-typed-text="typedTerm",
-        mentio-trigger-char="'#'",
-        mentio-items='eventDetails.tags | filter:label:typedTerm'
-      )
-      p.description(
-        ng-if='!eventDetails.editing',
-        hashtagify,
-        term-click='eventDetails.tagTermClick($event)'
-      ) {{ eventDetails.newEvent.description }}
+    //- Catégorie
+    section#category(ng-show='eventDetails.editing')
+      h3
+        i.icon.ion-ios-pricetag-outline
+        |  Catégorie
+      article
+        select.ui.dropdown(
+          name='category',
+          ng-options='category._id as category.label for category in eventDetails.categories | orderBy:"label"',
+          ng-model='eventDetails.newEvent.category'
+        )
+          option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
+    //- Description
+    section(ng-hide='!eventDetails.newEvent.description && !eventDetails.editing')
+      h3
+        i.icon.ion-ios-compose-outline
+        |  Description
+      article
+        textarea#description.block.col-12.field(
+          ng-model="eventDetails.newEvent.description",
+          placeholder='Description de l\'évenement',
+          ng-if='eventDetails.editing',
+          mentio,
+          mentio-typed-text="typedTerm",
+          mentio-trigger-char="'#'",
+          mentio-items='eventDetails.tags | filter:label:typedTerm'
+        )
+        p.description(
+          ng-if='!eventDetails.editing',
+          hashtagify,
+          term-click='eventDetails.tagTermClick($event)'
+        ) {{ eventDetails.newEvent.description }}
 
-    article
-      ul.tags
-        li(ng-repeat='tag in eventDetails.newEvent.tags')
-          a.tag(href='#') {{ tag.label }}
+      article
+        ul.tags
+          li(ng-repeat='tag in eventDetails.newEvent.tags')
+            a.tag(href='#') {{ tag.label }}
 
-  invitation(ng-model='eventDetails.newEvent', ng-if='!eventDetails.editing') Lancer des invitations
-  .buttons
-    button.ui.button(ng-click="eventDetails.remove()", ng-if='eventDetails.editing && eventDetails.newEvent._id') Supprimer
-    button.ui.primary.button(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}
+    invitation(ng-model='eventDetails.newEvent', ng-if='!eventDetails.editing') Lancer des invitations
+    .buttons
+      button.ui.button(ng-click="eventDetails.remove()", ng-if='eventDetails.editing && eventDetails.newEvent._id') Supprimer
+      button.ui.primary.button(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}

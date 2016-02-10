@@ -40,7 +40,8 @@ class EventsList {
     self.rsvp = rsvp;
     self.getUserById = getUserById;
     self.pageChanged = pageChanged;
-    self.myPresence = myPresence;
+    self.myPresence = _myPresence;
+    self.isPresent = _isPresent;
     self.order = order;
     self.mapSvc = mapSvc;
     self.tagTermClick = _tagTermClick;
@@ -142,9 +143,15 @@ class EventsList {
       mapSvc.filteredEvents = orderBy(mapSvc.filteredEvents, predicate, reverse);
     };
 
-    function myPresence(event, answer) {
+    function _myPresence(event, answer) {
       return _.some(event.rsvps, function(rsvp) {
         return rsvp.user === $rootScope.currentUser._id && rsvp.rsvp === answer;
+      });
+    }
+
+    function _isPresent(event) {
+      return _.some(event.rsvps, function(rsvp) {
+        return rsvp.user === $rootScope.currentUser._id;
       });
     }
 

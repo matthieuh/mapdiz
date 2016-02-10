@@ -108,22 +108,35 @@
         min-width: 370px
         margin: 5px
 
-        button
-          min-width: 103px
+        button.ui.button
+          min-width: 130px
           margin: 1px
           border: 0
+          background-color: button-color !important
+          color: white !important
+          
+          &.active
+            background-color: brand-primary !important
+            
+          &:hover
+            background-color: #546E88 !important
+
+            
 
       .rsvps
         display: flex
         min-width: 370px
         //flex-direction: column
+          
+        .rsvps-sum
+          min-width: 130px
 
     main
       display: flex
       flex-direction: column
       flex-grow: 1
       position: relative
-      padding: 2em
+      padding: 1rem
 
       .edit-btn
         z-index: 3
@@ -147,6 +160,9 @@
 
       textarea
         resize: vertical
+        
+      #public:checked + label::before
+        background-color: red !important
 
   .slimScrollDiv
     flex: 1
