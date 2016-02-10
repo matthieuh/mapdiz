@@ -89,14 +89,14 @@
       .ui.success.message(ng-show='vm.unverifiedEmailSend') E-mail de confirmation envoyé !
       .ui.error.message(ng-show='vm.errors') {{ vm.errors }}
 
-      button.button.button-primary(ng-click='vm.unverifiedEmail = false') Continuer
+      button.ui.button.primary(ng-click='vm.unverifiedEmail = false') Continuer
 
     .user-menu.ui.vertical.fluid.menu(ng-show="vm.connectedDisplay == 'classic' && !vm.unverifiedEmail")
       a.item(ng-click="vm.goTo('app.profile')") Mon compte
       a.item(ng-click="vm.connectedDisplay='changePassword'") Changer mot de passe
       a.item(ng-click='vm.logout()') Se déconnecter
 
-    .popup-content.changePassword.p2(ng-show="vm.connectedDisplay == 'changePassword'")
+    .popup-content.changePassword(ng-show="vm.connectedDisplay == 'changePassword'")
       h2 Changement mot de passe
       form.ui.form(ng-submit='vm.changePassword(vm.password, vm.newPassword)')
         .field

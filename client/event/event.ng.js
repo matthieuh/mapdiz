@@ -147,8 +147,6 @@ class Event {
           self.accessRight = 'right';
         }
 
-        // Open window
-
         let position = self.getReactively('newEvent.position');
         console.log('position', position);
         // Set zomm and center
@@ -204,6 +202,7 @@ class Event {
       delete self.errorMsg;
       console.log('_save');
       if (self.method == 'create') { // Create
+        console.log('create event', self.newEvent);
         Events.insert(self.newEvent, (error, savedEventId) => {
           console.log('error', error, error.message, savedEventId);
           if (error && error.message) {

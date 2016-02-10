@@ -4,6 +4,9 @@ Meteor.startup(function() {
 
       if (parameters.user && parameters.user.services && parameters.user.services.facebook) {
         Users.update(parameters.user._id, {$set: { "emails.0.verified" : true }});
+        if (parameters.user.services.facebook.email) {
+          Users.update(parameters.user._id, {$set: { "emails.0.address" : parameters.user.services.facebook.email }});
+        }
       }
 
       return true;

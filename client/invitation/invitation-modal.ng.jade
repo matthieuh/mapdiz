@@ -3,7 +3,7 @@ md-dialog.invitaton-modal
     md-toolbar
       .md-toolbar-tools
         h2 Invitations
-    md-dialog-content.p2
+    md-dialog-content
 
       .user-search
         .input.input-with-icon(style='width: 100%')
@@ -18,8 +18,10 @@ md-dialog.invitaton-modal
           md-list-item.secondary-button-padding.md-with-secondary.md-clickable(
             ng-repeat='user in InvitationModal.users | filter:InvitationModal.searchText')
             p {{ user | displayName }}
-            button.button.button-small(ng-click='InvitationModal.invite(user)', ng-show='!InvitationModal.isInvited(user._id)') Inviter
-            button.button.button-small.button-disabled(ng-show='InvitationModal.isInvited(user._id)') Invité
+            button.ui.button(
+              ng-click='InvitationModal.invite(user)',
+              ng-class="{ 'loading': InvitationModal.inviting[user._id], 'disabled': InvitationModal.isInvited(user._id) || InvitationModal.invited[user._id] }"
+            ) {{ InvitationModal.isInvited(user._id) || InvitationModal.invited[user._id] ? 'Invité' : 'inviter' }}
           md-divider
 
           //-{{ Invitation.ngModel | json }}
@@ -28,7 +30,4 @@ md-dialog.invitaton-modal
 
     .md-actions(layout='row')
       span(flex='')
-      md-button.md-primary(ng-click='InvitationModal.invites()', ng-disabled='!cropper.sourceImage')
-        | Inviter
-      md-button.md-warn(ng-click='InvitationModal.close()')
-        | Fermer
+      button.ui.button.primary(ng-click='InvitationModal.close()') OK

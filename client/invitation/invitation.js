@@ -126,13 +126,16 @@ class Invitation {
       }
 
       function _invite(user) {
+        mdSelf.invited = mdSelf.invited || [];
+        mdSelf.inviting = mdSelf.inviting || [];
+        mdSelf.inviting[user._id] = true;
         Meteor.call('invite', self.ngModel._id, user._id, (error) => {
-          if (error) {
-            console.log('Oops, unable to invite!');
+          mdSelf.inviting[user._id] = false;
+          if (!$scope.$$phase) $scope.$apply();
+          if (!error) {
+            mdSelf.invited[user._id] = true;
           }
-          else {
-            console.log('Invited!');
-          }
+          if (!$scope.$$phase) $scope.$apply();
         });
       }
 

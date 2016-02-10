@@ -10,12 +10,8 @@ class displayName {
         return;
       if (user.username)
         return user.username;
-      else if (user.emails && user.emails[0] && user.emails[0].address)
-        return user.emails[0].address;
       else if (user.services && user.services.facebook && user.services.facebook.name)
         return user.services.facebook.name;
-      else
-        return user
     }
   }
 }

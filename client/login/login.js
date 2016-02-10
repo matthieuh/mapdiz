@@ -86,6 +86,7 @@ class Login {
           _displayError(e, false);
         } else {
           self.unverifiedEmail = !_emailIsVerified();
+          _togglePopup(self.unverifiedEmail);
           console.log('self.unverifiedEmail', self.unverifiedEmail);
         }
       });
@@ -94,7 +95,7 @@ class Login {
     function _loginWithFacebook() {
       delete self.errors;
       Meteor.loginWithFacebook({
-        requestPermissions: ['public_profile'/*, 'user_friends', 'user_events', 'user_location'*/]
+        requestPermissions: ['public_profile', 'email'/*, 'user_friends', 'user_events', 'user_location'*/]
       }, _displayError);
     }
 
