@@ -1,10 +1,11 @@
-form.form-inline.search-form.flex-column
+form.ui.form.form-inline.search-form.flex-column
   .search-input-wrapper
     .category.select
-      select(
+      select.ui.dropdown(
         name='category',
         ng-options='category._id as category.label for category in EventsList.categories | orderBy:"label"',
-        ng-model='$parent.App.filteredCategory'
+        ng-model='$parent.App.filteredCategory',
+        ng-init='EventsList.initDropdown()'
       )
         option(value='', ng-hide='EventsList.newEvent.category') Tous
     input#search(type="text", ng-model="query", placeholder="Rechercher...")

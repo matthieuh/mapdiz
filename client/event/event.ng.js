@@ -74,6 +74,7 @@ class Event {
     self.rsvp = _rsvp;
     self.myPresence = _myPresence;
     self.emailIsVerified = _emailIsVerified;
+    self.initDropdown = _initDropdown;
 
     $scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {
@@ -113,14 +114,10 @@ class Event {
 
     var compiled = $compile(content)($scope);
 
-    _init();
-
     /////////////////////
 
-    function _init() {
-      let dd = $('.ui.dropdown')
-      console.log('dd', dd);
-      dd.dropdown();
+    function _initDropdown() {
+      $('.ui.dropdown').dropdown();
     }
 
     function _categoriesCollection() {
@@ -188,7 +185,7 @@ class Event {
       } else {
         self.newEvent.beginTime = undefined;
       }
-    };
+    }
 
     function _endTimeSelected(selected) {
       if(selected && selected.title) {
@@ -200,11 +197,9 @@ class Event {
 
     function _save() {
       delete self.errorMsg;
-      console.log('_save');
       if (self.method == 'create') { // Create
-        console.log('create event', self.newEvent);
         Events.insert(self.newEvent, (error, savedEventId) => {
-          console.log('error', error, error.message, savedEventId);
+          console.log('error', error, savedEventId);
           if (error && error.message) {
             self.errorMsg = error.message;
           } else {
@@ -212,7 +207,7 @@ class Event {
               _uploadPictures(savedEventId);
             } else { // SUCCESS
               self.editing = false;
-              $state.go('app.events', {eventId: savedEventId, eventSlug: convertToSlug(self.newEvent.name)});
+              $state.go('app.events', {eventId: savedEventId, eventSlug: _convertToSlug(self.newEvent.name)});
             }
           }
         });
@@ -312,7 +307,7 @@ class Event {
         .toLowerCase()
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
-    };
+    }
 
     function _emailIsVerified() {
       var found = _.find(

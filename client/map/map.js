@@ -63,7 +63,7 @@ class Map {
             <div class="iw-container">
               <div class="info-window-content">
                 <h4>{{ filteredEvent.name }}<h4>
-                <div class="description mxn1" ng-show="filteredEvent.description">
+                <div class="description mxn1" ng-show="filteredEvent.description && filteredEvent.description.length > 0">
                   <strong>Description :</strong> {{ filteredEvent.description }}
                   <div class="iw-bottom-gradient"></div>
                 </div>

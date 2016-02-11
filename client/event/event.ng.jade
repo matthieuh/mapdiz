@@ -23,7 +23,8 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
         ng-click='eventDetails.editName=true',
         ng-show='eventDetails.editing && !eventDetails.editName'
       ) {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
-      .input.input-with-icon(
+
+      .ui.action.input(
         ng-if='eventDetails.editing && eventDetails.editName',
         ng-show='eventDetails.editName'
       )
@@ -32,8 +33,9 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
           ng-model="eventDetails.newEvent.name",
           placeholder='Nom de l\'évenement'
         )
-        button.input-icon.fa.fa-check.fa-lg(ng-click='eventDetails.editName=false')
-      =' '
+        button.ui.icon.green.button(ng-click='eventDetails.editName=false')
+          i.check.icon
+
     .geoloc(position='eventDetails.newEvent.position')
       i.icon.ion-android-locate
       span.prefix Emplacement :
@@ -157,7 +159,8 @@ main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails
         select.ui.dropdown(
           name='category',
           ng-options='category._id as category.label for category in eventDetails.categories | orderBy:"label"',
-          ng-model='eventDetails.newEvent.category'
+          ng-model='eventDetails.newEvent.category',
+          ng-init='eventDetails.initDropdown()'
         )
           option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
     //- Description

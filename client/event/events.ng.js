@@ -48,6 +48,7 @@ class EventsList {
     self.url = url;
     self.mouseenterEvent = _mouseenterEvent;
     self.mouseleaveEvent = _mouseleaveEvent;
+    self.initDropdown = _initDropdown;
     self.timeFilter = {
       options: {
         floor: 0,
@@ -93,6 +94,10 @@ class EventsList {
     function _init() {
       _getFilteredCategory();
       setMapCenter();
+    }
+
+    function _initDropdown() {
+      $('.ui.dropdown').dropdown();
     }
 
     function _mouseenterEvent(eventId) {
