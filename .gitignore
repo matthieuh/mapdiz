@@ -4,7 +4,7 @@ packages/angular-meteor
 prod_settings.json
 deployment_token.json
 
-client/assets/style/semantic/**/*
-!client/assets/style/semantic/custom.semantic.json
-!client/assets/style/semantic/theme.config.import.less
-!client/assets/style/semantic/site/**/*
+# client/assets/style/semantic/**/*
+# !client/assets/style/semantic/custom.semantic.json
+# !client/assets/style/semantic/theme.config.import.less
+# !client/assets/style/semantic/site/**/*
