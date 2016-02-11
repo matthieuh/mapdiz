@@ -1,13 +1,13 @@
-form.form-inline.search-form.flex-column
+form.ui.form.form-inline.search-form.flex-column
   .search-input-wrapper
     .category.select
-      select(
+      select.ui.dropdown(
         name='category',
         ng-options='category._id as category.label for category in EventsList.categories | orderBy:"label"',
-        ng-model='$parent.App.filteredCategory'
+        ng-model='$parent.App.filteredCategory',
+        ng-init='EventsList.initDropdown()'
       )
         option(value='', ng-hide='EventsList.newEvent.category') Tous
-      i.fa.fa-angle-down.fa-2
     input#search(type="text", ng-model="query", placeholder="Rechercher...")
     .result-length
       ng-pluralize(
@@ -20,7 +20,7 @@ form.form-inline.search-form.flex-column
       ng-attr-title="{{ showFilters ? 'Masquer Filtres' : 'Afficher Filtres' }}"
     )
       i.icon.ion-ios-settings(ng-class="{'active': showFilters}")
-  .filters(ng-show='showFilters').flex-wrap
+  .filters(ng-show='showFilters')
     //- TIME FILTER
     .range-filter.flex-wrap
       .range-label.flex-auto(
@@ -44,7 +44,7 @@ form.form-inline.search-form.flex-column
           when="{'0': 'jour', '1': 'jour', 'other': 'jours'}")
 
     //- DISTANCE FILTER
-    .range-filter.distance-range.flex-wrap
+    .range-filter.distance-range
       .range-label.flex-auto(
         ng-click='EventsList.distanceFilter.inifinite=false;EventsList.distanceFilter.options.disabled=!EventsList.distanceFilter.options.disabled',
         ng-class="{'disabled': EventsList.distanceFilter.options.disabled}"
@@ -92,7 +92,7 @@ form.form-inline.search-form.flex-column
         .content.flex-auto.selectable
           .title.flex
             h2
-              a(ui-sref="app.event({eventId: event._id, eventSlug: event.url})") {{event.name}}
+              a(ui-sref="app.event({eventId: event._id, eventSlug: event.url})") {{ event.name }}
           .date(ng-if='event.beginDate')
             i.icon.ion-ios-calendar-outline
             span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
@@ -107,8 +107,10 @@ form.form-inline.search-form.flex-column
           div(ng-hide="$root.currentUser")
             i Enregistrez-vous pour vous inscrire à cet événement.
 
-          .presence(ng-if='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id)')
-            .presence-btns.inline-block.clearfix.m1
-              button.left.btn.x-group-item.rounded-left(type='button', ng-click="EventsList.rsvp(event._id, 'yes')", ng-class="{'active': EventsList.myPresence(event, 'yes'), 'btn-outline ': !EventsList.myPresence(event, 'yes')}") Je viens !
-              button.left.btn.x-group-item.not-rounded(type='button', ng-click="EventsList.rsvp(event._id, 'maybe')", ng-class="{'active': EventsList.myPresence(event, 'maybe'), 'btn-outline ': !EventsList.myPresence(event, 'maybe')}") Peut-être
-              button.left.btn.x-group-item.rounded-right(type='button', ng-click="EventsList.rsvp(event._id, 'no')", ng-class="{'active': EventsList.myPresence(event, 'no'), 'btn-outline ': !EventsList.myPresence(event, 'no')}") Non désolé
+          .presence(
+            ng-if='$root.currentUser && (EventsList.mapSvc.openedWindow == event._id || EventsList.overflownEvent == event._id || EventsList.isPresent(event))'
+          )
+            .presence-btns.ui.basic.buttons
+              button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'yes')", ng-class="{'active': EventsList.myPresence(event, 'yes')}") Je viens !
+              button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'maybe')", ng-class="{'active': EventsList.myPresence(event, 'maybe')}") Peut-être
+              button.ui.button(type='button', ng-click="EventsList.rsvp(event._id, 'no')", ng-class="{'active': EventsList.myPresence(event, 'no')}") Non désolé

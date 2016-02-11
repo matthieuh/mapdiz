@@ -15,16 +15,16 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
     a.delete-cover(href='#', ng-show='eventDetails.cover', ng-click="eventDetails.deleteCover()")
       i.icon.ion-trash-a
       |  Supprimer la couverture
-  //.cover(ng-style="$parent.$parent.App.getImage(eventDetails.cover)", ng-show='eventDetails.cover')
   img.cover(ng-src="{{eventDetails.cover}}", ng-show='eventDetails.cover', width="800" height="200")
-  .over-cover
+  .over-cover.ui.form
     .title
       h1(ng-hide='eventDetails.editing') {{ eventDetails.newEvent.name }}
       h1.editable.editable-text(
         ng-click='eventDetails.editName=true',
         ng-show='eventDetails.editing && !eventDetails.editName'
-      ) {{ eventDetails.newEvent.name || "Nom de l'événement" }}
-      .input.input-with-icon(
+      ) {{ eventDetails.newEvent.name || "Nom de l'évenement" }}
+
+      .ui.action.input(
         ng-if='eventDetails.editing && eventDetails.editName',
         ng-show='eventDetails.editName'
       )
@@ -33,8 +33,9 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
           ng-model="eventDetails.newEvent.name",
           placeholder='Nom de l\'événement'
         )
-        button.input-icon.fa.fa-check.fa-lg(ng-click='eventDetails.editName=false')
-      =' '
+        button.ui.icon.green.button(ng-click='eventDetails.editName=false')
+          i.check.icon
+
     .geoloc(position='eventDetails.newEvent.position')
       i.icon.ion-android-locate
       span.prefix Emplacement :
@@ -96,93 +97,100 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
       .rsvps-amount.ng-binding {{ (eventDetails.newEvent.rsvps | filter:{rsvp:"no"}).length }}
       .rsvps-title ont déclinés
 
-  .presence-btns.button-group(ng-if="$root.currentUser || $root.loggingIn")
-    button.button(type='button', ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'yes')", ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'yes')}") Je viens !
-    button.button(
+  .presence-btns.ui.basic.buttons(ng-if="$root.currentUser || $root.loggingIn")
+    button.ui.button(
+      type='button',
+      ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'yes')",
+      ng-class="{'active': eventDetails.myPresence(eventDetails.newEvent, 'yes')}"
+    ) Je viens !
+    button.ui.button(
       type='button',
       ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'maybe')",
-      ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'maybe')}"
+      ng-class="{'active': eventDetails.myPresence(eventDetails.newEvent, 'maybe')}"
     ) Peut-être
-    button.button(
+    button.ui.button(
       type='button',
       ng-click="eventDetails.rsvp(eventDetails.newEvent._id, 'no')",
-      ng-class="{'button-primary': eventDetails.myPresence(eventDetails.newEvent, 'no')}"
+      ng-class="{'active': eventDetails.myPresence(eventDetails.newEvent, 'no')}"
     ) Non désolé
 
 
 
 
 
-main.p2(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
+main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
 
-  .message-bar.background-error(ng-show='eventDetails.errorMsg')
-    .title Oups !
-    .alert-content
-     p Les informations pour créer l'événement sont incorrects :
-     ul
-      li {{ eventDetails.errorMsg }}
+  form.ui.form
+    .message-bar.background-error(ng-show='eventDetails.errorMsg')
+      .title Oups !
+      .alert-content
+       p Les informations pour créer l'évenement sont incorrects :
+       ul
+        li {{ eventDetails.errorMsg }}
 
-  button.button.button-small.edit-btn.button-primary.enable-edit-btn(
-    ng-hide='eventDetails.editing',
-    ng-click='eventDetails.editing = true',
-    ng-if="eventDetails.accessRight == 'right'"
-  ) Editer
-  button.button.button-small.edit-btn.disable-edit-btn(
-    ng-show='eventDetails.editing',
-    ng-click='eventDetails.editing = false',
-    ng-if="eventDetails.method == 'update'"
-  ) Annuler édition
+    button.ui.button.right.floated(
+      ng-click='eventDetails.editing = !eventDetails.editing',
+      ng-if="eventDetails.accessRight == 'right'",
+      ng-switch='eventDetails.editing'
+    )
+      span(ng-switch-when='false') Editer
+      span(ng-switch-when='true') Annuler édition
 
-  section(ng-if='eventDetails.editing')
-    //- label.block.col-12(for="public") Public
-      input#public(type="checkbox", ng-model="eventDetails.newEvent.public")
+    //-button.ui.button.right.floated(
+      ng-show='eventDetails.editing',
+      ng-click='eventDetails.editing = false',
+      ng-if="eventDetails.method == 'update'") Annuler édition
 
-    .checkbox
-      input#public(name='public', ng-model='eventDetails.newEvent["public"]', type='checkbox')
-      label(for='public') Publique
+    section(ng-if='eventDetails.editing')
+      //- label.block.col-12(for="public") Public
+        input#public(type="checkbox", ng-model="eventDetails.newEvent.public")
+
+      .ui.toggle.checkbox
+        input#public(name='public', ng-model='eventDetails.newEvent["public"]', ng-true-value="false", ng-false-value="true", type='checkbox')
+        label(for='public') {{ eventDetails.newEvent.public ? 'Publique' : 'privé' }}
 
 
-  //- Catégorie
-  section#category(ng-show='eventDetails.editing')
-    h3
-      i.icon.ion-ios-pricetag-outline
-      |  Catégorie
-    article
-      .select
-        select(
+    //- Catégorie
+    section#category(ng-show='eventDetails.editing')
+      h3
+        i.icon.ion-ios-pricetag-outline
+        |  Catégorie
+      article
+        select.ui.dropdown(
           name='category',
           ng-options='category._id as category.label for category in eventDetails.categories | orderBy:"label"',
-          ng-model='eventDetails.newEvent.category'
+          ng-model='eventDetails.newEvent.category',
+          ng-init='eventDetails.initDropdown()'
         )
           option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
-        i.fa.fa-angle-down.fa-2
-  //- Description
-  section(ng-hide='!eventDetails.newEvent.description && !eventDetails.editing')
-    h3
-      i.icon.ion-ios-compose-outline
-      |  Description
-    article
-      textarea#description.block.col-12.field(
-        ng-model="eventDetails.newEvent.description",
-        placeholder='Description de l\'événement',
-        ng-if='eventDetails.editing',
-        mentio,
-        mentio-typed-text="typedTerm",
-        mentio-trigger-char="'#'",
-        mentio-items='eventDetails.tags | filter:label:typedTerm'
-      )
-      p.description(
-        ng-if='!eventDetails.editing',
-        hashtagify,
-        term-click='eventDetails.tagTermClick($event)'
-      ) {{ eventDetails.newEvent.description }}
 
-    article
-      ul.tags
-        li(ng-repeat='tag in eventDetails.newEvent.tags')
-          a.tag(href='#') {{ tag.label }}
+    //- Description
+    section(ng-hide='!eventDetails.newEvent.description && !eventDetails.editing')
+      h3
+        i.icon.ion-ios-compose-outline
+        |  Description
+      article
+        textarea#description.block.col-12.field(
+          ng-model="eventDetails.newEvent.description",
+          placeholder='Description de l\'évenement',
+          ng-if='eventDetails.editing',
+          mentio,
+          mentio-typed-text="typedTerm",
+          mentio-trigger-char="'#'",
+          mentio-items='eventDetails.tags | filter:label:typedTerm'
+        )
+        p.description(
+          ng-if='!eventDetails.editing',
+          hashtagify,
+          term-click='eventDetails.tagTermClick($event)'
+        ) {{ eventDetails.newEvent.description }}
 
-  invitation(ng-model='eventDetails.newEvent', ng-if='!eventDetails.editing') Lancer des invitations
-  .buttons
-    button.button.button-red(ng-click="eventDetails.remove()", ng-if='eventDetails.editing && eventDetails.newEvent._id') Supprimer
-    button.button.button-primary(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}
+      article
+        ul.tags
+          li(ng-repeat='tag in eventDetails.newEvent.tags')
+            a.tag(href='#') {{ tag.label }}
+
+    invitation(ng-model='eventDetails.newEvent', ng-if='!eventDetails.editing') Lancer des invitations
+    .buttons
+      button.ui.button(ng-click="eventDetails.remove()", ng-if='eventDetails.editing && eventDetails.newEvent._id') Supprimer
+      button.ui.primary.button(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}

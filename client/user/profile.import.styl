@@ -1,53 +1,58 @@
 [state^='app.profile']
-  header
-    background-color: dark_background
-    color: #fff
-    display: flex
+  profile
+    flex: 1
+    
+    header
+      background-color: dark_background
+      color: #fff
+      display: flex
+      padding: 1rem
 
-    h1
-      margin: 0 auto
-      text-align: center
-
-    .avatar-container
-      position: relative
-      width: 185px
-      text-align: center
-
-      .avatar-wrapper
-        height: 185px
-        width: 185px
-        border-radius: 3px
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
-        background-size: cover
-        background-position: center center
-        background-repeat:no-repeat
-      .edit-avatar-btn
-        position: absolute
-        top: 10px
-        right: -7px
-        z-index: 2
-        padding: 5px 18px 7px
-        color: #FFF
+      h1
+        margin: 0 auto
         text-align: center
-        line-height: 20px
-        box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1)
-        background: brand-primary none repeat scroll 0% 0%
 
-        &:hover
-          cursor: pointer
-          background-color: brand-secondary
+      .avatar-container
+        position: relative
+        width: 185px
+        text-align: center
 
-    .infos
-      .info
-        margin-bottom: 15px
+        .avatar-wrapper
+          height: 185px
+          width: 185px
+          border-radius: 3px
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
+          background-size: cover
+          background-position: center center
+          background-repeat:no-repeat
+        .edit-avatar-btn
+          position: absolute
+          top: 10px
+          right: -7px
+          z-index: 2
+          padding: 5px 18px 7px
+          color: #FFF
+          text-align: center
+          line-height: 20px
+          box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1)
+          background: brand-primary none repeat scroll 0% 0%
 
-        &#email
-          .fa-check
-            color: green
+          &:hover
+            cursor: pointer
+            background-color: brand-secondary
 
-          .fa-close
-            color: red
+      .infos
+        margin-left: 1rem
+        .info
+          margin-bottom: 15px
+
+          &#email
+            .fa-check
+              color: green
+
+            .fa-close
+              color: red
 
 
-    hr
-      background-color: #a9a9aa
+      hr
+        background-color: #a9a9aa

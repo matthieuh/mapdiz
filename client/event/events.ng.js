@@ -40,13 +40,15 @@ class EventsList {
     self.rsvp = rsvp;
     self.getUserById = getUserById;
     self.pageChanged = pageChanged;
-    self.myPresence = myPresence;
+    self.myPresence = _myPresence;
+    self.isPresent = _isPresent;
     self.order = order;
     self.mapSvc = mapSvc;
     self.tagTermClick = _tagTermClick;
     self.url = url;
     self.mouseenterEvent = _mouseenterEvent;
     self.mouseleaveEvent = _mouseleaveEvent;
+    self.initDropdown = _initDropdown;
     self.timeFilter = {
       options: {
         floor: 0,
@@ -92,6 +94,10 @@ class EventsList {
     function _init() {
       _getFilteredCategory();
       setMapCenter();
+    }
+
+    function _initDropdown() {
+      $('.ui.dropdown').dropdown();
     }
 
     function _mouseenterEvent(eventId) {
@@ -142,9 +148,15 @@ class EventsList {
       mapSvc.filteredEvents = orderBy(mapSvc.filteredEvents, predicate, reverse);
     };
 
-    function myPresence(event, answer) {
+    function _myPresence(event, answer) {
       return _.some(event.rsvps, function(rsvp) {
         return rsvp.user === $rootScope.currentUser._id && rsvp.rsvp === answer;
+      });
+    }
+
+    function _isPresent(event) {
+      return _.some(event.rsvps, function(rsvp) {
+        return rsvp.user === $rootScope.currentUser._id;
       });
     }
 

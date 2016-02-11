@@ -7,6 +7,10 @@ Schema.Event = new SimpleSchema({
     min: 4,
     max: 200
   },
+  "category": {
+    label: "Tags",
+    type: String
+  },
   "description": {
     type: String,
     label: "Description",
@@ -79,10 +83,6 @@ Schema.Event = new SimpleSchema({
     label: "Invités",
     type: [String],
     optional: true
-  },
-  "category": {
-    label: "Tags",
-    type: String
   },
   "tags": {
     label: "Tags",
@@ -286,39 +286,42 @@ var contactEmail = function(user) {
   return null;
 };
 
-Events.before.insert(function(userId, doc) {
-  doc.owner = userId;
-  if (doc.name) {
-    doc.url = _convertToSlug(doc.name);
-    doc.name = capitalizeFirstLetter(doc.name);
-  }
+if (Meteor.isServer) {
 
-  console.log('Events.before.insert', userId, doc);
-});
+  Events.before.insert(function(userId, doc) {
+    doc.owner = userId;
+    if (doc.name) {
+      doc.url = _convertToSlug(doc.name);
+      doc.name = capitalizeFirstLetter(doc.name);
+    }
+
+    console.log('Events.before.insert', userId, doc);
+  });
 
 
-Events.after.update(function(userId, doc, fieldNames, modifier, options) {
-  console.log(fieldNames);
-  modifier.$set = modifier.$set || {};
-  modifier.$set.updated = Date.now();
+  Events.after.update(function(userId, doc, fieldNames, modifier, options) {
+    console.log(fieldNames);
+    modifier.$set = modifier.$set || {};
+    modifier.$set.updated = Date.now();
 
-  if (fieldNames.indexOf('name') > -1) {
-    modifier.$set.name = capitalizeFirstLetter(doc.name);
-  }
+    if (fieldNames.indexOf('name') > -1) {
+      modifier.$set.name = capitalizeFirstLetter(doc.name);
+    }
 
-  if (fieldNames.indexOf('tags') > -1 || fieldNames.indexOf('category')) {
-    var allTag = _.union(doc.tags, doc.category);
-
-    allTag.forEach(function(tag) {
-      Tags.update({_id: tag._id}, {
-        $addToSet: {
-          events: {name: doc.name, _id: doc._id}
-        }
+    if (fieldNames.indexOf('tags') > -1 || fieldNames.indexOf('category') > -1) {
+      var allTag = _.union(doc.tags, doc.category);
+      console.log('allTag', allTag);
+      allTag.forEach(function(tag) {
+        Tags.update({_id: tag._id}, {
+          $addToSet: {
+            events: {name: doc.name, _id: doc._id}
+          }
+        });
       });
-    });
-  }
+    }
 
-});
+  });
+}
 
 function _convertToSlug(Text) {
   return Text

@@ -3,16 +3,18 @@ md-dialog.add-picture-modal
     md-toolbar
       .md-toolbar-tools
         h2 Ajouter une image
-    md-dialog-content.p2
+    md-dialog-content
 
       .drop-box(ng-click='addPicture($event)', ng-hide='cropper.sourceImage')
         div Cliquez dans cette zone pour ajouter une image
-        input(
-          type='file',
-          img-cropper-fileread,
-          image='cropper.sourceImage',
-          style="display:none"
-        )
+        .ui.input
+          input(
+            type='file',
+            img-cropper-fileread,
+            image='cropper.sourceImage',
+            style="display:none"
+          )
+
       .crop-container(ng-show='cropper.sourceImage')
         h3 Bravo ! Maintenant redimensionnez votre image ...
 
@@ -35,7 +37,7 @@ md-dialog.add-picture-modal
 
     .md-actions(layout='row')
       span(flex='')
-      md-button.md-primary(ng-click='answer(cropper.croppedImage)', ng-disabled='!cropper.sourceImage')
+      button.ui.button.primary(ng-click='answer(cropper.croppedImage)', ng-disabled='!cropper.sourceImage')
         | Ajouter Image
-      md-button.md-warn(ng-click='answer()')
+      button.ui.button(ng-click='answer()')
         | Annuler

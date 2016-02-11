@@ -8,7 +8,7 @@
       ng-attr-after="DateRange.mmDateAfter"
     )
     .buttons(ng-show='DateRange.edition')
-      button(ng-click='DateRange.answer(true)') Annuler
-      button(ng-click='DateRange.answer()') OK
+      button.ui.button(ng-click='DateRange.answer(true)') Annuler
+      button.ui.button.primary(ng-click='DateRange.answer()') OK
     .buttons(ng-hide='DateRange.edition')
-      button(ng-click='DateRange.answer(true)') fermer
+      button.ui.button(ng-click='DateRange.answer(true)') fermer

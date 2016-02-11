@@ -47,8 +47,11 @@ class Geoloc {
             location: self.location
           }
         }).then(function(location) {
-          if (location) {
+          if (location && typeof location == 'object') {
             self.location = location;
+          }
+          if (!self.location || !self.location.lat ) {
+            mapSvc.draggableMarker.visible = false;
           }
         })
       } else if (self.location) {
@@ -65,6 +68,7 @@ class Geoloc {
       $scope.placesObj = null;
       $scope.geolocChoiceType = 'address';
       $scope.answer = answer;
+      $scope.close = close;
       $scope.placeObjToLocation = placeObjToLocation;
       $scope.latLngChanged = latLngChanged;
       $scope.latLngFocused = latLngFocused;
@@ -179,10 +183,13 @@ class Geoloc {
         if (location) {
           $mdDialog.hide(location);
         } else {
-          mapSvc.draggableMarker.visible = false;
           $scope.location = {};
           $mdDialog.hide();
         }
+      }
+
+      function close(location) {
+        $mdDialog.hide();
       }
 
     }
