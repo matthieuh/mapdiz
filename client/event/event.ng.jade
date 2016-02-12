@@ -136,15 +136,7 @@ main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails
       span(ng-switch-when='false') Editer
       span(ng-switch-when='true') Annuler édition
 
-    //-button.ui.button.right.floated(
-      ng-show='eventDetails.editing',
-      ng-click='eventDetails.editing = false',
-      ng-if="eventDetails.method == 'update'") Annuler édition
-
     section(ng-if='eventDetails.editing')
-      //- label.block.col-12(for="public") Public
-        input#public(type="checkbox", ng-model="eventDetails.newEvent.public")
-
       .ui.toggle.checkbox
         input#public(name='public', ng-model='eventDetails.newEvent["public"]', ng-true-value="false", ng-false-value="true", type='checkbox')
         label(for='public') {{ eventDetails.newEvent.public ? 'Publique' : 'privé' }}
@@ -158,10 +150,9 @@ main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails
       article
         select.ui.dropdown(
           name='category',
-          ng-options='category._id as category.label for category in eventDetails.categories | orderBy:"label"',
           ng-model='eventDetails.newEvent.category',
-          ng-init='eventDetails.initDropdown()'
-        )
+          ng-init='eventDetails.initDropdown()')
+          option(ng-value='category._id', ng-repeat='category in eventDetails.categories | orderBy:"label"') {{ category.label }}
           option(value='', ng-hide='eventDetails.newEvent.category') Choisir une catégorie
 
     //- Description

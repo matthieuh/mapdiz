@@ -63,7 +63,8 @@ class MapService {
       getUserLoc: getUserLoc,
       mapZoomChange: mapZoomChange,
       dragEnd: dragEnd,
-      getNewPosition: getNewPosition
+      getNewPosition: getNewPosition,
+      resetNewPosition: resetNewPosition,
     };
 
     return service;
@@ -365,6 +366,10 @@ class MapService {
           zoom: zoom
         };
       }
+    }
+
+    function resetNewPosition() {
+      _newPosition = {};
     }
 
     function _getEventIcon(categories, categoryId) {

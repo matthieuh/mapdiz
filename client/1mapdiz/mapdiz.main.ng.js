@@ -30,7 +30,8 @@ SetModule('mapdiz', [
   'mentio',
   'hashtagify',
   'pascalprecht.translate',
-  'accounts.ui'
+  'accounts.ui',
+  'angularify.semantic.dropdown',
 ]);
 
 @Component({

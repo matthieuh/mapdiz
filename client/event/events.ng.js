@@ -23,7 +23,6 @@ class EventsList {
 
     var self = this;
     var orderBy = $filter('orderBy');
-    var subscriptionHandle;
 
     $reactive(self).attach($scope);
 
@@ -82,13 +81,6 @@ class EventsList {
 
     _init();
 
-    $scope.$on('$destroy', function() {
-      if(angular.isDefined(subscriptionHandle)){
-        subscriptionHandle.stop();
-        subscriptionHandle = undefined;
-      }
-    });
-
     ////////////////////////
 
     function _init() {
@@ -96,12 +88,19 @@ class EventsList {
       setMapCenter();
     }
 
-    function _initDropdown() {
-      $('.ui.dropdown').dropdown();
+    function _initDropdown(ddValue) {
+      let dd = $('.ui.dropdown');
+
+      $timeout(() => {
+        if (ddValue) {
+          dd.dropdown('set selected', ddValue);
+        } else {
+          dd.dropdown();
+        }
+      });
     }
 
     function _mouseenterEvent(eventId) {
-      console.log('mouseenterEvent');
       self.overflownEvent = eventId;
       $scope.$emit('event.overflown', { id: eventId });
     }
@@ -114,8 +113,10 @@ class EventsList {
     function _getFilteredCategory() {
       self.autorun(() => {
         let filteredCategory = _.find(self.getReactively('categories'), { slug: $stateParams.category });
-        if (filteredCategory)
+        if (filteredCategory) {
           $scope.$parent.App.filteredCategory = filteredCategory._id;
+          _initDropdown(filteredCategory._id)
+        }
       });
     }
 
@@ -133,7 +134,6 @@ class EventsList {
 
     function _tagTermClick(e) {
       var tagText = e.target.innerHTML;
-      console.log('tagTermClick, tagText:', e, tagText);
     }
 
     function url(event, store) {
@@ -220,18 +220,18 @@ class EventsList {
 
           mapSvc.setMapCenter(searchedLatlng);
         } else {
-          centerOnUserGeoloc();
+          _centerOnUserGeoloc();
         }
       } else {
-        centerOnUserGeoloc()
+        _centerOnUserGeoloc()
       }
     }
 
     /**
-     * [centerOnUserGeoloc description]
+     * [_centerOnUserGeoloc description]
      * @return {[type]} [description]
      */
-    function centerOnUserGeoloc() {
+    function _centerOnUserGeoloc() {
       var newPosition = mapSvc.getNewPosition();
 
       if (_.isEmpty(newPosition)){

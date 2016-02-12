@@ -86,6 +86,8 @@ class Event {
       }
     });
 
+    $scope.$watch('eventDetails.newEvent.category', _initDropdown)
+
     $scope.$watch('eventDetails.cover', () => {
       if (self.cover && typeof self.cover == 'object') {
         self.cover = self.cover.url();
@@ -117,7 +119,15 @@ class Event {
     /////////////////////
 
     function _initDropdown() {
-      $('.ui.dropdown').dropdown();
+      let dd = $('.ui.dropdown');
+      console.log('_initDropdown', dd);
+      $timeout(() => {
+        if (self.newEvent && self.newEvent.category) {
+          dd.dropdown('set selected', self.newEvent.category);
+        } else {
+          dd.dropdown();
+        }
+      });
     }
 
     function _categoriesCollection() {
