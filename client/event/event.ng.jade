@@ -115,8 +115,24 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
     ) Non désolé
 
 
+.event-menu.ui.inverted.segment
+  .ui.inverted.secondary.pointing.menu
+    a.item.active
+      | Informations Générales
+    invitation.item(ng-model='eventDetails.newEvent', ng-show='!eventDetails.editing')
+      | Invitations / Participants
+    a.item
+      | Discussions
+    a.item
+      | Photos / Videos
 
-
+    .right.menu(
+      ng-click='eventDetails.editing = !eventDetails.editing',
+      ng-if="eventDetails.accessRight == 'right'",
+      ng-switch='eventDetails.editing'
+    )
+      a.ui.item(ng-switch-when='false') Editer
+      a.ui.item(ng-switch-when='true') Annuler édition
 
 main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
 
@@ -181,7 +197,7 @@ main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails
           li(ng-repeat='tag in eventDetails.newEvent.tags')
             a.tag(href='#') {{ tag.label }}
 
-    invitation(ng-model='eventDetails.newEvent', ng-if='!eventDetails.editing') Lancer des invitations
+    invitation(ng-model='eventDetails.newEvent', ng-show='!eventDetails.editing') Lancer des invitations
     .buttons
-      button.ui.button(ng-click="eventDetails.remove()", ng-if='eventDetails.editing && eventDetails.newEvent._id') Supprimer
-      button.ui.primary.button(ng-click="eventDetails.save()", ng-if='eventDetails.editing') {{ eventDetails.validFormBtn }}
+      button.ui.button(ng-click="eventDetails.remove()", ng-show='eventDetails.editing && eventDetails.newEvent._id') Supprimer
+      button.ui.primary.button(ng-click="eventDetails.save()", ng-show='eventDetails.editing') {{ eventDetails.validFormBtn }}
