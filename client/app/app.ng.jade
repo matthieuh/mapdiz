@@ -1,5 +1,8 @@
 main.flex-auto
+  button.ui.button.toggle-map(ng-click='App.showMap = !App.showMap')
+    span(ng-hide='App.showMap') Afficher Carte
+    span(ng-show='App.showMap') Masquer Carte
   .left-bar
     section.main-section.flex-auto.flex-column(ui-view='', state="{{ $state.current.name }}")
-  .main-content
+  .main-content(ng-hide='!App.showMap')
     map.p1.flex-auto

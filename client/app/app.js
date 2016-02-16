@@ -32,6 +32,8 @@ class App {
     });
 
     self.getImage = _getImage;
+    self.showMap = true;
+
     google = $scope.google;
     $scope.$state = $rootScope.$state = $state;
 
@@ -42,6 +44,8 @@ class App {
     $scope.$on('event.overflown.none', function(event) {
       self.overflownEvent = false;
     });
+
+    $scope.$on('map.toggle', _toggleMap);
 
     $rootScope.$on("$stateChangeError",
       function (event, toState, toParams, fromState, fromParams, error) {
@@ -86,6 +90,14 @@ class App {
       return Tags.find({
         advisable: true,
       });
+    }
+
+    function _toggleMap(event, show) {
+      if (show) {
+        self.showMap = show;
+      } else {
+        self.showMap = !self.showMap;
+      }
     }
 
     function _getImage(image, onlyUrl) {
