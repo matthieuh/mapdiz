@@ -121,21 +121,12 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
       | Informations Générales
     invitation.item(ng-model='eventDetails.newEvent', ng-show='!eventDetails.editing')
       | Invitations / Participants
-    a.item
+    a.item(ui-sref='app.event.posts')
       | Discussions
     a.item
       | Photos / Videos
 
-    .right.menu(
-      ng-click='eventDetails.editing = !eventDetails.editing',
-      ng-if="eventDetails.accessRight == 'right'",
-      ng-switch='eventDetails.editing'
-    )
-      a.ui.item(ng-switch-when='false') Editer
-      a.ui.item(ng-switch-when='true') Annuler édition
-
-main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'")
-
+main(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create') || eventDetails.method == 'update'", ui-view='')
   form.ui.form
     .message-bar.background-error(ng-show='eventDetails.errorMsg')
       .title Oups !

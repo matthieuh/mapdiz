@@ -14,7 +14,7 @@ angular.module('mapdiz');
   controllerAs: 'EventsList'
 })
 
-@View({templateUrl: 'client/event/events.html'})
+@View({templateUrl: 'client/events/events.html'})
 @Inject('$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$filter', '$log', 'mapSvc', 'localStorageService', '$timeout')
 
 class EventsList {

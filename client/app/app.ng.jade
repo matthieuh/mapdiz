@@ -1,5 +1,9 @@
 main.flex-auto
-  .left-bar
+  .left-bar(
+    resizable,
+    r-flex='true',
+    r-directions="['right', 'left']"
+  )
     section.main-section.flex-auto.flex-column(ui-view='', state="{{ $state.current.name }}")
   .main-content
     map.p1.flex-auto

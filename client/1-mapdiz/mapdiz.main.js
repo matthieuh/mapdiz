@@ -39,7 +39,7 @@ SetModule('mapdiz', [
   controllerAs: 'Mapdiz'
 })
 
-@View({ templateUrl: 'client/1mapdiz/mapdiz.html' })
+@View({ templateUrl: 'client/1-mapdiz/mapdiz.html' })
 @Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor')
 
 class Mapdiz {
