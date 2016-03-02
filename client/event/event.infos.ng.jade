@@ -1,0 +1,68 @@
+h2 Informations générales
+
+button.ui.button.right.floated(
+  ng-click='EventInfos.eventDetails.editing = !EventInfos.eventDetails.editing',
+  ng-if="EventInfos.eventDetails.accessRight == 'right'",
+  ng-switch='EventInfos.eventDetails.editing'
+)
+  span(ng-switch-when='false') Editer
+  span(ng-switch-when='true') Annuler édition
+
+form.ui.form
+  .message-bar.background-error(ng-show='EventInfos.eventDetails.errorMsg')
+    .title Oups !
+    .alert-content
+     p Les informations pour créer l'évenement sont incorrects :
+     ul
+      li {{ EventInfos.eventDetails.errorMsg }}
+
+  section(ng-if='EventInfos.eventDetails.editing')
+    .ui.toggle.checkbox
+      input#public(name='public', ng-model='EventInfos.eventDetails.newEvent.public', ng-true-value="false", ng-false-value="true", type='checkbox')
+      label(for='public') 
+        | {{ EventInfos.eventDetails.newEvent.public ? 'Publique' : 'privé' }}
+
+
+  //- Catégorie
+  section#category(ng-show='EventInfos.eventDetails.editing')
+    h3
+      i.icon.ion-ios-pricetag-outline
+      |  Catégorie
+    article
+      select.ui.dropdown(
+        name='category',
+        ng-model='EventInfos.eventDetails.newEvent.category',
+        ng-init='EventInfos.eventDetails.initDropdown()')
+        option(ng-value='category._id', ng-repeat='category in EventInfos.eventDetails.categories | orderBy:"label"') {{ category.label }}
+        option(value='', ng-hide='EventInfos.eventDetails.newEvent.category') Choisir une catégorie
+
+  //- Description
+  section(ng-hide='!EventInfos.eventDetails.newEvent.description && !EventInfos.eventDetails.editing')
+    h3
+      i.icon.ion-ios-compose-outline
+      |  Description
+    article
+      textarea#description.block.col-12.field(
+        ng-model="EventInfos.eventDetails.newEvent.description",
+        placeholder='Description de l\'évenement',
+        ng-if='EventInfos.eventDetails.editing',
+        mentio,
+        mentio-typed-text="typedTerm",
+        mentio-trigger-char="'#'",
+        mentio-items='EventInfos.eventDetails.tags | filter:label:typedTerm'
+      )
+      p.description(
+        ng-if='!EventInfos.eventDetails.editing',
+        hashtagify,
+        term-click='EventInfos.eventDetails.tagTermClick($event)'
+      ) {{ EventInfos.eventDetails.newEvent.description }}
+
+    article
+      ul.tags
+        li(ng-repeat='tag in EventInfos.eventDetails.newEvent.tags')
+          a.tag(href='#') {{ tag.label }}
+
+  invitation(ng-model='EventInfos.eventDetails.event', ng-show='!EventInfos.eventDetails.editing') Lancer des invitations
+  .buttons
+    button.ui.button(ng-click="EventInfos.eventDetails.remove()", ng-show='EventInfos.eventDetails.editing && EventInfos.eventDetails.newEvent._id') Supprimer
+    button.ui.primary.button(ng-click="EventInfos.eventDetails.save()", ng-show='EventInfos.eventDetails.editing') {{ EventInfos.eventDetails.validFormBtn }}

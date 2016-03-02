@@ -1,1 +1,39 @@
-p all posts here
+h2 Discussions
+
+.posts
+  .ui.segment.post(ng-repeat='post in EventPosts.posts')
+    .content
+      a.author {{ EventPosts.creator(post) | displayName }}
+      .metadata
+        span.date Today at 5:42PM
+      h3 {{ post.title }}
+      .text {{ post.body }}
+      //-.actions(ng-if='$root.currentUser && EventPosts.eventDetails.emailIsVerified()')
+        a.reply Commenter
+    .votes
+      .vote.up(
+        ng-click='EventPosts.voteUp(post._id)',
+        ng-class="{'current': EventPosts.isCurrentUserVote(post.upvoters) }"
+      )
+        i.up.chevron.icon
+      .score {{ post.upvoters.length - post.downvoters.length || 0 }}
+      .vote.down(
+        ng-click='EventPosts.voteDown(post._id)',
+        ng-class="{'current': EventPosts.isCurrentUserVote(post.downvoters) }"
+      )
+        i.down.chevron.icon
+  form.ui.reply.form(ng-if='$root.currentUser && EventPosts.eventDetails.emailIsVerified()')
+    .title
+      input(
+        ng-model='EventPosts.newPost.title',
+        placeholder='Titre'
+      )
+    .field
+      textarea(
+        ng-model='EventPosts.newPost.body',
+        placeholder='Contenu...',
+        style='height: 96px;'
+      )    
+    .ui.blue.labeled.submit.icon.button(ng-click='EventPosts.addPost()')
+      i.icon.edit
+      |  Ajouter discussion

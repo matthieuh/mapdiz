@@ -27,21 +27,7 @@ Meteor.publish("events", function (options, searchString, categoryId) {
   if (searchString == null)
     searchString = '';
   /*Counts.publish(this, 'numberOfEvents', Events.find({
-    'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
-    $or:[
-      {$and:[
-        {"public": true},
-        {"public": {$exists: true}}
-      ]},
-      {$and:[
-        {owner: this.userId},
-        {owner: {$exists: true}}
-      ]},
-      {$and:[
-        {invited: this.userId},
-        {invited: {$exists: true}}
-      ]}
-    ]}), { noReady: true });*/
+    'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },*/
   let selector = {
     'name' : { '$regex' : '.*' + searchString || '' + '.*', '$options' : 'i' },
     $or:[
@@ -64,6 +50,11 @@ Meteor.publish("events", function (options, searchString, categoryId) {
     selector.category = categoryId;
 
   return Events.find(selector);
+});
+
+Meteor.publish('eventPosts', function (eventId) {
+  console.log('publish eventPosts', eventId);
+  return Posts.find({eventId: eventId});
 });
 
 

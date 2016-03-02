@@ -44,7 +44,7 @@ class EventsList {
     self.order = order;
     self.mapSvc = mapSvc;
     self.tagTermClick = _tagTermClick;
-    self.url = url;
+    self.url = _url;
     self.mouseenterEvent = _mouseenterEvent;
     self.mouseleaveEvent = _mouseleaveEvent;
     self.initDropdown = _initDropdown;
@@ -136,7 +136,7 @@ class EventsList {
       var tagText = e.target.innerHTML;
     }
 
-    function url(event, store) {
+    function _url(event, store) {
       if(event && event.cover) {
         var image = _.find(self.images, {_id: event.cover});
         if (!image || !image.url) return null

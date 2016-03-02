@@ -1,0 +1,51 @@
+.posts
+  max-width: inherit
+  margin: 0
+  
+  .post
+    margin-top: 1em
+    padding: 10px
+    display: flex
+    
+    .content
+      flex: 1
+      
+      .author
+        display: inline-block
+        
+      .metadata
+        display: inline-block
+        
+    .votes
+      min-width: 25px
+      display: flex
+      flex-direction: column
+            
+      .vote, .score
+        display: flex
+        flex: 1
+        align-items: center
+        justify-content: center
+        
+        .icon
+          margin: 0
+        
+      .vote:hover
+        cursor: pointer
+        transform: scale(1.5)
+        
+      .vote.current
+        transform: scale(1.5)
+        
+        &.up
+          color: green
+          
+        &.down
+          color: red
+    
+    h3
+      margin: 0
+
+  form
+    .title
+      margin-bottom: 10px

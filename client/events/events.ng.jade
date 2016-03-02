@@ -93,7 +93,7 @@ form.ui.form.form-inline.search-form.flex-column
         .content.flex-auto.selectable
           .title.flex
             h2
-              a(ui-sref="app.event({eventId: event._id, eventSlug: event.url})") {{ event.name }}
+              a(ui-sref="app.event.infos({eventId: event._id, eventSlug: event.url})") {{ event.name }}
           .date(ng-if='event.beginDate')
             i.icon.ion-ios-calendar-outline
             span(ng-if='event.beginDate')  {{ event.beginDate | date:'dd/MM/yyyy' }}
