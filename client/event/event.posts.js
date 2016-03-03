@@ -29,6 +29,10 @@ class EventPosts {
     self.voteUp = _voteUp;
     self.voteDown = _voteDown;
     self.isCurrentUserVote = _isCurrentUserVote;
+    self.isOwnerOrIsEventGuest = _isOwnerOrIsEventGuest;
+    self.displayAddComment = _displayAddComment;
+    self.showAddPost = false;
+    self.showAddComment = [];
 
     $reactive(self).attach($scope);
 
@@ -55,11 +59,15 @@ class EventPosts {
       if (self.eventDetails && self.eventDetails.newEvent) {
         self.newPost.eventId = self.eventDetails.newEvent._id;
         Posts.insert(self.newPost, (error, savedPostId) => {
-          console.log(error, savedPostId);
+          console.log('Posts.insert', error, savedPostId);
           self.newPost = {};
+          self.showAddPost = false;
         });
-      }
-      
+      } 
+    }
+
+    function _displayAddComment(post) {
+      self.showAddComment[post._id] = true;
     }
 
     function _getUserById(userId) {
@@ -86,6 +94,12 @@ class EventPosts {
 
     function _isCurrentUserVote(voters) {
       return _.contains(voters, Meteor.userId());
+    }
+
+    function _isOwnerOrIsEventGuest() {
+      let event = self.eventDetails.newEvent;
+      let userId = Meteor.userId();
+      return event && (event.public == true || event.owner == userId || _.contains(userId, event.invited));
     }
   }
 }

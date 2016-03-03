@@ -53,7 +53,6 @@ Meteor.publish("events", function (options, searchString, categoryId) {
 });
 
 Meteor.publish('eventPosts', function (eventId) {
-  console.log('publish eventPosts', eventId);
   return Posts.find({eventId: eventId});
 });
 

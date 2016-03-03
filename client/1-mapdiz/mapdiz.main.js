@@ -64,7 +64,9 @@ class Mapdiz {
   }
 }
 
-angular.module('mapdiz').config((gmLibraryProvider, $windowProvider, localStorageServiceProvider, $translateProvider) => {
+let mapdizApp = angular.module('mapdiz');
+
+mapdizApp.config((gmLibraryProvider, $windowProvider, localStorageServiceProvider, $translateProvider) => {
   console.log('config');
 
   //$translateProvider.useSanitizeValueStrategy('sanitize');
@@ -74,6 +76,7 @@ angular.module('mapdiz').config((gmLibraryProvider, $windowProvider, localStorag
       suffix: '.json'
     }
   )
+
   $translateProvider.preferredLanguage('fr');
 
   gmLibraryProvider.configure({
@@ -84,6 +87,12 @@ angular.module('mapdiz').config((gmLibraryProvider, $windowProvider, localStorag
   localStorageServiceProvider
     .setPrefix('mapdiz')
     .setStorageType('sessionStorage');
+});
+
+mapdizApp.run((amMoment) => {
+  console.log('run');
+  moment.locale('fr');
+  amMoment.changeLocale('fr');
 });
 
 

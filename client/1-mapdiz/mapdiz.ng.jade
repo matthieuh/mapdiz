@@ -9,7 +9,7 @@
       a.top-menu-link(ui-sref="app.events", ui-sref-active='active')
         .title-icon
           i.icon.ion-map
-      a.top-menu-link(ui-sref="app.event({eventId: 'add'})", ui-sref-active='active', ng-show="$root.currentUser")
+      a.top-menu-link(ui-sref="app.event.infos({eventId: 'add'})", ui-sref-active='active', ng-show="$root.currentUser")
         .title-icon
           i.icon.ion-ios-plus-outline
       login.top-menu-link(mode='register')
@@ -25,14 +25,14 @@ footer(ng-if='$state.current.name.indexOf("app") < 0')
       ul
         li À propos
         li Blog
-        li Presse
-        li Partenariat
+        //-li Presse
+        //-li Partenariat
 
     .footer-column
       h3 Aide
       ul
-        li Aide organisateurs
-        li Aide participants
+        //-li Aide organisateurs
+        //-li Aide participants
         li Contact
 
     .footer-column

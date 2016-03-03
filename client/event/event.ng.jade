@@ -119,10 +119,10 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
   .ui.inverted.secondary.pointing.menu
     a.item(ui-sref='app.event.infos', ui-sref-active='active')
       | Informations Générales
-    invitation.item(ng-model='eventDetails.newEvent', ng-show='!eventDetails.editing')
-      | Invitations / Participants
     a.item(ui-sref='app.event.posts', ui-sref-active='active')
       | Discussions
+    invitation.item(ng-model='eventDetails.newEvent', ng-show='!eventDetails.editing')
+      | Invitations / Participants
     //-a.item
       | Photos / Videos
 

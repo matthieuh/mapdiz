@@ -2,7 +2,7 @@ h2 Informations générales
 
 button.ui.button.right.floated(
   ng-click='EventInfos.eventDetails.editing = !EventInfos.eventDetails.editing',
-  ng-if="EventInfos.eventDetails.accessRight == 'right'",
+  ng-if="EventInfos.method !== 'create' && EventInfos.eventDetails.accessRight == 'right'",
   ng-switch='EventInfos.eventDetails.editing'
 )
   span(ng-switch-when='false') Editer

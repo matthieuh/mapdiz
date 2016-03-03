@@ -1,13 +1,41 @@
 h2 Discussions
 
-.posts
-  .ui.segment.post(ng-repeat='post in EventPosts.posts')
+button.add-post-btn.ui.blue.small.button(
+  ng-click='EventPosts.showAddPost = true',
+  ng-show='!EventPosts.showAddPost'
+) Ajouter une discussion
+
+section.posts
+  article.ui.segment.post(ng-repeat='post in EventPosts.posts')
     .content
       a.author {{ EventPosts.creator(post) | displayName }}
       .metadata
-        span.date Today at 5:42PM
+        span.date {{ post.createdAt | amCalendar }}
       h3 {{ post.title }}
       .text {{ post.body }}
+      footer
+        .ui.divider
+        button.tiny.labeled.icon.ui.button(
+          ng-click='EventPosts.displayAddComment(post)',
+          ng-show='!EventPosts.showAddComment[post._id]'
+        )
+          i.comment.icon
+          | Commentaires (0)
+        .ui.comments(ng-show='EventPosts.showAddComment[post._id]')
+          .comment
+            .avatar
+              img(src='http://semantic-ui.com/images/avatar/small/matt.jpg')
+            .content
+              a.author Matt
+              .metadata
+                span.date Il a 1 min
+              .text tset commentaire
+          form.ui.form(ng-show='EventPosts.showAddComment[post._id]')
+            .field
+              textarea(rows="2")
+            button.ui.button(ng-click='EventPosts.showAddComment[post._id] = false') Annuler
+            button.ui.blue.button Ajouter commentaire
+
       //-.actions(ng-if='$root.currentUser && EventPosts.eventDetails.emailIsVerified()')
         a.reply Commenter
     .votes
@@ -22,18 +50,28 @@ h2 Discussions
         ng-class="{'current': EventPosts.isCurrentUserVote(post.downvoters) }"
       )
         i.down.chevron.icon
-  form.ui.reply.form(ng-if='$root.currentUser && EventPosts.eventDetails.emailIsVerified()')
+
+  form.ui.reply.form.add-post(
+    ng-if='$root.currentUser && EventPosts.isOwnerOrIsEventGuest()',
+    ng-show='EventPosts.showAddPost',
+    ng-submit='EventPosts.addPost()'
+  )
+    .ui.divider
     .title
       input(
         ng-model='EventPosts.newPost.title',
-        placeholder='Titre'
+        placeholder='Titre',
+        required
       )
     .field
       textarea(
         ng-model='EventPosts.newPost.body',
         placeholder='Contenu...',
-        style='height: 96px;'
-      )    
-    .ui.blue.labeled.submit.icon.button(ng-click='EventPosts.addPost()')
-      i.icon.edit
-      |  Ajouter discussion
+        style='height: 96px;',
+        required
+      )
+    .buttons
+      button.ui.button(ng-click='EventPosts.showAddPost = false') Annuler
+      button.ui.blue.labeled.submit.icon.button(type='submit')
+        i.icon.edit
+        |  Ajouter discussion
