@@ -24,11 +24,7 @@ class Eventinfos {
 
     console.log('$scope.parent', $scope.$parent.$parent.$parent.eventDetails);
 
-    self.method =  $scope.$parent.$parent.$parent.eventDetails.method;
-    self.editing = $scope.$parent.$parent.$parent.eventDetails.editing;
-    self.accessRight = $scope.$parent.$parent.$parent.eventDetails.accessRight;
     self.eventDetails = $scope.$parent.$parent.$parent.eventDetails;
-
 
 	}
 }

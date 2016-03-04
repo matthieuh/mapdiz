@@ -1,8 +1,8 @@
-h2 Informations générales
+h2 Informations générales {{ EventInfos.method }} - {{ EventInfos.eventDetails.method }} - {{ EventInfos.accessRight }} - {{ EventInfos.eventDetails.accessRight }}
 
 button.ui.button.right.floated(
   ng-click='EventInfos.eventDetails.editing = !EventInfos.eventDetails.editing',
-  ng-if="EventInfos.method !== 'create' && EventInfos.eventDetails.accessRight == 'right'",
+  ng-if="EventInfos.eventDetails.method !== 'create' && EventInfos.eventDetails.accessRight == 'right'",
   ng-switch='EventInfos.eventDetails.editing'
 )
   span(ng-switch-when='false') Editer

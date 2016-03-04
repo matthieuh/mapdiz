@@ -56,6 +56,10 @@ Meteor.publish('eventPosts', function (eventId) {
   return Posts.find({eventId: eventId});
 });
 
+Meteor.publish('eventComments', function (eventId) {
+  return Comments.find({eventId: eventId});
+});
+
 
 Meteor.publish('images', function () {
   return Images.find();

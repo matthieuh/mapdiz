@@ -16,30 +16,40 @@ SetModule('mapdiz');
 })
 
 @View({templateUrl: 'client/event/event.posts.html'})
-@Inject('$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$log', 'mapSvc', '$timeout', '$window', '$compile', 'Upload')
+@Inject('$scope', '$reactive', '$rootScope', '$state', '$stateParams', '$timeout', '$log', 'mapSvc', '$window', '$compile', 'Upload')
 
 class EventPosts {
-  constructor($scope, $reactive, $rootScope, $state, $stateParams) {
+  constructor($scope, $reactive, $rootScope, $state, $stateParams, $timeout) {
     var self = this;
 
     self.eventDetails = $scope.$parent.$parent.$parent.eventDetails;
     self.newPost = {};
     self.addPost = _addPost;
+    self.deletePost = _deletePost;
+    self.addComment = _addComment;
+    self.deleteComment = _deleteComment;
     self.creator = _creator;
     self.voteUp = _voteUp;
     self.voteDown = _voteDown;
     self.isCurrentUserVote = _isCurrentUserVote;
     self.isOwnerOrIsEventGuest = _isOwnerOrIsEventGuest;
-    self.displayAddComment = _displayAddComment;
+    self.isPostOrEventOwner = _isPostOrEventOwner;
+    self.isCommentOwner = _isCommentOwner;
     self.showAddPost = false;
-    self.showAddComment = [];
+    self.showComments = [];
+    self.showAddComments = [];
+    self.postsComments = [];
+    self.newComments = [];
+    self.getCommentsLength = _getCommentsLength;
 
     $reactive(self).attach($scope);
 
     self.subscribe('eventPosts', _eventPostsSubscribtion);
+    self.subscribe('eventComments', _eventCommentsSubscribtion);
 
     self.helpers({
-      posts: _eventPostsCollection
+      posts: _eventPostsCollection,
+      comments: _eventCommentsCollection
     });
 
 
@@ -51,7 +61,17 @@ class EventPosts {
       });
     }
 
+    function _eventCommentsCollection() {
+      return Comments.find({
+        eventId: self.getReactively('eventDetails.newEvent._id')
+      });
+    }
+
     function _eventPostsSubscribtion() {
+      return [self.getReactively('eventDetails.newEvent._id')];
+    }
+
+    function _eventCommentsSubscribtion() {
       return [self.getReactively('eventDetails.newEvent._id')];
     }
 
@@ -59,15 +79,39 @@ class EventPosts {
       if (self.eventDetails && self.eventDetails.newEvent) {
         self.newPost.eventId = self.eventDetails.newEvent._id;
         Posts.insert(self.newPost, (error, savedPostId) => {
-          console.log('Posts.insert', error, savedPostId);
-          self.newPost = {};
-          self.showAddPost = false;
+          $timeout(() => {
+            console.log('Posts.insert', error, savedPostId);
+            self.newPost = {};
+            self.showAddPost = false;
+          });  
         });
       } 
     }
 
-    function _displayAddComment(post) {
-      self.showAddComment[post._id] = true;
+    function _deletePost(postId) {
+      Posts.remove(postId);
+    }
+
+    function _addComment(postId) {
+      if (postId && self.eventDetails && self.eventDetails.newEvent) {
+        self.newComments[postId].eventId = self.eventDetails.newEvent._id;
+        self.newComments[postId].postId = postId;
+        Comments.insert(self.newComments[postId], (error, savedCommentId) => {
+          console.log('Comments.insert', error, savedCommentId);
+          self.newComments[postId] = {};
+          self.showAddComments[postId] = false;
+          $scope.$apply();
+        });
+      }
+    }
+
+    function _deleteComment(commentId) {
+      Comments.remove(commentId);
+    }
+
+    function _getCommentsLength(postId) {
+      self.postsComments[postId] = _.filter(self.comments, {postId: postId});
+      return self.postsComments[postId].length
     }
 
     function _getUserById(userId) {
@@ -79,9 +123,9 @@ class EventPosts {
      * @param  {[type]} event [description]
      * @return {[type]}       [description]
      */
-    function _creator(post) {
-      if (!post) return;
-      return _getUserById(post.userId);
+    function _creator(doc) {
+      if (!doc) return;
+      return _getUserById(doc.userId);
     }
 
     function _voteUp(postId) {
@@ -100,6 +144,16 @@ class EventPosts {
       let event = self.eventDetails.newEvent;
       let userId = Meteor.userId();
       return event && (event.public == true || event.owner == userId || _.contains(userId, event.invited));
+    }
+
+    function _isPostOrEventOwner(post) {
+      let event = self.eventDetails.newEvent;
+      let userId = Meteor.userId();
+      return post && post.userId == userId || event.owner == userId ;
+    }
+
+    function _isCommentOwner(owner) {
+      return Meteor.userId() == owner;
     }
   }
 }

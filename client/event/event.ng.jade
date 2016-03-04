@@ -53,16 +53,19 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
         name='beginDate',
         style='display: none'
       )
+      span(ng-if='!eventDetails.newEvent.beginDate && !eventDetails.editing') date non précisée
       date-range.date-field.editable#edit-beginDate(
         ng-model='eventDetails.newEvent.beginDate',
         date-before='eventDetails.newEvent.endDate',
-        edition='eventDetails.editing'
+        edition='eventDetails.editing',
+        ng-if='eventDetails.newEvent.beginDate || eventDetails.editing'
       )
         | {{ eventDetails.newEvent.beginDate ? ( eventDetails.newEvent.beginDate | date:'dd/MM/yyyy' ) : 'Date de début' }}
-      span.between à
+      span.between(ng-if='eventDetails.newEvent.beginDate || eventDetails.editing') à
       time-picker(
         ng-model='eventDetails.newEvent.beginTime',
-        edition='eventDetails.editing'
+        edition='eventDetails.editing',
+        ng-if='eventDetails.newEvent.beginDate || eventDetails.editing'
       )
         | {{ eventDetails.newEvent.beginTime ? ( eventDetails.newEvent.beginTime | date:'H:mm' ) : 'heure de début' }}
 
@@ -74,15 +77,18 @@ header(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetai
         name='endDate',
         style="display: none"
       )
+      span(ng-if='!eventDetails.newEvent.endDate && !eventDetails.editing') date non précisée
       date-range.date-field.editable#edit-endDate(
         ng-model='eventDetails.newEvent.endDate',
         date-after='eventDetails.newEvent.beginDate',
-        edition='eventDetails.editing'
+        edition='eventDetails.editing',
+        ng-if='eventDetails.newEvent.endDate || eventDetails.editing'
       )  {{ eventDetails.newEvent.endDate ? ( eventDetails.newEvent.endDate | date:'dd/MM/yyyy' ) : 'Date de fin' }}
-      span.between à
+      span.between(ng-if='eventDetails.newEvent.endDate || eventDetails.editing') à
       time-picker(
         ng-model='eventDetails.newEvent.endTime',
-        edition='eventDetails.editing'
+        edition='eventDetails.editing',
+        ng-if='eventDetails.newEvent.endDate || eventDetails.editing'
       )  {{ eventDetails.newEvent.endTime ? ( eventDetails.newEvent.endTime | date:'H:mm' ) : 'heure de fin' }}
 
 .presence(ng-if="($root.currentUser && eventDetails.emailIsVerified() && eventDetails.method == 'create' && !eventDetails.editing) || eventDetails.method == 'update'")

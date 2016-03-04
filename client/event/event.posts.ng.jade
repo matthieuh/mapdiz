@@ -7,49 +7,69 @@ button.add-post-btn.ui.blue.small.button(
 
 section.posts
   article.ui.segment.post(ng-repeat='post in EventPosts.posts')
-    .content
-      a.author {{ EventPosts.creator(post) | displayName }}
-      .metadata
-        span.date {{ post.createdAt | amCalendar }}
-      h3 {{ post.title }}
-      .text {{ post.body }}
-      footer
-        .ui.divider
-        button.tiny.labeled.icon.ui.button(
-          ng-click='EventPosts.displayAddComment(post)',
-          ng-show='!EventPosts.showAddComment[post._id]'
+    .post-main
+      .content
+        a.author {{ EventPosts.creator(post) | displayName }}
+        .metadata
+          span.date {{ post.createdAt | amCalendar }}
+        h3 {{ post.title }}
+        .text {{ post.body }}
+      .votes
+        .vote.up(
+          ng-click='EventPosts.voteUp(post._id)',
+          ng-class="{'current': EventPosts.isCurrentUserVote(post.upvoters) }"
         )
-          i.comment.icon
-          | Commentaires (0)
-        .ui.comments(ng-show='EventPosts.showAddComment[post._id]')
-          .comment
-            .avatar
-              img(src='http://semantic-ui.com/images/avatar/small/matt.jpg')
-            .content
-              a.author Matt
-              .metadata
-                span.date Il a 1 min
-              .text tset commentaire
-          form.ui.form(ng-show='EventPosts.showAddComment[post._id]')
-            .field
-              textarea(rows="2")
-            button.ui.button(ng-click='EventPosts.showAddComment[post._id] = false') Annuler
-            button.ui.blue.button Ajouter commentaire
+          i.up.chevron.icon
+        .score {{ post.upvoters.length - post.downvoters.length || 0 }}
+        .vote.down(
+          ng-click='EventPosts.voteDown(post._id)',
+          ng-class="{'current': EventPosts.isCurrentUserVote(post.downvoters) }"
+        )
+          i.down.chevron.icon
+    footer
+      .ui.divider
+      button.tiny.labeled.icon.ui.button(
+        ng-click='EventPosts.showComments[post._id] = true',
+        ng-show='!EventPosts.showComments[post._id]'
+      )
+        i.comment.icon
+        | Commentaires ({{ EventPosts.getCommentsLength(post._id) }})
+      button.delete.tiny.red.ui.button(
+        ng-click='EventPosts.deletePost(post._id)',
+        ng-show='EventPosts.isPostOrEventOwner(post) && !EventPosts.showComments[post._id]'
+      ) Supprimer
+
+
+      .ui.comments(ng-show='EventPosts.showComments[post._id]')
+        .close(ng-click='EventPosts.showComments[post._id] = false') &#10006;
+        .comment(ng-repeat='comment in EventPosts.postsComments[post._id]')
+          avatar.avatar(userId='comment.userId')
+            //-img(src='http://semantic-ui.com/images/avatar/small/matt.jpg')
+          .content
+            a.author {{ EventPosts.creator(comment) | displayName }}
+            .metadata
+              span.date Il a 1 min
+              a.delete(
+                ng-show='EventPosts.isCommentOwner(comment.userId)',
+                ng-click='EventPosts.deleteComment(comment._id)'
+              ) (Supprimer commentaire)
+            .text {{ comment.body }}
+        button.tiny.ui.blue.button.anwser(
+          ng-click='EventPosts.showAddComments[post._id] = true',
+          ng-show='!EventPosts.showAddComments[post._id] && EventPosts.postsComments[post._id].length > 0'
+        ) Commenter
+        form.ui.form(
+          ng-show='EventPosts.showAddComments[post._id] || EventPosts.postsComments[post._id].length == 0',
+          ng-submit='EventPosts.addComment(post._id)'
+        )
+          .field
+            textarea(rows="2", ng-model='EventPosts.newComments[post._id].body', required)
+          button.tiny.ui.button(ng-click='EventPosts.showAddComments[post._id] = false') Annuler
+          button.tiny.ui.blue.button(type='submit') Ajouter commentaire
 
       //-.actions(ng-if='$root.currentUser && EventPosts.eventDetails.emailIsVerified()')
         a.reply Commenter
-    .votes
-      .vote.up(
-        ng-click='EventPosts.voteUp(post._id)',
-        ng-class="{'current': EventPosts.isCurrentUserVote(post.upvoters) }"
-      )
-        i.up.chevron.icon
-      .score {{ post.upvoters.length - post.downvoters.length || 0 }}
-      .vote.down(
-        ng-click='EventPosts.voteDown(post._id)',
-        ng-class="{'current': EventPosts.isCurrentUserVote(post.downvoters) }"
-      )
-        i.down.chevron.icon
+   
 
   form.ui.reply.form.add-post(
     ng-if='$root.currentUser && EventPosts.isOwnerOrIsEventGuest()',
