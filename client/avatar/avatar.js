@@ -34,14 +34,14 @@ class Avatar {
     self.getAvatarUrl = _getAvatarUrl;
 
     self.autorun(() => {
-      $timeout(_userIdChange);
-      $timeout(_userAvatarChange);
+      _userIdChange();
+      _userAvatarChange();
     });
 
     //////////////////
 
     function _userAvatarChange() {
-      self.avatar = Avatars.findOne(self.getReactively('localUser.profile.avatar'));
+      $timeout(self.avatar = Avatars.findOne(self.getReactively('localUser.profile.avatar')));
     }
 
     function _userIdChange() {
