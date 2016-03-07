@@ -62,7 +62,6 @@ class Event {
     });
 
     self.autorun(_initMap);
-    self.accessRight = self.method == 'create' ? 'right' : 'read';
     self.editing = self.method == 'create';
     self.beginTimeSelected = _beginTimeSelected;
     self.endTimeSelected = _endTimeSelected;
@@ -75,6 +74,10 @@ class Event {
     self.myPresence = _myPresence;
     self.emailIsVerified = _emailIsVerified;
     self.initDropdown = _initDropdown;
+
+    self.autorun(() => {
+      $timeout(self.accessRight = self.getReactively('newEvent.owner') == Meteor.userId() ? 'right' : 'read');
+    });
 
     $scope.$watch('eventDetails.newEvent.cover', () => {
       if (self.newEvent && self.newEvent.cover) {

@@ -45,8 +45,6 @@ SetModule('mapdiz', [
 class Mapdiz {
   constructor($scope, $reactive, $rootScope, $state, $meteor) {
     var self = this;
-    var toto = 'toto';
-    //let test = new Vivus('logo', {duration: 200});
 
     $reactive(self).attach($scope);
 
@@ -90,13 +88,8 @@ mapdizApp.config((gmLibraryProvider, $windowProvider, localStorageServiceProvide
 });
 
 mapdizApp.run((amMoment) => {
-  console.log('run');
-  moment.locale('fr');
   amMoment.changeLocale('fr');
 });
-
-
-//bootstrap(Mapdiz/*, MapdizConfig*/);
 
 function onReady() {
   console.log('ready');

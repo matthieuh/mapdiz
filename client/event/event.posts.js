@@ -77,14 +77,16 @@ class EventPosts {
 
     function _addPost() {
       if (self.eventDetails && self.eventDetails.newEvent) {
+
         self.newPost.eventId = self.eventDetails.newEvent._id;
+
         Posts.insert(self.newPost, (error, savedPostId) => {
-          $timeout(() => {
-            console.log('Posts.insert', error, savedPostId);
-            self.newPost = {};
-            self.showAddPost = false;
-          });  
+          self.newPost = {};
+          self.showAddPost = false;
+
+          $scope.$apply();
         });
+
       } 
     }
 
@@ -94,14 +96,17 @@ class EventPosts {
 
     function _addComment(postId) {
       if (postId && self.eventDetails && self.eventDetails.newEvent) {
+
         self.newComments[postId].eventId = self.eventDetails.newEvent._id;
         self.newComments[postId].postId = postId;
+
         Comments.insert(self.newComments[postId], (error, savedCommentId) => {
-          console.log('Comments.insert', error, savedCommentId);
           self.newComments[postId] = {};
           self.showAddComments[postId] = false;
+          
           $scope.$apply();
         });
+
       }
     }
 

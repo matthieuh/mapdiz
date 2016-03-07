@@ -9,9 +9,10 @@ section.posts
   article.ui.segment.post(ng-repeat='post in EventPosts.posts')
     .post-main
       .content
+        avatar.avatar(userId='post.userId')
         a.author {{ EventPosts.creator(post) | displayName }}
         .metadata
-          span.date {{ post.createdAt | amCalendar }}
+          span.date(am-time-ago='post.createdAt')
         h3 {{ post.title }}
         .text {{ post.body }}
       .votes
@@ -44,11 +45,10 @@ section.posts
         .close(ng-click='EventPosts.showComments[post._id] = false') &#10006;
         .comment(ng-repeat='comment in EventPosts.postsComments[post._id]')
           avatar.avatar(userId='comment.userId')
-            //-img(src='http://semantic-ui.com/images/avatar/small/matt.jpg')
           .content
             a.author {{ EventPosts.creator(comment) | displayName }}
             .metadata
-              span.date Il a 1 min
+              span.date(am-time-ago='comment.createdAt')
               a.delete(
                 ng-show='EventPosts.isCommentOwner(comment.userId)',
                 ng-click='EventPosts.deleteComment(comment._id)'
