@@ -130,6 +130,25 @@
           
         .rsvps-sum
           min-width: 130px
+          
+    .event-menu.ui.inverted.segment
+      background-color: #546E88
+      margin: 0
+      padding: 0
+      border-radius: 0
+      
+      .ui.secondary.inverted.pointing.menu
+        border-top: none
+        border-right: none
+        border-left: none
+        
+        .item .invitation a
+          color: rgba(255, 255, 255, 0.9)
+          &:hover
+            color: #fff
+      
+        .item.active
+          border-color: brand-primary
 
     main
       display: flex
@@ -137,6 +156,9 @@
       flex-grow: 1
       position: relative
       padding: 1rem
+      
+      h2
+        display: inline-block
 
       .edit-btn
         z-index: 3
@@ -181,4 +203,3 @@
 
   p.description
     word-break: break-all
-

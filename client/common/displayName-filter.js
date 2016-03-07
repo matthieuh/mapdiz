@@ -5,9 +5,9 @@ SetModule('mapdiz');
 @Filter({name: 'displayName'})
 class displayName {
   constructor() {
-    return function (user) {
+    return (user) => {
       if (!user)
-        return;
+        return 'deleted user';
       if (user.username)
         return user.username;
       else if (user.services && user.services.facebook && user.services.facebook.name)

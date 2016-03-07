@@ -39,14 +39,12 @@ SetModule('mapdiz', [
   controllerAs: 'Mapdiz'
 })
 
-@View({ templateUrl: 'client/1mapdiz/mapdiz.html' })
+@View({ templateUrl: 'client/1-mapdiz/mapdiz.html' })
 @Inject('$scope', '$reactive', '$rootScope', '$state', '$meteor')
 
 class Mapdiz {
   constructor($scope, $reactive, $rootScope, $state, $meteor) {
     var self = this;
-    var toto = 'toto';
-    //let test = new Vivus('logo', {duration: 200});
 
     $reactive(self).attach($scope);
 
@@ -64,7 +62,9 @@ class Mapdiz {
   }
 }
 
-angular.module('mapdiz').config((gmLibraryProvider, $windowProvider, localStorageServiceProvider, $translateProvider) => {
+let mapdizApp = angular.module('mapdiz');
+
+mapdizApp.config((gmLibraryProvider, $windowProvider, localStorageServiceProvider, $translateProvider) => {
   console.log('config');
 
   //$translateProvider.useSanitizeValueStrategy('sanitize');
@@ -74,6 +74,7 @@ angular.module('mapdiz').config((gmLibraryProvider, $windowProvider, localStorag
       suffix: '.json'
     }
   )
+
   $translateProvider.preferredLanguage('fr');
 
   gmLibraryProvider.configure({
@@ -86,8 +87,9 @@ angular.module('mapdiz').config((gmLibraryProvider, $windowProvider, localStorag
     .setStorageType('sessionStorage');
 });
 
-
-//bootstrap(Mapdiz/*, MapdizConfig*/);
+mapdizApp.run((amMoment) => {
+  amMoment.changeLocale('fr');
+});
 
 function onReady() {
   console.log('ready');

@@ -1,0 +1,97 @@
+h2 Discussions
+
+button.add-post-btn.ui.blue.small.button(
+  ng-click='EventPosts.showAddPost = true',
+  ng-show='!EventPosts.showAddPost'
+) Ajouter une discussion
+
+section.posts
+  article.ui.segment.post(ng-repeat='post in EventPosts.posts')
+    .post-main
+      .content
+        avatar.avatar(userId='post.userId')
+        a.author {{ EventPosts.creator(post) | displayName }}
+        .metadata
+          span.date(am-time-ago='post.createdAt')
+        h3 {{ post.title }}
+        .text {{ post.body }}
+      .votes
+        .vote.up(
+          ng-click='EventPosts.voteUp(post._id)',
+          ng-class="{'current': EventPosts.isCurrentUserVote(post.upvoters) }"
+        )
+          i.up.chevron.icon
+        .score {{ post.upvoters.length - post.downvoters.length || 0 }}
+        .vote.down(
+          ng-click='EventPosts.voteDown(post._id)',
+          ng-class="{'current': EventPosts.isCurrentUserVote(post.downvoters) }"
+        )
+          i.down.chevron.icon
+    footer
+      .ui.divider
+      button.tiny.labeled.icon.ui.button(
+        ng-click='EventPosts.showComments[post._id] = true',
+        ng-show='!EventPosts.showComments[post._id]'
+      )
+        i.comment.icon
+        | Commentaires ({{ EventPosts.getCommentsLength(post._id) }})
+      button.delete.tiny.red.ui.button(
+        ng-click='EventPosts.deletePost(post._id)',
+        ng-show='EventPosts.isPostOrEventOwner(post) && !EventPosts.showComments[post._id]'
+      ) Supprimer
+
+
+      .ui.comments(ng-show='EventPosts.showComments[post._id]')
+        .close(ng-click='EventPosts.showComments[post._id] = false') &#10006;
+        .comment(ng-repeat='comment in EventPosts.postsComments[post._id]')
+          avatar.avatar(userId='comment.userId')
+          .content
+            a.author {{ EventPosts.creator(comment) | displayName }}
+            .metadata
+              span.date(am-time-ago='comment.createdAt')
+              a.delete(
+                ng-show='EventPosts.isCommentOwner(comment.userId)',
+                ng-click='EventPosts.deleteComment(comment._id)'
+              ) (Supprimer commentaire)
+            .text {{ comment.body }}
+        button.tiny.ui.blue.button.anwser(
+          ng-click='EventPosts.showAddComments[post._id] = true',
+          ng-show='!EventPosts.showAddComments[post._id] && EventPosts.postsComments[post._id].length > 0'
+        ) Commenter
+        form.ui.form(
+          ng-show='EventPosts.showAddComments[post._id] || EventPosts.postsComments[post._id].length == 0',
+          ng-submit='EventPosts.addComment(post._id)'
+        )
+          .field
+            textarea(rows="2", ng-model='EventPosts.newComments[post._id].body', required)
+          button.tiny.ui.button(ng-click='EventPosts.showAddComments[post._id] = false') Annuler
+          button.tiny.ui.blue.button(type='submit') Ajouter commentaire
+
+      //-.actions(ng-if='$root.currentUser && EventPosts.eventDetails.emailIsVerified()')
+        a.reply Commenter
+   
+
+  form.ui.reply.form.add-post(
+    ng-if='$root.currentUser && EventPosts.isOwnerOrIsEventGuest()',
+    ng-show='EventPosts.showAddPost',
+    ng-submit='EventPosts.addPost()'
+  )
+    .ui.divider
+    .title
+      input(
+        ng-model='EventPosts.newPost.title',
+        placeholder='Titre',
+        required
+      )
+    .field
+      textarea(
+        ng-model='EventPosts.newPost.body',
+        placeholder='Contenu...',
+        style='height: 96px;',
+        required
+      )
+    .buttons
+      button.ui.button(ng-click='EventPosts.showAddPost = false') Annuler
+      button.ui.blue.labeled.submit.icon.button(type='submit')
+        i.icon.edit
+        |  Ajouter discussion
